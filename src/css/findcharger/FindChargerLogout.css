@@ -14,20 +14,24 @@
     width:100%;
     height: 100%;
 }
-.findcharger_searchbar{
+.findchargerlogout_searchbar{
     position:absolute;
     top:0;
     left: 0;
     z-index: 10;
     padding:5px 20px;
-    background-color: white;
-    width:400px;
-    border: black solid 1px;
+    background-color: #F8F9F9;
+    width:350px; 
+    height:791px;
+    transition: transform 0.4s ease;
+    box-shadow: 0 0px 40px rgba(0, 0, 0, 0.15);
 }
-.findcharger_searchbar form{
+.findchargerlogout_searchbar.slide-left {
+    transform: translateX(-370px);
+}
+.findchargerlogout_searchbar form{
     display:flex;
     flex-direction: column;
-    gap:30px;
 }
 .findchargerlogout_search{
     display:flex;
@@ -35,29 +39,231 @@
     border-radius: 6px;
     height: 25px;
     padding:10px;
+    transition: border 0.0s;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_search:focus-within {
+  border: 2px solid #004E89;
 }
 .findchargerlogout_search img{
     width:30px;
 }
-.findchargerlogout_search input{
-    border:none;
-    font-size: 15px;
+.findchargerlogout_input {
+  border: none;
+  width:300px;
+  outline: none;
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+  background-color: #F8F9F9;
 }
 .findchargerlogout_location_btn{
     display:flex;
-    gap:30px;
+    gap:10px;
     align-items: center;
     border: solid 2px rgb(223, 222, 222);
     border-radius: 6px;
-    height: 25px;
-    padding:10px;
+    height: 15px;
+    padding:15px 10px 10px 10px;
     cursor: pointer;
+    margin-top:40px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_location_btn:hover{
+    border: solid 2px #004E89;
 }
 .findchargerlogout_location_btn img{
-    width:30px;
+    width:25px;
+    height:auto;
 }
 .findchargerlogout_location_btn button{
     border:none;
-    background-color: white;
-    font-size: 15p;
+background-color: #F8F9F9;
+    font-size: 14px;
+    margin-top:-5px;
 }
+.findchargerlogout_filter_option{
+    margin-top:20px;
+}
+.findchargerlogout_filter_header{
+    display:flex;
+    align-items: center;
+    gap:5px;
+    font-weight: bold;
+    font-size:14px;
+}
+.findchargerlogout_filter_header img{
+    width:40px;
+}
+.findchargerlogout_filter_brand{
+    display: inline-block;
+    margin-top:20px;
+    font-weight:bold;
+    font-size:14px;
+}
+.findchargerlogout_filter_brand select{
+    border: solid 1px rgb(223, 222, 222);
+    width:350px;
+    height: 40px;
+    border-radius: 6px;
+    margin-top:10px;
+    font-size:13px;
+    padding:10px;
+    background-color: #F8F9F9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_filter_brand select:focus {
+  outline: none;
+  border: 2px solid #004E89;
+  border-radius: 6px;
+}
+.findchargerlogout_filter_charger_type{
+    display: inline-block;
+    margin-top:20px;
+    font-weight:bold;
+    font-size:14px;
+}
+.findchargerlogout_filter_charger_type select{
+    border: solid 1px rgb(223, 222, 222);
+    width:350px;
+    height: 40px;
+    border-radius: 6px;
+    margin-top:10px;
+    font-size:13px;
+    padding:10px;
+    background-color: #F8F9F9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_filter_charger_type select:focus {
+  outline: none;
+  border: 2px solid #004E89;
+  border-radius: 6px;
+}
+.findchargerlogout_filter_charger_speed{
+    display: inline-block;
+    margin-top:20px;
+    font-weight:bold;
+    font-size:14px;
+}
+.findchargerlogout_filter_charger_speed select{
+    border: solid 1px rgb(223, 222, 222);
+    width:350px;
+    height: 40px;
+    border-radius: 6px;
+    margin-top:10px;
+    font-size:13px;
+    padding:10px;
+    background-color: #F8F9F9;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_filter_charger_speed select:focus {
+  outline: none;
+  border: 2px solid #004E89;
+  border-radius: 6px;
+}
+.findchargerlogout_filter_extra{
+    display: inline-block;
+    margin-top:20px;
+    font-weight:bold;
+    font-size:14px;
+}
+.findchargerlogout_filter_extra_checkbox{
+    display:flex;
+    flex-direction: column;
+    margin-top:20px;
+    gap:20px;
+    font-weight: normal;
+    padding:0 20px;
+}
+.custom_checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+.custom_checkbox input[type="checkbox"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #004E89;
+  border-radius: 50%;
+  background-color: #F8F9F9;
+  position: relative;
+  transition: all 0.2s ease;
+}
+.custom_checkbox input[type="checkbox"]:checked {
+  border-color: #004E89;
+  background-color: #004E89;
+}
+.custom_checkbox input[type="checkbox"]:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 2px;
+  width: 4px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.findchargerlogout_find_btn{
+    margin-top:30px;
+}
+.findchargerlogout_find_btn button{
+    width:350px;
+    height:50px;
+    border:#004E89 1px solid;
+    border-radius: 6px;
+    background-color: #004E89;
+    color:white;
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap:10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_find_btn button:hover{
+   background-color: #013359;
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+.findchargerlogout_find_btn button div{
+    margin-top:9px;
+}
+.findchargerlogout_from{
+    display:flex;
+    justify-content: center;
+    font-size:12px;
+    color:rgb(149, 149, 149);
+}
+.slide_arrow_btn {
+    position: absolute;
+    top: 50%;
+    right:-36px;
+    transform: translateY(-50%);
+    background-color: #F8F9F9;
+    color: #004E89;
+    border:none;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease, right 0.3s ease, background-color 0.3s ease;
+    z-index: 20;
+    font-size: 30px;
+}
+
+
+
+
+
+
+
+
