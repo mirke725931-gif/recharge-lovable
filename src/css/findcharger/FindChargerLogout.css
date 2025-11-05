@@ -1,0 +1,63 @@
+.findchargerlogout_container{
+    margin:0;
+    padding:0;
+    position: relative;
+}
+.findchargerlogout_map{
+    position: relative;
+    width:99.8%;
+    height:100%;
+    padding:0;
+    margin: 0;
+}
+.findchargerlogout_map img{
+    width:100%;
+    height: 100%;
+}
+.findcharger_searchbar{
+    position:absolute;
+    top:0;
+    left: 0;
+    z-index: 10;
+    padding:5px 20px;
+    background-color: white;
+    width:400px;
+    border: black solid 1px;
+}
+.findcharger_searchbar form{
+    display:flex;
+    flex-direction: column;
+    gap:30px;
+}
+.findchargerlogout_search{
+    display:flex;
+    border: solid 1px rgb(223, 222, 222);
+    border-radius: 6px;
+    height: 25px;
+    padding:10px;
+}
+.findchargerlogout_search img{
+    width:30px;
+}
+.findchargerlogout_search input{
+    border:none;
+    font-size: 15px;
+}
+.findchargerlogout_location_btn{
+    display:flex;
+    gap:30px;
+    align-items: center;
+    border: solid 2px rgb(223, 222, 222);
+    border-radius: 6px;
+    height: 25px;
+    padding:10px;
+    cursor: pointer;
+}
+.findchargerlogout_location_btn img{
+    width:30px;
+}
+.findchargerlogout_location_btn button{
+    border:none;
+    background-color: white;
+    font-size: 15p;
+}
