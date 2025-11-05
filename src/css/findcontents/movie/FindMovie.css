@@ -1,0 +1,224 @@
+.findcontents {
+    padding: 1rem 4rem;
+    text-align: center;
+    background-color: #f8f9f9;
+}
+
+.findcontents_link{
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}
+
+.findcontents_btn {
+    border: none;
+    background-color: #f8f9f9;
+    cursor: pointer;
+}
+
+.icon-wrap {
+    border: 2px solid #004e89;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 1.3rem;
+}
+
+.icon-wrap:hover {
+    border: 2px solid #004e89;
+    background-color: #004e89;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    font-size: 1.3rem;
+    color: white;
+    transition: 0.2s;
+}
+
+
+.findcontents_btn span {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.findcontents_main img{
+    width: 100%;
+    height: auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.findcontents_recommendAi {
+    margin: 1rem 0;
+    padding: 2rem 1rem;
+    background: #e9f0fb; /* 연한 블루 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+
+.findcontents_recommendAi span {
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding-left: 22rem;
+}
+
+.findcontents_recommendAi button {
+    padding: 0.6rem 1.2rem;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+    background-color: #e9f0fb;
+    margin-left: 9rem;
+}
+
+.findcontents_recommendAi button:hover {
+    background-color: #004e89;
+    color: white;
+    border: 2px solid #004e89;
+}
+
+
+.findmovie_select_genre {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 2rem;
+}
+
+.findmovie_select_genre label {
+    padding: 8px 18px;
+    border: 2px solid #ccc;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    background: white;
+    transition: 0.2s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.findmovie_select_genre label input[type="checkbox"]{
+    display: none;
+}
+
+.findmovie_select_genre label:has(input:checked) {
+    background-color: #004e89;
+    color: white;
+    border: 2px solid #004e89;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.findmovie_category {
+    font-size: 1.6rem;
+    text-align: left;
+    font-weight: 700;
+    border-bottom: 2px solid #ccc;
+    padding: 1rem 0;
+}
+
+.findmovie_user_movie{
+    position: relative;
+    display: block;
+    margin: 2rem 0;
+}
+.findmovie_user_movie:hover .findmovie_slider_btn{
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.findmovie_slider_btn {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+}
+
+.findmovie_slider_btn.left {
+    left: -2rem;
+}
+
+.findmovie_slider_btn.right {
+    right: -2rem;
+}
+
+.findmovie_slider_btn button {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 5rem;
+    transition: 0.2s;
+    color: #ccc;
+    transition: opacity 0.25s ease;
+    height: 20rem;
+}
+
+.findmovie_slider_btn button:hover {
+    color: #004e89;
+
+}
+
+.findmovie_user_movie_lists {
+    overflow-x: auto;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 230px;
+    gap: 2rem;                 
+    padding-bottom: 8px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+
+.findmovie_user_movie_list {
+    width: 230px;             
+    border-radius: 6px;
+    overflow: hidden;
+    background: #004e89;       
+    color: white;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.18);
+}
+
+.findmovie_user_movie_list .findcontents_main_img {
+    width: 100%;
+    height: 250px;         
+    object-fit: cover;
+    display: block;
+}
+
+.findmovie_user_movie_info {
+    padding: 12px;
+    background: rgba(0,0,0,0.25);
+}
+
+.findmovie_user_movie_info span:first-child {
+    display: block;
+    font-weight: 700;
+    font-size: 1rem;
+}
+
+.findmovie_user_movie_info span:last-child {
+    display: block;
+    opacity: 0.9;
+    margin-top: 4px;
+    font-size: 0.85rem;
+}
+
+
