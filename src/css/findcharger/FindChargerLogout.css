@@ -110,7 +110,7 @@
 }
 .findchargerlogout_filter_brand select{
     border: solid 1px rgb(223, 222, 222);
-    width:350px;
+    width:340px;
     height: 40px;
     border-radius: 6px;
     margin-top:10px;
@@ -132,7 +132,7 @@
 }
 .findchargerlogout_filter_charger_type select{
     border: solid 1px rgb(223, 222, 222);
-    width:350px;
+    width:340px;
     height: 40px;
     border-radius: 6px;
     margin-top:10px;
@@ -154,7 +154,7 @@
 }
 .findchargerlogout_filter_charger_speed select{
     border: solid 1px rgb(223, 222, 222);
-    width:350px;
+    width:340px;
     height: 40px;
     border-radius: 6px;
     margin-top:10px;
@@ -219,7 +219,7 @@
     margin-top:30px;
 }
 .findchargerlogout_find_btn button{
-    width:350px;
+    width:340px;
     height:50px;
     border:#004E89 1px solid;
     border-radius: 6px;
