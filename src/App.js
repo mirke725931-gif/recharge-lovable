@@ -5,9 +5,9 @@ import {Routes, Route, Link} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="container">
+    <div className="app_wrapper">
       <Header />
-      <div className="main-container">
+      <div className="app_main">
         <Routes>
           <Route path="/" element={<FindChargerLogout />}></Route>
         </Routes>

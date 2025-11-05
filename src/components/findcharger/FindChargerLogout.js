@@ -14,7 +14,7 @@ function FindChargerLogout(){
     return(
         <div className="findchargerlogout_container">
             <div className="findchargerlogout_map">
-                <img src="https://placehold.co/300x169?text=map" />
+                <img className="map_img" src="https://placehold.co/300x169?text=map" />
                 <div className={`findchargerlogout_searchbar ${isSlide ? 'slide-left' : ''}`}>
                     <h3>충전소 찾기</h3>
                     <form>
