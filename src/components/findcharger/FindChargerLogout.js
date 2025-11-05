@@ -77,11 +77,11 @@ function FindChargerLogout(){
                     <div className="findchargerlogout_from">
                         출처: 한국환경공단
                     </div>
-                    <button className="slide_arrow_btn" onClick={handleSlide}>
-                        {isSlide ? <BiChevronRight /> : <BiChevronLeft />}
-                    </button>
                 </div>
             </div>
+            <button className={`slide_arrow_btn ${isSlide ? 'slid' : ''}`} onClick={handleSlide}>
+                    {isSlide ? <BiChevronRight /> : <BiChevronLeft />}
+            </button>
         </div>
     )
 }
