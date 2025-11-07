@@ -46,6 +46,7 @@
     border-radius: 6px;
     height: 25px;
     padding:10px;
+    margin-top:20px;
     transition: border 0.0s;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
@@ -73,7 +74,6 @@
     height: 15px;
     padding:15px 10px 10px 10px;
     cursor: pointer;
-    margin-top:40px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 }
 .findchargerlogout_location_btn:hover{
@@ -292,6 +292,101 @@
   background-color: #013359;
   border-radius: 6px;
   width: 10px;
+}
+.findchargerlogout_ad{
+    padding: 20px;
+}
+.findchargerlogout_ad_header h3,
+.findchargerlogout_ad_header p{
+    margin:0;
+    padding: 0;
+}
+.findchargerlogout_ad_header{
+    display: flex;
+    flex-direction: column;
+    gap:10px;
+}
+.findchargerlogout_ad_list{
+    display: flex;
+    gap:30px;
+    margin-top:30px; 
+}
+.findchargerlogout_ad_card{
+    position:relative;
+    border: solid 1px rgb(223, 222, 222);
+    border-radius: 6px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    background-color: #F8F9F9; 
+    height:380px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.findchargerlogout_ad_card:hover{
+   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+   transform: translateY(-3px);
+}
+.findchargerlogout_ad_card img{
+    width:390px;
+    border-top-right-radius: 6px;
+    border-top-right-radius: 6px;
+}
+.findchargerlogout_ad_card_content{
+    padding: 0 20px;
+    font-size: 13px;
+    background-color: #F8F9F9; 
+}
+.findchargerlogout_ad_card_content img{
+    width:20px;
+    height: 20px;
+    margin: 15px 0 0 -5px;
+}
+.findchargerlogout_ad_content_address{
+    display: flex;
+    margin-top:-20px;
+    gap:10px;
+    color:rgb(128, 128, 128);
+}
+.findchargerlogout_ad_content_address div{
+    display: flex;
+}
+
+.findchargerlogout_ad_btn{
+    display:flex;
+    gap:30px;
+    margin-top: 10px;
+}
+.findchargerlogout_ad_btn div{
+    display:flex;
+    border: solid 1px rgb(223, 222, 222);
+    gap:3px;
+    padding:0 10px;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.findchargerlogout_ad_btn button{
+    border:none;
+    background-color:#F8F9F9;
+}
+.findchargerlogout_ad_btn img{
+    margin-top:4px;
+}
+
+.findchargerlogout_ad_btn div:hover{
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+   transform: translateY(-3px);
+}
+.findchargerlogout_ad_icon{
+    position:absolute;
+    top:10px;
+    right: 10px;
+    border:solid 1px rgb(148, 148, 148);
+    font-size: 10px;
+    width:30px;
+    text-align: center;
+    border-radius: 10px;
+    color:rgb(86, 86, 86);
+    z-index: 10;
+    background-color: white;
 }
 
 

@@ -18,13 +18,13 @@ function FindChargerLogout(){
                 <div className={`findchargerlogout_searchbar ${isSlide ? 'slide-left' : ''}`}>
                     <h3>충전소 찾기</h3>
                     <form>
-                        <div className="findchargerlogout_search">
-                            <img src="/image/search.png"/>
-                            <input className="findchargerlogout_input" placeholder="장소,주소 검색"/>
-                        </div>
                         <div className="findchargerlogout_location_btn">
                             <img src="/image/location_on.png" />
                             <button type="button">현재 위치 기반으로 찾기</button>
+                        </div>
+                        <div className="findchargerlogout_search">
+                            <img src="/image/search.png"/>
+                            <input className="findchargerlogout_input" placeholder="장소,주소 검색"/>
                         </div>
                         <div className="findchargerlogout_filter_option">
                             <div className="findchargerlogout_filter_header">
@@ -82,6 +82,95 @@ function FindChargerLogout(){
             <button className={`slide_arrow_btn ${isSlide ? 'slid' : ''}`} onClick={handleSlide}>
                     {isSlide ? <BiChevronRight /> : <BiChevronLeft />}
             </button>
+            <div className="findchargerlogout_ad">
+                <div className="findchargerlogout_ad_header">
+                    <h3>Re:charge 장소 추천</h3>
+                    <p>충전의 순간, 나를 위한 재충전의 시간</p>
+                </div>
+                <div className="findchargerlogout_ad_list">
+                    <div className="findchargerlogout_ad_card">
+                        <img src="https://placehold.co/300x169?text=restaurant" />
+                        <div className="findchargerlogout_ad_icon">
+                            광고
+                        </div>
+                        <div className="findchargerlogout_ad_card_content">
+                            <h3>휴먼카페</h3>
+                            <div className="findchargerlogout_ad_content_address">
+                                <div>
+                                    <img src="/image/location_on.png"/>
+                                    <p>천안시 동남구 대흥동 134</p>
+                                </div>
+                                <p style={{color:"rgba(202, 202, 202, 1)"}}>|</p>
+                                <p>tel: 041-123-4567</p>
+                            </div>
+                            <div className="findchargerlogout_ad_btn">
+                                <div>
+                                    <button><img src="/image/naver-logo.png"/></button>
+                                    <p>네이버지도로 이동</p>
+                                </div>
+                                <div>
+                                    <button><img src="/image/kakao-logo.png"/></button>
+                                    <p>카카오맵으로 이동</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="findchargerlogout_ad_card">
+                        <img src="https://placehold.co/300x169?text=restaurant" />
+                        <div className="findchargerlogout_ad_icon">
+                            광고
+                        </div>
+                        <div className="findchargerlogout_ad_card_content">
+                            <h3>휴먼카페</h3>
+                            <div className="findchargerlogout_ad_content_address">
+                                <div>
+                                    <img src="/image/location_on.png"/>
+                                    <p>천안시 동남구 대흥동 134</p>
+                                </div>
+                                <p style={{color:"rgba(202, 202, 202, 1)"}}>|</p>
+                                <p>tel: 041-123-4567</p>
+                            </div>
+                            <div className="findchargerlogout_ad_btn">
+                                <div>
+                                    <button><img src="/image/naver-logo.png"/></button>
+                                    <p>네이버지도로 이동</p>
+                                </div>
+                                <div>
+                                    <button><img src="/image/kakao-logo.png"/></button>
+                                    <p>카카오맵으로 이동</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="findchargerlogout_ad_card">
+                        <img src="https://placehold.co/300x169?text=restaurant" />
+                        <div className="findchargerlogout_ad_icon">
+                            광고
+                        </div>
+                        <div className="findchargerlogout_ad_card_content">
+                            <h3>휴먼카페</h3>
+                            <div className="findchargerlogout_ad_content_address">
+                                <div>
+                                    <img src="/image/location_on.png"/>
+                                    <p>천안시 동남구 대흥동 134</p>
+                                </div>
+                                <p style={{color:"rgba(202, 202, 202, 1)"}}>|</p>
+                                <p>tel: 041-123-4567</p>
+                            </div>
+                            <div className="findchargerlogout_ad_btn">
+                                <div>
+                                    <button><img src="/image/naver-logo.png"/></button>
+                                    <p>네이버지도로 이동</p>
+                                </div>
+                                <div>
+                                    <button><img src="/image/kakao-logo.png"/></button>
+                                    <p>카카오맵으로 이동</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
