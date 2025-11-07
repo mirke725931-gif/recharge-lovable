@@ -44,7 +44,7 @@ function FindMovie() {
             </div>
 
             <div className="findmovie_main">
-                <img src="https://placehold.co/1280x720?text=poster" className="findmovie_main_img" alt="포스터"/>
+                <img src="https://placehold.co/1025x576?text=poster" className="findmovie_main_img" alt="포스터"/>
             </div>
             <div className="findcontents_recommendAi">
                 <span>

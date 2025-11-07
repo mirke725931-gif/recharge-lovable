@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import { Link } from "react-router-dom";
-import { FaTimes, FaCloudSun, FaSmile, FaFilm } from "react-icons/fa";
+import { FaTimes, FaCloudSun, FaSmile} from "react-icons/fa";
 import "../../../css/findcontents/movie/MovieRecommendAi.css";
 
 Modal.setAppElement("#root");
@@ -45,7 +45,7 @@ function MovieRecommendAi({ open, onClose }) {
             contentLabel="AI 영화 추천"
         >
             <div className="airprompt_header">
-                <h2><FaFilm style={{ marginRight: "0.5rem" }} />AI 영화 추천</h2>
+                <h2>AI 영화 추천</h2>
                 <button type="button" className="airprompt_icon_btn" aria-label="닫기" onClick={onClose}>
                     <FaTimes />
                 </button>

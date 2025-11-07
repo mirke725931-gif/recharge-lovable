@@ -99,7 +99,9 @@
 }
 
 .usermusicdetail_addFavorite.primary:hover {
-    background-color: #005fa7;
+    background-color: white;
+    color: #004e89;
+    transition: 0.2s ease;
 }
 
 .usermusicdetail_addFavorite.outline {
@@ -108,7 +110,9 @@
 }
 
 .usermusicdetail_addFavorite.outline:hover {
-    background-color: #e6f1fa;
+    background-color: #004e89;
+    color: white;
+    transition: 0.2s ease;
 }
 
 .usermusicdetail_goTrailer{
@@ -146,11 +150,12 @@
 }
 
 .usermusicdetail_user span:first-child{
-    color: #004e89;
+    color: #67777e;
     font-size: 1.2rem;
     font-weight: 600;
 }
-.usermusicdetail_user span:nth-child{
+.usermusicdetail_user span:last-child{
+    color: #004e89;
     font-size: 1rem;
     font-weight: 400;
 }

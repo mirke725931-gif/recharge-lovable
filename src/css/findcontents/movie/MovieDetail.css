@@ -89,7 +89,9 @@
 }
 
 .moviedetail_addFavorite.primary:hover {
-    background-color: #005fa7;
+    background-color: white;
+    color: #004e89;
+    transition: 0.3s ease;
 }
 
 .moviedetail_addFavorite.outline {
@@ -98,7 +100,9 @@
 }
 
 .moviedetail_addFavorite.outline:hover {
-    background-color: #e6f1fa;
+    background-color: #004e89;
+    color: white;
+    transition: 0.3s ease;
 }
 
 .moviedetail_goTrailer{
@@ -148,6 +152,14 @@
     background-color: #004e89;
     color: white;
     cursor: pointer;
+}
+
+.moviedetail_comment_post button:hover{
+    border: 1px solid #004e89;
+    background-color: white;
+    color: #004e89;
+    cursor: pointer;
+    transition: 0.2s ease;
 }
 
 .moviedetail_comment_lists {

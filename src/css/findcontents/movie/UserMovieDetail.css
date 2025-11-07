@@ -89,7 +89,9 @@
 }
 
 .usermoviedetail_addFavorite.primary:hover {
-    background-color: #005fa7;
+    background-color: white;
+    color: #004e89;
+    transition: 0.2s ease;
 }
 
 .usermoviedetail_addFavorite.outline {
@@ -98,7 +100,9 @@
 }
 
 .usermoviedetail_addFavorite.outline:hover {
-    background-color: #e6f1fa;
+    background-color: #004e89;
+    color: white;
+    transition: 0.2s ease;
 }
 
 .usermoviedetail_goTrailer{
@@ -131,18 +135,19 @@
 
 .usermoviedetail_user{
     display: flex;
-    gap: 0.5rem;
+    gap: 0.8rem;
     margin-bottom: 1rem;
 }
 
 .usermoviedetail_user span:first-child{
-    color: #004e89;
+    color: #67777e;
     font-size: 1.2rem;
     font-weight: 600;
 }
-.usermoviedetail_user span:nth-child{
+.usermoviedetail_user span:last-child{
+    color: #004e89;
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 500;
 }
 
 .usermoviedetail_text{

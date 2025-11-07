@@ -105,11 +105,6 @@ function UserMusicDetail() {
             <div className="usermusicdetail_similar">
 
             </div>
-            <div className="usermusicdetail_findmusic">
-                <Link to="/find_contents/music">
-                    다른 이용자의 추천 영화 보러가기 ›
-                </Link>
-            </div>
         </div>
     );
 }
