@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import '../css/admin/NoticeManagement.css';
+import '../../css/admin/NoticeManagement.css';
 
 function NoticeManagement() {
     //관리자 사이드바

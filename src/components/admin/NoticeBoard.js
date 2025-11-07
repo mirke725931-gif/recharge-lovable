@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from 'react-router-dom';
-import '../css/admin/NoticeBoard.css';
+import '../../css/admin/NoticeBoard.css';
 
 function NoticeBoard() {
     //관리자 사이드바
