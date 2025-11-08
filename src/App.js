@@ -10,8 +10,8 @@ function App() {
       <Header />
       <div className="app_main">
         <Routes>
-          <Route path="/" element={<FindChargerLogout />}></Route>
-          <Route path="/find_charger" element={<FindChargerLogin />}></Route>
+          <Route path="/" element={<FindChargerLogout />} />
+          <Route path="/find_charger" element={<FindChargerLogin />} />
         </Routes>
       </div>
     </div>
