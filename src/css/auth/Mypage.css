@@ -58,6 +58,19 @@
     padding: 7px;
     box-sizing: border-box;
 }
+.mypage_container input[type="text"]:focus {
+    width: 85%;
+    height: 35px;
+    border-radius: 6px;
+    background-color: #FAFAFA;
+    border: solid 2px #004E89; 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    padding: 7px;
+    box-sizing: border-box;
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(0, 78, 137, 0.1);
+}
 .mypage_row5 input[type="date"] {
     width: 85%;
     height: 35px;
@@ -68,6 +81,19 @@
     cursor: pointer;
     padding: 7px;
     box-sizing: border-box;
+}
+.mypage_row5 input[type="date"]:focus {
+    width: 85%;
+    height: 35px;
+    border-radius: 6px;
+    background-color: #FAFAFA;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    padding: 7px;
+    box-sizing: border-box;
+    box-shadow: 0 0 0 4px rgba(0, 78, 137, 0.1);
+    border: solid 2px #004E89; 
+    outline: none;
 }
 .mypage_id{
     width: 100%;

@@ -135,13 +135,13 @@
 .Bookmark_movie_title{
     position: absolute;
     bottom: 0;
-    background-color: hwb(0 100% 0% / 0.8);
+    background-color: #004E89;
     padding: 3px 0 0 10px;
     width: 100%;
-    min-height: 25px;
+    min-height: 52px;
     font-size:14px;
     font-weight: 500;
-    color: #383737;
+    color: #ffffff;
 }
 
 /*뮤직*/
