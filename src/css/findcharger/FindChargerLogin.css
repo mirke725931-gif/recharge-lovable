@@ -119,3 +119,72 @@
   border-radius: 6px;
   width: 10px;
 }
+.findchargerlogin_list_header h3{
+    margin:0;
+}
+.findchargerlogin_list_header{
+    display:flex;
+    justify-content: space-between;
+}
+.findchargerlogin_list_header button{
+    height: 30px;
+    border:none;
+    background-color: #F8F9F9;
+    font-size:14px;
+    color:rgb(177, 177, 177);
+    cursor: pointer;
+}
+.findchargerlogin_list_header button:hover{
+    color:#004E89;
+    font-weight: bold;
+}
+.findchargerlogin_sub_header{
+    color:rgb(141, 141, 141);
+    font-size:14px;
+}
+.findchargerlogin_charger_card{
+    border: solid 1px rgb(223, 222, 222);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 6px;
+    background-color:#F8F9F9;
+    padding:10px 10px;
+    margin-top:20px;
+}
+.findchargerlogin_charger_card h4{
+    margin:0;
+}
+.findchargerlogin_charger_card_header{
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: bold;
+}
+.findchargerlogin_charger_card p{
+    margin:0;
+}
+.findchargerlogin_charger_card_adrress{
+    margin-top:10px;
+    display:flex;
+    gap:5px;
+    font-size: 13px;;
+    color:rgb(141, 141, 141);
+}
+.findchargerlogin_charger_card_adrress img{
+    width:20px;
+    margin-top:1px;
+}
+.findchargerlogin_charger_card_adrress span{
+    color:rgb(1, 199, 1);
+}
+.findchargerlogin_charger_card_option div{
+    margin-top:10px;
+}
+.findchargerlogin_charger_card_option:first-child{
+    font-weight: bold;
+}
+.findchargerlogin_charger_card_option div{
+    display:flex;
+    gap:20px;
+    font-size: 13px;
+}
+
