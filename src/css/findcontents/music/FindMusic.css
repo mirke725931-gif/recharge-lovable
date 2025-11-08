@@ -156,8 +156,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -172,7 +172,7 @@
 }
 .findmusic_fav_btn.outline:hover {
     background: rgba(0,0,0,0.65);
-    transform: scale(1.05);
+    transform: scale(1.07);
 }
 .findmusic_fav_btn.primary {
     background: rgba(0,0,0,0.6);
@@ -190,10 +190,6 @@
     height: 22px;
 }
 
-.findmusic_fav_btn .findmusic_star {
-  width: 100%;
-  height: 100%;
-}
 
 /* 포커스 접근성 */
 .findmusic_fav_btn:focus-visible {

@@ -108,8 +108,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 22px;
-    height: 22px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
     border: none;
     cursor: pointer;
@@ -117,21 +117,14 @@
     transition: background-color 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 .Bookmark_like_btn:hover {
-    border-radius: 50%; 
-    width: 22px;
-    height: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    background-color: rgba(0,0,0,0.65);
-    position: absolute;
-    top: 7px;
-    left: 170px;
-    cursor: pointer;
-    transform: scale(1.05);
+    background: rgba(0,0,0,0.65);
+    transform: scale(1.07);
 }
+.Bookmark_like_btn:focus-visible {
+    outline: 2px solid #F4C10F;
+    outline-offset: 2px;
+}
+
 .star {
   width: 13px;
   height: 13px;
