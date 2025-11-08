@@ -36,6 +36,11 @@ function Mypage() {
                     <input type="text"></input>
                     <button>수정</button>
                 </div>
+                <div className="mypage_row6">
+                    <p>차종</p>
+                    <input type="text"></input>
+                    <button>수정</button>
+                </div>
                 <div className="mypage_btn_box"> 
                     <button>저장하기</button>
                     <button>취소</button>
