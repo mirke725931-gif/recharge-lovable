@@ -1,4 +1,5 @@
 import './App.css';
+import FindChargerLogin from './components/findcharger/FIndChargerLogin';
 import FindChargerLogout from './components/findcharger/FindChargerLogout';
 import Header from './components/layout/Header';
 import {Routes, Route, Link} from 'react-router-dom';
@@ -14,22 +15,23 @@ import UserMusicDetail from './components/findcontents/music/UserMusicDetail';
 import AddMusic from './components/findcontents/music/AddMusic';
 
 function App() {
-  return (  
-    <div className="container">
+  return (
+    <div className="app_wrapper">
       <Header />
-      <div className="main-container">
+      <div className="app_main">
         <Routes>
-          <Route path="/" element={<FindChargerLogout />}></Route>
-          <Route path="/fortune" element={<Fortune />}></Route>
-          <Route path="/bookmark" element={<Bookmark />}></Route>
-          <Route path="/mypage" element={<Mypage />}></Route>
-          <Route path="/find_contents/movie" element={<FindMovie/>}></Route>
-          <Route path="/find_contents/music" element={<FindMusic/>}></Route>
-          <Route path="/find_contents/movie/addmovie" element={<AddMovie/>}></Route>
-          <Route path="/find_contents/music/addmusic" element={<AddMusic/>}></Route>
-          <Route path="/find_contents/movie/usermoviedetail" element={<UserMovieDetail/>}></Route>
-          <Route path="/find_contents/music/usermusicdetail" element={<UserMusicDetail/>}></Route>
-          <Route path="/find_contents/movie/moviedetail" element={<MovieDetail/>}></Route>
+          <Route path="/" element={<FindChargerLogout />} />
+          <Route path="/find_charger" element={<FindChargerLogin />} />
+          <Route path="/fortune" element={<Fortune />} />
+          <Route path="/bookmark" element={<Bookmark />} />
+          <Route path="/mypage" element={<Mypage />} />
+          <Route path="/find_contents/movie" element={<FindMovie/>} />
+          <Route path="/find_contents/music" element={<FindMusic/>} />
+          <Route path="/find_contents/movie/addmovie" element={<AddMovie/>} />
+          <Route path="/find_contents/music/addmusic" element={<AddMusic/>} />
+          <Route path="/find_contents/movie/usermoviedetail" element={<UserMovieDetail/>} />
+          <Route path="/find_contents/music/usermusicdetail" element={<UserMusicDetail/>} />
+          <Route path="/find_contents/movie/moviedetail" element={<MovieDetail/>} />
         </Routes>
       </div>
     </div>
