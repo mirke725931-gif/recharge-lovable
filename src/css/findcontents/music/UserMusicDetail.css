@@ -145,18 +145,18 @@
 
 .usermusicdetail_user{
     display: flex;
-    gap: 0.5rem;
+    gap: 8px;
     margin-bottom: 1rem;
 }
 
 .usermusicdetail_user span:first-child{
     color: #67777e;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
 }
 .usermusicdetail_user span:last-child{
     color: #004e89;
-    font-size: 1rem;
+    font-size: 0.8rem;
     font-weight: 400;
 }
 

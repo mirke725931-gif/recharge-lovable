@@ -76,7 +76,7 @@ function FindMusic() {
                     <li className="findmusic_music_list">
                             <img src="https://placehold.co/180x180?text=1" className="findmusic_weather_img" alt="포스터"/>
                             <button className={`findmusic_fav_btn ${isFavorite ? "primary" : "outline"}`} onClick={toggleFavorite}>
-                                                            {isFavorite ? <FaStar color="#F4C10F"/> : <FaRegStar />}</button>
+                                                            {isFavorite ? <FaStar color="#F4C10F" /> : <FaRegStar/>}</button>
                             <div className="findmusic_music_info">
                                 <span>노래 제목</span>
                                 <span>가수</span>

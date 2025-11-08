@@ -1,6 +1,7 @@
 import React from "react";
 import '../../css/auth/Bookmark.css';
 import { Star } from "lucide-react";
+import {FaStar, FaRegStar} from "react-icons/fa"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../ui/tabs";
 
 function Bookmark() {
@@ -33,7 +34,7 @@ function Bookmark() {
                             <p>포스터</p>
                         </div>
                         <button className="Bookmark_like_btn">
-                            <Star className="star" />
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">                        
                         </div>
@@ -43,7 +44,7 @@ function Bookmark() {
                             <p>포스터</p>
                         </div>
                         <button className="Bookmark_like_btn">
-                            <Star className="star" />
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">                        
                         </div>
@@ -53,7 +54,7 @@ function Bookmark() {
                             <p>포스터</p>
                         </div>
                         <button className="Bookmark_like_btn">
-                            <Star className="star" />
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">                        
                         </div>
@@ -63,7 +64,7 @@ function Bookmark() {
                             <p>포스터</p>
                         </div>
                         <button className="Bookmark_like_btn">
-                            <Star className="star" />
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">                        
                         </div>
@@ -73,7 +74,7 @@ function Bookmark() {
                             <p>포스터</p>
                         </div>
                         <button className="Bookmark_like_btn">
-                            <Star className="star" />
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">                        
                         </div>
@@ -83,7 +84,7 @@ function Bookmark() {
                             <p>포스터</p>
                         </div>
                         <button className="Bookmark_like_btn">
-                            <Star className="star" />
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">
                             영화제목                        
@@ -98,8 +99,8 @@ function Bookmark() {
                         <div className="Bookmark_img_music">
                             <p>포스터</p>
                         </div>
-                        <button className="Bookmark_like_btn_music">
-                            <Star className="star" />
+                        <button className="Bookmark_like_btn">
+                            <FaStar className="star" />
                         </button>
                         <div className="Bookmark_movie_title">  
                              ssds                      

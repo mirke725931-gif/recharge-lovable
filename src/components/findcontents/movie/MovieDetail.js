@@ -53,7 +53,7 @@ function MovieDetail() {
                 </div>
                 <div className="moviedetail_comment_post">
                     <input type="text" placeholder="댓글 입력"/>
-                    <button className="moviedetail_btn">Post</button>
+                    <button className="moviedetail_btn">등록</button>
                 </div>
                 <ul className="moviedetail_comment_lists">
                     <li className="usermooviedetail_comment_list">
@@ -61,8 +61,8 @@ function MovieDetail() {
                             <span className="moviedetail_comment_id">bbq0638</span>
                             <span className="moviedetail_comment_time">2시간 전</span>
                             <div className="moviedetail_comment_btn">
-                                <button className="moviedetail_comment_edit">Edit</button>
-                                <button className="moviedetail_comment_delete">Delete</button>
+                                <button className="moviedetail_comment_edit">수정</button>
+                                <button className="moviedetail_comment_delete">삭제</button>
                             </div>
                         </div>
                         <span className="moviedetail_comment_text">댓글내용</span>
