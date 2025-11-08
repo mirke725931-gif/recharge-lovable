@@ -21,7 +21,7 @@ function Header() {
             <nav className="header_nav">
                 <ul className="content_nav">
                     <Link to="/find_charger">충전소 찾기</Link>
-                    <Link to="/find_contents">영화·음악 추천</Link>
+                    <Link to="/find_contents/movie">영화·음악 추천</Link>
                     <Link to="/fortune">운세</Link>
                     <Link to="/community">자유게시판</Link>
                     <Link to="/notice">공지사항</Link>
