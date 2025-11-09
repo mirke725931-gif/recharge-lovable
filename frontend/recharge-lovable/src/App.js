@@ -23,6 +23,11 @@ import MovieDetail from './components/findcontents/movie/MovieDetail';
 import FindMusic from './components/findcontents/music/FindMusic';
 import UserMusicDetail from './components/findcontents/music/UserMusicDetail';
 import AddMusic from './components/findcontents/music/AddMusic';
+import CommunityDetailPage from './components/community/CommunityDetailPage';
+import CommunityWritePage from './components/community/CommunityWritePage';
+import NoticeDetailPage from './components/notice/NoticeDetailPage';
+import Community from './components/community/Community';
+import Notice from './components/notice/Notice';
 
 function App() {
   return (
@@ -52,6 +57,11 @@ function App() {
           <Route path="/find_contents/movie/usermoviedetail" element={<UserMovieDetail/>} />
           <Route path="/find_contents/music/usermusicdetail" element={<UserMusicDetail/>} />
           <Route path="/find_contents/movie/moviedetail" element={<MovieDetail/>} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/community/detail/:id" element={<CommunityDetailPage />} />
+          <Route path="/community/write" element={<CommunityWritePage />} />
+          <Route path="/notice" element={<Notice />} />
+          <Route path="/notice/detail/:id" element={<NoticeDetailPage />} />
         </Routes>
       </div>
     </div>
