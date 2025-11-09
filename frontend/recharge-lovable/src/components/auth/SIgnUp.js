@@ -1,54 +1,109 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React,{useState} from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/auth/SignUp.css';
 
 function SignUp () {
 
+    const [users, setUsers] = useState({
+        userId: '',
+        userPwd: '',
+        userEmail:'',
+        userName:'',
+        userBirth:'',
+        userGender:'',
+        userPhone:'',
+        userCarmodel:''
+        });
+    
+    const navigate=useNavigate();
+    
+    const validateForm = () => {
+        const { userId, userPwd, userEmail, userName} = users;
+
+        return(
+            userId.trim() !== ''&&
+            userPwd.trim() !== ''&&
+            userEmail.trim() !== ''&&
+            userName.trim() !== ''
+        );
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log('회원가입 데이터:', users);
+
+        if(!validateForm()){
+            alert('필수 항목을 모두 입력해주세요');
+            return;
+        }
+
+        navigate('/signup_result');
+    }
     return (
         <div className="sign_main">
             <div className="sign_header">
                 <h1>회원가입</h1>
                 <p className="sign_subtitle">Re:charge와 함께 시작하세요</p>
             </div>
-            <form className="sign_form_container">
+            <form className="sign_form_container"
+                onSubmit={handleSubmit}>
+
                <div className="sign_form">
                     <div className="signup_form_group">
-                        <label className="signup_form_label">아이디</label>
+                        <label className="signup_form_label"><span>*</span> 아이디</label>
                         <div className="signup_id_form">
-                            <input type="text" placeholder="아이디를 입력하세요" className="signup_id_input" />
+                            <input type="text" placeholder="아이디를 입력하세요" className="signup_id_input"
+                                    value={users.userId}
+                                    onChange={(e)=> setUsers({...users, userId: e.target.value})} />
                             <button type="button" className="signup_id_check_btn">중복확인</button>
                         </div>
                     </div>
                     
                     <div className="signup_form_group">
-                        <label className="signup_form_label">비밀번호</label>
-                        <input type="password" placeholder="비밀번호를 입력하세요" className="signup_pwd" />
+                        <label className="signup_form_label"><span>*</span> 비밀번호</label>
+                        <input type="password" placeholder="비밀번호를 입력하세요" className="signup_pwd"
+                                value={users.userPwd}
+                                onChange={(e)=> setUsers({...users, userPwd: e.target.value})} />
                     </div>
                     
                     <div className="signup_form_group">
-                        <label className="signup_form_label">이메일</label>
-                        <input type="email" placeholder="이메일을 입력하세요 (아이디/비밀번호 찾기 본인 확인용)" className="signup_email" />
+                        <label className="signup_form_label"><span>*</span> 이메일</label>
+                        <input type="email" placeholder="이메일을 입력하세요 (아이디/비밀번호 찾기 본인 확인용)" className="signup_email"
+                                value={users.userEmail}
+                                onChange={(e)=> setUsers({...users, userEmail: e.target.value})} />
                     </div>
                     
                     <div className="signup_form_group">
-                        <label className="signup_form_label">이름</label>
-                        <input type="text" placeholder="이름을 입력하세요" className="signup_name" />
+                        <label className="signup_form_label"><span>*</span> 이름</label>
+                        <input type="text" placeholder="이름을 입력하세요" className="signup_name"
+                                value={users.userName}
+                                onChange={(e)=> setUsers({...users, userName: e.target.value})} />
                     </div>
                     
                     <div className="signup_form_group">
                         <label className="signup_form_label">생년월일</label>
-                        <input type="text" placeholder="생년월일 8자리 (예: 19900101)" className="signup_birth" />
+                        <input type="text" placeholder="생년월일 8자리 (예: 19900101)" className="signup_birth"
+                                value={users.userBirth}
+                                onChange={(e)=>{
+                                    const onlyNums = e.target.value.replace(/[^0-9]/g, '').slice(0,8);
+                                    setUsers({...users, userBirth: onlyNums});
+                                }} />
                     </div>
                     
                     <div className="signup_form_group">
                         <label className="signup_form_label">성별</label>
                         <div className="signup_gender_form">
                             <label className="gender_option">
-                                <input type="radio" name="gender" value="male" /> 
+                                <input type="radio" name="gender" value="male"
+                                        checked={users.userGender === 'male'}
+                                        onChange={(e)=> setUsers({...users, userGender: e.target.value})} /> 
                                 <span>남자</span>
                             </label>
                             <label className="gender_option">
-                                <input type="radio" name="gender" value="female" /> 
+                                <input type="radio" name="gender" value="female"
+                                        checked={users.userGender ==='female'}
+                                        onChange={(e)=> setUsers({...users, userGender: e.target.value})} /> 
                                 <span>여자</span>
                             </label>
                         </div>
@@ -57,24 +112,37 @@ function SignUp () {
                     <div className="signup_form_group">
                         <label className="signup_form_label">전화번호</label>
                         <div className="signup_phone_form">
-                            <select className="singup_select_sdi_code">
+                            <select className="singup_select_sdi_code"
+                                    value={users.userPhone.slice(0,3)}
+                                    onChange={(e) =>{
+                                        const rest = users.userPhone.slice(3);
+                                        setUsers({...users, userPhone: `${e.target.value}${rest}`});
+                                    }}>
                                 <option>010</option>
                                 <option>011</option>
                                 <option>016</option>
                                 <option>017</option>
                                 <option>019</option>
                             </select>
-                            <input type="text" placeholder="전화번호를 입력하세요" className="singup_phone_input" />
+                            <input type="text" placeholder="전화번호를 입력하세요(-제외)" className="singup_phone_input"
+                                    value={users.userPhone.slice(3)}
+                                    onChange={(e)=>{
+                                        const onlyNums = e.target.value.replace(/[^0-9]/g, '').slice(0,8);
+                                        const front = users.userPhone.slice(0,3) || '010';
+                                        setUsers({...users, userPhone:`${front}${onlyNums}`});
+                                    }} />
                         </div>
                     </div>
                     
                     <div className="signup_form_group">
                         <label className="signup_form_label">차종</label>
-                        <input type="text" placeholder="차종을 입력하세요" className="singup_vehicle_input" />
+                        <input type="text" placeholder="차종을 입력하세요" className="singup_vehicle_input"
+                                value={users.userCarmodel}
+                                onChange={(e)=>setUsers({...users, userCarmodel: e.target.value})} />
                     </div>
                </div>
                <button type="submit" className="signup_btn">
-                   <Link to="/signup_result">회원가입</Link>
+                회원가입
                </button>
             </form>
         </div>

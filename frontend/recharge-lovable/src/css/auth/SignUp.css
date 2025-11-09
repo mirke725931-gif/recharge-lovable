@@ -273,6 +273,9 @@
   display: block;
   width: 100%;
 }
+.signup_form_label span{
+    color:red !important;
+  }
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
