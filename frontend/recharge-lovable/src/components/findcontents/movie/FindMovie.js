@@ -14,6 +14,7 @@ function FindMovie() {
 
 
 
+
     const weatherRef = useRef(null);
     const userRef = useRef(null);
     const [openAi, setOpenAi] = useState(false);
