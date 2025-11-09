@@ -1,0 +1,249 @@
+/* ===== 공지사항게시판 공통 래퍼 ===== */
+.notice_board-wrapper {
+  background-color: #f7f7f7;
+  min-height: 100vh; 
+}
+
+.notice_board-header {
+
+  max-width: 900px;
+  margin: 15px  auto;
+  padding: 30px 10px 0px;
+}
+
+.notice_board-header h2 {
+  font-size: 26px;
+  color: #000000;
+  margin: 0;
+}
+
+/* ===== 공지사항게시판 테이블 ===== */
+/* ===== 공지사항게시판 테이블 ===== */
+/* ===== 공지사항게시판 테이블 ===== */
+
+.notice_board-container {
+  max-width: 1000px;
+  margin: 5px auto;
+  background: white;
+  overflow: hidden;
+  border-radius: 6px;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  border-top: 2px solid #00000060;
+  border-bottom: 2px solid #00000060;
+ 
+}
+
+th {
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px;
+  text-align: center;
+  background-color: #00000060;
+  white-space: nowrap;
+}
+
+td {
+  padding: 15px 0px;
+  border-bottom: 1px solid #E5E5E7;
+  text-align: center;
+  font-size: 16px;
+  color: #707070;
+  white-space: nowrap;
+  background-color: white;
+}
+
+
+.notice_table-bottom-border {
+  border-top: 2px solid #00000060;
+}
+.notice_post-title {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: normal
+}
+
+
+.notice_pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 20px 0;
+}
+
+.notice_pagination button {
+  border: 1px solid #ccc;
+  background: white;
+  color: #333;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  min-width: 32px;
+  transition: all 0.2s ease;
+}
+
+.notice_pagination button:hover {
+  background: #004e89;
+  color: #fff;
+}
+
+.notice_pagination button.active {
+  background: #004e89;
+  color: #fff;
+  border-color: #004e89;
+}
+
+/* ===== 공지사항상세페이지 전체 ===== */
+/* ===== 공지사항상세페이지 전체 ===== */
+/* ===== 공지사항상세페이지 전체 ===== */
+
+.notice_detail-container {
+  max-width: 900px;
+  margin: 5px auto;
+  padding: 2px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  border: solid 1px  #D2D2D7  ;
+}
+
+/* ===== 게시글 헤더 ===== */
+.notice_detail-header {
+  border-bottom: 1px solid #E5E5E7;
+  padding: 20px 5px;
+  
+}
+
+.notice_detail-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 22px;
+  color: #111;
+}
+
+.notice_detail-meta {
+  
+  font-size: 15px;
+  color: #555;
+}
+
+/* ===== 게시글 본문 ===== */
+.notice_detail-container {
+  max-width: 1000px;
+  margin: 5px auto;
+  padding: 2px;
+  background-color: white;
+  border-radius: 6px; 
+}
+
+/* ===== 게시글 헤더 ===== */
+.notice_detail-header {
+  border-bottom: 1px solid  #E5E5E7;
+  padding: 20px 10px;
+}
+
+.notice_detail-header h2 {
+  margin: 0 0 8px 0; /* 제목과 날짜 간격 */
+  font-size: 22px;
+  color: #111;
+}
+
+.notice_detail-meta {
+  font-size: 15px;
+  color: #555;
+}
+
+/* ===== 게시글 본문 ===== */
+.notice_detail-content {
+  margin: 30px 0;
+  line-height: 1.7;
+  font-size: 16px;
+  color: #333;
+  min-height: 30vh;
+  padding: 0 10px;
+  
+}
+
+/* ===== 이전/다음 글 네비게이션 ===== */
+.notice_detail-nav {
+  width: 100%;
+  border-top: 1px solid #E5E5E7;
+ 
+  margin-top: 20px;
+}
+
+.notice_nav-section {
+  display: flex;
+  align-items: left-end;
+  justify-content: space-between; /* 오른쪽 끝에 날짜 배치 */
+  padding: 14px 10px;
+  border-bottom: 1px solid  #E5E5E7;
+}
+
+.notice_nav-section:last-child {
+  border-bottom: none;
+}
+
+.notice_nav-label {
+  width: 80px;
+  font-size: 15px ;
+  color:  #888888;
+  flex-shrink: 0;
+  font-weight: 500;
+}
+
+.notice_nav-item {
+  flex: 1; /* 남은 공간을 채우기 */
+  cursor: pointer;
+  color: #333;
+  font-size: 15px;
+  transition: color 0.2s;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.notice_nav-item:hover {
+  text-decoration: underline;
+}
+
+.notice_nav-item.disabled {
+  color: #aaa;
+  cursor: default;
+}
+
+/* 오른쪽 끝 날짜 */
+.notice_nav-date {
+  font-size: 14px;
+  color: #777;
+  flex-shrink: 0;
+}
+
+/* ===== 하단 버튼 ===== */
+.notice_detail-bottom {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.notice_back-btn {
+  background: #004e89;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 25px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.notice_back-btn:hover {
+  background: #003866;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
