@@ -1,5 +1,6 @@
 import React,{useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
+import axios from 'axios';
 import '../../css/auth/SignUp.css';
 
 function SignUp () {
@@ -15,6 +16,8 @@ function SignUp () {
         userCarmodel:''
         });
     
+    const [isDuplicate, setIsDuplicate] = useState(null);
+    
     const navigate=useNavigate();
     
     const validateForm = () => {
@@ -28,7 +31,8 @@ function SignUp () {
         );
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
+
         e.preventDefault();
 
         console.log('회원가입 데이터:', users);
@@ -38,8 +42,56 @@ function SignUp () {
             return;
         }
 
-        navigate('/signup_result');
-    }
+        if(isDuplicate === null) {
+            alert('아이디 중복확인을 해주세요.');
+            return;
+        }else if(isDuplicate === true) {
+            alert('이미 사용중인 아이디입니다.')
+            return;
+        }
+
+        const genderToSave = users.userGender === 'male' ? 'M' : 'F';
+
+        const payload = {
+            ...users, userGender: genderToSave
+        };
+
+        try{
+            const response = await axios.post('http://localhost:10809/recharge/api/users/signup', payload,{withCredentials: true});
+            console.log('백엔드 응답:', response.data);
+            navigate('/signup_result');
+        } catch(error){
+            console.error('회원가입 실패', error);
+            alert('회원가입 중 오류가 발생했습니다.')
+        }
+    };
+
+    const checkDuplicateId = async () => {
+
+        if(!users.userId.trim()) {
+            alert('아이디를 입력해주세요.');
+            return;
+        }
+
+        try{
+            const response = await axios.get('http://localhost:10809/recharge/api/users/check-id', {
+                params: {userId: users.userId},
+                withCredentials: true
+            });
+
+            setIsDuplicate(response.data);
+
+            if(response.data) {
+                alert('이미 사용 중인 아이디입니다.');
+            } else {
+                alert('사용 가능한 아이디입니다.');
+            }
+        } catch (error) {
+            console.error('중복확인 실패:' , error);
+            alert('중복확인 중 오류가 발생했습니다.');
+        }
+    };
+
     return (
         <div className="sign_main">
             <div className="sign_header">
@@ -56,7 +108,8 @@ function SignUp () {
                             <input type="text" placeholder="아이디를 입력하세요" className="signup_id_input"
                                     value={users.userId}
                                     onChange={(e)=> setUsers({...users, userId: e.target.value})} />
-                            <button type="button" className="signup_id_check_btn">중복확인</button>
+                            <button type="button" className="signup_id_check_btn"
+                                    onClick={checkDuplicateId}>중복확인</button>
                         </div>
                     </div>
                     
