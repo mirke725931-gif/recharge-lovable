@@ -152,7 +152,7 @@
 .findmovie_weather_movie_lists::-webkit-scrollbar { display: none; }
 
 .findmovie_weather_movie_list {
-    flex: 0 0 300px;               
+    flex: 0 0 185px;               
     border-radius: 6px;
     overflow: hidden;
     color: white;
@@ -166,8 +166,8 @@
 }
 
 .findmovie_weather_img {
-    width: 100%;
-    height: 180px;
+    width: 185px;
+    height: 250px;
     object-fit: cover;
 }
 
@@ -274,3 +274,4 @@
 .findmovie_slider_btn button:hover {
     color: #004e89;
 }
+

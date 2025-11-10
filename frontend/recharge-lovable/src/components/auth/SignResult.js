@@ -1,13 +1,15 @@
 import React from "react";
 import '../../css/auth/SignResult.css';
-import {Link} from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 
 function SignResult() {
 
+    const location = useLocation();
+    const userName= location.state?.userName || "회원";
     return(
         <div className="signresult_main">
             <div className="signresult_header">
-                <h1>님! 환영합니다!</h1>
+                <h1>{userName}님! 환영합니다!</h1>
                 <p className="signresult_subtitle">회원가입이 완료되었습니다</p>
             </div>
             <div className="signresult_content">
