@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.recharge.backend.movie.dao.MovieDAO">
+    <resultMap id="MovieMap" type="com.recharge.backend.movie.vo.MovieVO">
+        <id column="MOVIE_ID" property="movieId"/>
+        <result column="MOVIE_POSTER" property="poster"/>
+        <result column="MOVIE_BACKDROP" property="backdrop"/>
+        <result column="MOVIE_TITLE" property="title"/>
+        <result column="MOVIE_SCORE" property="score"/>
+        <result column="MOVIE_COMMENT" property="comment"/>
+        <result column="MOVIE_DIRECTOR" property="director"/>
+        <result column="MOVIE_ACTOR" property="actor"/>
+        <result column="MOVIE_TRAILER" property="trailer"/>
+        <result column="RELEASE_DATE_STR" property="releaseDate"/>
+    </resultMap>
+
+    <sql id="BaseSelect">
+        SELECT
+            M.MOVIE_ID,
+            M.MOVIE_POSTER,
+            M.MOVIE_BACKDROP,
+            M.MOVIE_TITLE,
+            M.MOVIE_SCORE,
+            M.MOVIE_COMMENT,
+            M.MOVIE_DIRECTOR,
+            M.MOVIE_ACTOR,
+            M.MOVIE_TRAILER,
+            TO_CHAR(M.MOVIE_DATE, 'YYYY-MM-DD') AS RELEASE_DATE_STR
+        FROM TB_MOVIE M
+    </sql>
+
+    <select id="selectPopular" parameterType="map" resultMap="MovieMap">
+        SELECT * FROM (
+            SELECT ROWNUM AS rn, t.* FROM (
+            <include refid="BaseSelect"/>
+            ORDER BY M.MOVIE_SCORE DESC NULLS LAST, M.MOVIE_DATE DESC
+        ) t
+            WHERE ROWNUM &lt;= #{offset} + #{limit}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <select id="selectLatest" parameterType="map" resultMap="MovieMap">
+        SELECT * FROM (
+            SELECT ROWNUM AS rn, t.* FROM (
+            <include refid="BaseSelect"/>
+            ORDER BY M.MOVIE_DATE DESC NULLS LAST, M.MOVIE_ID DESC
+        ) t
+        WHERE ROWNUM &lt;= #{offset} + #{limit}
+        )
+        WHERE rn &gt; #{offset}
+    </select>
+
+    <select id="selectById" parameterType="long" resultMap="MovieMap">
+        <include refid="BaseSelect"/>
+        WHERE M.MOVIE_ID = #{movieId}
+    </select>
+
+    <insert id="mergeMovie" parameterType="com.recharge.backend.movie.vo.MovieVO">
+        MERGE INTO TB_MOVIE M
+        USING (
+        SELECT
+        #{movieId}       AS MOVIE_ID,
+        #{poster}        AS MOVIE_POSTER,
+        #{backdrop}      AS MOVIE_BACKDROP,
+        #{title}         AS MOVIE_TITLE,
+        #{score}         AS MOVIE_SCORE,
+        #{comment}       AS MOVIE_COMMENT,
+        #{director}      AS MOVIE_DIRECTOR,
+        #{actor}         AS MOVIE_ACTOR,
+        #{trailer}       AS MOVIE_TRAILER,
+        #{releaseDate}   AS MOVIE_DATE_STR
+        FROM DUAL
+        ) S
+        ON (M.MOVIE_ID = S.MOVIE_ID)
+        WHEN MATCHED THEN UPDATE SET
+        M.MOVIE_POSTER   = S.MOVIE_POSTER,
+        M.MOVIE_BACKDROP = S.MOVIE_BACKDROP,
+        M.MOVIE_TITLE    = S.MOVIE_TITLE,
+        M.MOVIE_SCORE    = S.MOVIE_SCORE,
+        M.MOVIE_COMMENT  = S.MOVIE_COMMENT,
+        M.MOVIE_DIRECTOR = S.MOVIE_DIRECTOR,
+        M.MOVIE_ACTOR    = S.MOVIE_ACTOR,
+        M.MOVIE_TRAILER  = S.MOVIE_TRAILER,
+        M.MOVIE_DATE = TO_DATE(S.MOVIE_DATE_STR, 'YYYY-MM-DD')
+        WHEN NOT MATCHED THEN INSERT (
+        MOVIE_ID, MOVIE_POSTER, MOVIE_BACKDROP, MOVIE_TITLE, MOVIE_SCORE,
+        MOVIE_COMMENT, MOVIE_DIRECTOR, MOVIE_ACTOR, MOVIE_TRAILER
+        , MOVIE_DATE
+        ) VALUES (
+        S.MOVIE_ID, S.MOVIE_POSTER, S.MOVIE_BACKDROP, S.MOVIE_TITLE, S.MOVIE_SCORE,
+        S.MOVIE_COMMENT, S.MOVIE_DIRECTOR, S.MOVIE_ACTOR, S.MOVIE_TRAILER,
+        TO_DATE(S.MOVIE_DATE_STR, 'YYYY-MM-DD')
+        )
+    </insert>
+</mapper>
