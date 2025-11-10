@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../../css/community/Community.css";
 import { FaHeart, FaEye } from "react-icons/fa";
+import { FaThumbsUp } from "react-icons/fa";
 
 function Community() {
   const [allPosts, setAllPosts] = useState([]);
@@ -24,7 +25,7 @@ function Community() {
         likes: 58,
         date: "2025-01-15",
         image:
-          "https://images.unsplash.com/photo-1605559424843-9e4b2a3a1e15?auto=format&fit=crop&w=600&q=80",
+          "https://cdn.smarttoday.co.kr/news/photo/202301/25855_19137_4118.jpg",
       },
       {
         id: 2,
@@ -35,7 +36,7 @@ function Community() {
         likes: 45,
         date: "2025-02-01",
         image:
-          "https://images.unsplash.com/photo-1610964025567-bdf3a84f7a3b?auto=format&fit=crop&w=600&q=80",
+          "https://cdn.smarttoday.co.kr/news/photo/202301/25855_19137_4118.jpg",
       },
       {
         id: 3,
@@ -46,7 +47,7 @@ function Community() {
         likes: 22,
         date: "2025-02-10",
         image:
-          "https://images.unsplash.com/photo-1617727553252-61fa0d8a8765?auto=format&fit=crop&w=600&q=80",
+          "https://cdn.smarttoday.co.kr/news/photo/202301/25855_19137_4118.jpg",
       },
       {
         id: 4,
@@ -57,7 +58,7 @@ function Community() {
         likes: 80,
         date: "2025-03-01",
         image:
-          "https://images.unsplash.com/photo-1593941707874-ef25b8b4e2d1?auto=format&fit=crop&w=600&q=80",
+          "https://d3jn14jkdoqvmm.cloudfront.net/wp/wp-content/uploads/2020/05/25145629/evpost_4-%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C-%ED%9C%B4%EA%B2%8C%EC%86%8C-%EC%A0%84%EA%B8%B0%EC%B0%A8-%EC%B6%A9%EC%A0%84%EA%B8%B0-%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%A0%95%EB%B9%84%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%B4.jpg",
       },
       {
         id: 5,
@@ -68,7 +69,7 @@ function Community() {
         likes: 18,
         date: "2025-03-20",
         image:
-          "https://images.unsplash.com/photo-1605559424978-14e61b58b6e7?auto=format&fit=crop&w=600&q=80",
+          "https://cdn.electimes.com/news/photo/202507/358065_565728_559.jpg",
       },
       {
         id: 6,
@@ -79,7 +80,7 @@ function Community() {
         likes: 37,
         date: "2025-04-02",
         image:
-          "https://images.unsplash.com/photo-1621536959560-25f08b7c8f43?auto=format&fit=crop&w=600&q=80",
+          "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/kr-customer-stories-newlywed-life-with-models-4.jpg",
       },
     ],
     tips: [
@@ -92,7 +93,7 @@ function Community() {
         likes: 54,
         date: "2025-02-11",
         image:
-          "https://images.unsplash.com/photo-1593941707874-ef25b8b4e2d1?auto=format&fit=crop&w=600&q=80",
+          "https://www.besen-group.com/wp-content/uploads/2025/05/besen-international-group-co-ltd-can-you-charge-an-electric-car-in-the-rain-01.png",
       },
       {
         id: 8,
@@ -103,7 +104,7 @@ function Community() {
         likes: 77,
         date: "2025-02-20",
         image:
-          "https://images.unsplash.com/photo-1615554955251-7f69c388ed7d?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIf3xFIKjg1XAbHDP2f2za6ZuLDveFmJ-N7w&s",
       },
       {
         id: 9,
@@ -114,7 +115,7 @@ function Community() {
         likes: 39,
         date: "2025-03-03",
         image:
-          "https://images.unsplash.com/photo-1615339725567-436b9d4c64cb?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWypHgD7GyY_2flAhJCPyGb2DB4CX8LpawCQ&s",
       },
       {
         id: 10,
@@ -125,7 +126,7 @@ function Community() {
         likes: 42,
         date: "2025-03-10",
         image:
-          "https://images.unsplash.com/photo-1605559424843-9e4b2a3a1e15?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWypHgD7GyY_2flAhJCPyGb2DB4CX8LpawCQ&s",
       },
       {
         id: 11,
@@ -136,7 +137,7 @@ function Community() {
         likes: 48,
         date: "2025-03-22",
         image:
-          "https://images.unsplash.com/photo-1617727553252-61fa0d8a8765?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnvntYZSZDr_8DKi1zzH8CXMvQ6OuWBX2B9A&s",
       },
       {
         id: 12,
@@ -147,7 +148,7 @@ function Community() {
         likes: 66,
         date: "2025-04-01",
         image:
-          "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZWAHYHQJ7twTmLPVwqLqYPTfNECGJvcPaaA&s",
       },
     ],
     safety: [
@@ -160,7 +161,7 @@ function Community() {
         likes: 82,
         date: "2025-02-02",
         image:
-          "https://images.unsplash.com/photo-1593642634315-48f5414c3ad9?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6QIryANLV66UGIsl4LCRXok9A8p2yafFBfA&s",
       },
       {
         id: 14,
@@ -182,7 +183,7 @@ function Community() {
         likes: 34,
         date: "2025-03-05",
         image:
-          "https://images.unsplash.com/photo-1615339725567-436b9d4c64cb?auto=format&fit=crop&w=600&q=80",
+          "https://www.besen-group.com/wp-content/uploads/2025/05/besen-international-group-co-ltd-can-you-charge-an-electric-car-in-the-rain-03.jpg",
       },
       {
         id: 16,
@@ -193,7 +194,7 @@ function Community() {
         likes: 47,
         date: "2025-03-15",
         image:
-          "https://images.unsplash.com/photo-1605559424978-14e61b58b6e7?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-N96RxkFt-gILFbABGps9bjBf1KGw-6Rh7w&s",
       },
       {
         id: 17,
@@ -204,7 +205,7 @@ function Community() {
         likes: 91,
         date: "2025-03-28",
         image:
-          "https://images.unsplash.com/photo-1593941707874-ef25b8b4e2d1?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuxizb0xeHVaD8OJ4h9ARZ4z5MKHJilwdOw&s",
       },
       {
         id: 18,
@@ -215,7 +216,7 @@ function Community() {
         likes: 52,
         date: "2025-04-03",
         image:
-          "https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQesLTtSmgT5HSAa22JVHt2gutSz-fJh8Xvg&s",
       },
     
       {
@@ -227,7 +228,7 @@ function Community() {
         likes: 96,
         date: "2025-04-04",
         image:
-          "https://images.unsplash.com/photo-1602631985686-1c4220e4b9d2?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuxizb0xeHVaD8OJ4h9ARZ4z5MKHJilwdOw&s",
       },
       {
         id: 20,
@@ -238,7 +239,7 @@ function Community() {
         likes: 63,
         date: "2025-04-06",
         image:
-          "https://images.unsplash.com/photo-1588776814546-1b21b9f8f3da?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWDAJdJ5G9L0-FHU-3zJ3_NVlqt9ssGGIO4Q&s",
       },
       {
         id: 21,
@@ -249,7 +250,7 @@ function Community() {
         likes: 71,
         date: "2025-04-08",
         image:
-          "https://images.unsplash.com/photo-1597006230773-5a64f0e3eb2b?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHhY9jiP8f1Xag-QPwiO-yxXT4h7ms-lVtHQ&s",
       },
       {
         id: 22,
@@ -260,7 +261,7 @@ function Community() {
         likes: 88,
         date: "2025-04-09",
         image:
-          "https://images.unsplash.com/photo-1623776054098-544d1b5d0b6b?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuxizb0xeHVaD8OJ4h9ARZ4z5MKHJilwdOw&s",
       },
       {
         id: 23,
@@ -271,7 +272,7 @@ function Community() {
         likes: 57,
         date: "2025-04-10",
         image:
-          "https://images.unsplash.com/photo-1621263764088-fd2de9b8a83f?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWDAJdJ5G9L0-FHU-3zJ3_NVlqt9ssGGIO4Q&s",
       },
       {
         id: 24,
@@ -282,7 +283,7 @@ function Community() {
         likes: 74,
         date: "2025-04-11",
         image:
-          "https://images.unsplash.com/photo-1588776814546-1b21b9f8f3da?auto=format&fit=crop&w=600&q=80",
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQesLTtSmgT5HSAa22JVHt2gutSz-fJh8Xvg&s",
       },
     ],
   };
@@ -347,25 +348,37 @@ function Community() {
       <div className="community_category-tabs">
         <button
           className={selectedCategory === "all" ? "active" : ""}
-          onClick={() => setSelectedCategory("all")}
+          onClick={() => {
+            setSelectedCategory("all");
+            setCurrentPage(1);
+          }}
         >
           전체
         </button>
         <button
           className={selectedCategory === "review" ? "active" : ""}
-          onClick={() => setSelectedCategory("review")}
+          onClick={() => {
+            setSelectedCategory("review");
+            setCurrentPage(1);
+          }}
         >
           충전소 이용후기 & 경험
         </button>
         <button
           className={selectedCategory === "tips" ? "active" : ""}
-          onClick={() => setSelectedCategory("tips")}
+          onClick={() => {
+            setSelectedCategory("tips");
+            setCurrentPage(1);
+          }}
         >
           전기차 꿀팁 & 사용정보
         </button>
         <button
           className={selectedCategory === "safety" ? "active" : ""}
-          onClick={() => setSelectedCategory("safety")}
+          onClick={() => {
+            setSelectedCategory("safety");
+            setCurrentPage(1);
+          }}
         >
           안전·사고 대처
         </button>
@@ -380,8 +393,10 @@ function Community() {
         ) : (
           <div className="community_posts-list">
             {currentPosts.map((post, index) => (
-              <div key={post.id} className="community_post-card">
-                {index < 3 && (
+              <div key={post.id} className="community_post-card"
+                onClick={() => navigate(`/community/detail/${post.id}`)}
+                >
+                {currentPage === 1 && index < 3 && (
                  <div className={`community_post-rank rank-${index + 1}`}>
                       🔥 인기글
                  </div>
@@ -393,18 +408,13 @@ function Community() {
                   className="community_post-image"
                 />
                 <div className="community_post-body">
-                  <Link
-                    to={`/community/detail/${post.id}`}
-                    className="community_post-title"
-                  >
-                    {post.title}
-                  </Link>
-
+                  <div className="community_post-title"> {post.title} </div>
+                
                   <div className="community_post-meta">
                     <div className="community_post-meta-left">
                       <span className="community_user">{post.user}</span>
                       <span className="community_post-likes">
-                        <FaHeart /> {post.likes}
+                        <FaThumbsUp className="community_like-icon" />  {post.likes}
                       </span>
                       <span className="community_post-views">
                         <FaEye /> {post.views}
