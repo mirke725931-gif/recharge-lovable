@@ -59,7 +59,9 @@ function SignUp () {
         try{
             const response = await axios.post('http://localhost:10809/recharge/api/users/signup', payload,{withCredentials: true});
             console.log('백엔드 응답:', response.data);
-            navigate('/signup_result');
+            navigate('/signup_result',
+                {state: {userName: users.userName}}
+            );
         } catch(error){
             console.error('회원가입 실패', error);
             alert('회원가입 중 오류가 발생했습니다.')
