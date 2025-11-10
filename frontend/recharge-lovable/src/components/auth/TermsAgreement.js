@@ -1,8 +1,21 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React,{useState} from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/auth/TermsAgreement.css';
 
 function TermsAgreement() {
+
+    const[agreeTerms, setAgreeTerms]=useState(false);
+    const[agreePrivacy, setAgreePrivacy] = useState(false);
+
+    const navigate = useNavigate();
+
+    const handleNext = () => {
+        if(!agreeTerms || !agreePrivacy){
+            alert("필수 약관에 모두 동의해주세요.");
+            return;
+        }
+        navigate("/signup");
+    }
 
     return(
         <div className="termsagreement_main">
@@ -41,7 +54,8 @@ function TermsAgreement() {
 
 [전체 약관은 회사 홈페이지 또는 고객센터를 통해 확인하실 수 있습니다.]`}
                     ></textarea>
-                    <label><input type="checkbox" required /> 이용약관에 동의합니다</label>
+                    <label><input type="checkbox" checked={agreeTerms}
+                                    onChange={(e)=> setAgreeTerms(e.target.checked)}/> [필수]이용약관에 동의합니다</label>
                 </div>
                 <div className="termsagreement_agreebox2">
                     <h3>개인정보 수집 동의</h3>
@@ -67,7 +81,8 @@ function TermsAgreement() {
 
 본인은 위의 내용을 충분히 이해하였으며, 개인정보 수집 및 이용에 동의합니다.
                     `}></textarea>
-                    <label><input type="checkbox" required /> 개인정보 수집 및 이용에 동의합니다</label>
+                    <label><input type="checkbox" required checked={agreePrivacy}
+                                    onChange={(e)=> setAgreePrivacy(e.target.checked)}/> [필수]개인정보 수집 및 이용에 동의합니다</label>
                 </div>
                 <div className="termsagreement_agreebox3">
                     <h3>마케팅 정보 수신 동의</h3>
@@ -93,7 +108,8 @@ function TermsAgreement() {
 
             <hr style={{ width: "700px", height:"2px", border:"none", backgroundColor:"lightgray"}} />
             <div className="signresult_move_action_btn">
-                <button type="button" className="move_signup_btn"><Link to="/signup">다음</Link></button>
+                <button type="button" className="move_signup_btn"
+                        onClick={handleNext}>다음</button>
             </div>
         </div>
     )
