@@ -44,4 +44,35 @@ public class UsersDAOImpl implements UsersDAO {
         params.put("email", email);
         return sqlSession.selectOne(NAMESPACE + "selectUserByNameAndEmail", params);
     }
+
+    @Override
+    public UsersVO selectUserByIdNameEmail(String id, String name,String email){
+        Map<String, String> params = new HashMap<>();
+        params.put("id", id);
+        params.put("name", name);
+        params.put("email", email);
+        return sqlSession.selectOne(NAMESPACE + "selectUserByIdNameEmail", params);
+    }
+
+    @Override
+    public void updatePasswordByToken(String token, String newPwd, String userId){
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("newPwd", newPwd);
+        params.put("userId", userId);
+        sqlSession.update(NAMESPACE+"updatePasswordByToken", params);
+    }
+
+    @Override
+    public UsersVO findUserByResetToken(String token){
+        return sqlSession.selectOne(NAMESPACE+"findUserByResetToken", token);
+    }
+
+    @Override
+    public void saveResetToken(String userId, String token){
+        Map<String, String> params = new HashMap<>();
+        params.put("userId", userId);
+        params.put("token", token);
+        sqlSession.update(NAMESPACE+"saveResetToken", params);
+    }
 }

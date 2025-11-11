@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 @SpringBootApplication(exclude = {UserDetailsServiceAutoConfiguration.class})
 @MapperScan({
         "com.recharge.backend.movie.dao",
-        "com.recharge.backend.users.dao"
+        "com.recharge.backend.users.dao",
+        "com.recharge.backend.music.dao"
 })
 public class BackendApplication {
 

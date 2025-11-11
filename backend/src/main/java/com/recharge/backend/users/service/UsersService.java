@@ -13,4 +13,12 @@ public interface UsersService {
     UsersVO login(String userId, String userPwd);
 
     UsersVO findUserByNameAndEmail (String name, String email);
+
+    UsersVO findUserByIdNameEmail(String id, String name, String email);
+
+    void saveResetToken(String usreId, String token);
+
+    UsersVO findUserByResetToken(String token);
+
+    void updatePasswordByToken(String token, String pwd);
 }

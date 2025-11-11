@@ -56,4 +56,32 @@
           AND USER_EMAIL = #{email}
     </select>
 
+    <select id="selectUserByIdNameEmail" resultType="UsersVO" parameterType="map">
+        SELECT * FROM TB_USERS
+        WHERE USER_ID=#{id, jdbcType=VARCHAR}
+          AND USER_NAME=#{name, jdbcType=VARCHAR}
+          AND USER_EMAIL=#{email, jdbcType=VARCHAR}
+    </select>
+
+    <update id="updatePasswordByToken">
+        UPDATE TB_USERS
+        SET USER_PWD = #{newPwd},
+            USER_MODIFY_TOKEN = NULL,
+            UPDATED_ID = #{userId},
+            UPDATED_DATE = SYSDATE
+        WHERE USER_MODIFY_TOKEN = #{token}
+    </update>
+
+    <select id="findUserByResetToken" resultType="com.recharge.backend.users.vo.UsersVO">
+        SELECT *
+        FROM TB_USERS
+        WHERE USER_MODIFY_TOKEN=#{token}
+    </select>
+
+    <update id="saveResetToken">
+        UPDATE TB_USERS
+        SET USER_MODIFY_TOKEN = #{token}
+        WHERE USER_ID = #{userId}
+    </update>
+
 </mapper>

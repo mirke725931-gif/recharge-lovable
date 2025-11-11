@@ -3,6 +3,7 @@ import { FaStar, FaRegStar, FaYoutube } from "react-icons/fa";
 import { Link, useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import "../../../css/findcontents/movie/MovieDetail.css";
+import ReportModal from "../../modal/ReportModal";
 
 function MovieDetail() {
     const { movieId } = useParams();
@@ -11,7 +12,7 @@ function MovieDetail() {
     const [loading, setLoading] = useState(!state?.movie);
     const [error, setError] = useState("");
     const [isFavorite, setIsFavorite] = useState(false);
-
+    
     const api = useMemo(
         () =>
             axios.create({

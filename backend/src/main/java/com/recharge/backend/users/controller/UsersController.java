@@ -45,8 +45,7 @@ public class UsersController {
     public ResponseEntity<?> login(@RequestBody Map<String, String> loginData, HttpServletRequest request) {
         String userId = loginData.get("userId");
         String userPwd = loginData.get("userPwd");
-        System.out.println("로그인 요청");
-
+        System.out.println("✅ 로그인확인 요청 들어옴: " + userId+userPwd);
         if(userId== null||userPwd==null || userId.trim().isEmpty() || userPwd.trim().isEmpty()) {
             return ResponseEntity.badRequest().body("아이디와 비밀번호를 입력해주세요.");
         }
@@ -56,7 +55,6 @@ public class UsersController {
         if(user!=null) {
             HttpSession session = request.getSession();
             session.setAttribute("loginUser", user.getUserId());
-            System.out.println("로그인 성공 여부");
             return ResponseEntity.ok("로그인 성공");
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -68,7 +66,9 @@ public class UsersController {
         HttpSession session = request.getSession(false);
         if(session != null && session.getAttribute("loginUser") != null) {
             String userId = (String) session.getAttribute("loginUser");
-            return ResponseEntity.ok("현재 로그인 중: " + userId);
+            Map<String, String> response = new HashMap<>();
+            response.put("userId", userId);
+            return ResponseEntity.ok(response);
         }else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
@@ -105,4 +105,39 @@ public class UsersController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 전송 실패");
         }
     }
+
+    @PostMapping("/findpwd")
+    public ResponseEntity<?> findPassword(@RequestBody Map<String, String> payload){
+        String id = payload.get("id");
+        String name = payload.get("name");
+        String email = payload.get("email");
+
+        UsersVO user = usersService.findUserByIdNameEmail(id, name, email);
+
+        if(user == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("가입된 정보가 없습니다.");
+        }
+
+        try{
+            emailService.sendPasswordResetEmail(user);
+            return ResponseEntity.ok().build();
+        }catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("이메일 전송에 실패하였습니다.");
+        }
+    }
+
+    @PostMapping("/modifypwd")
+    public ResponseEntity<?> modifyPwd(@RequestBody Map<String, String> payload){
+        String token = payload.get("token");
+        String pwd = payload.get("newPwd");
+
+        UsersVO user = usersService.findUserByResetToken(token);
+        if(user== null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("유효하지 않은 토큰입니다.");
+        }
+
+        usersService.updatePasswordByToken(token, pwd);
+        return ResponseEntity.ok("비밀번호가 변경되었습니다.");
+    }
+
 }

@@ -47,4 +47,29 @@ public class UsersServiceImpl implements UsersService {
     public UsersVO findUserByNameAndEmail(String name, String email){
         return usersDAO.selectUserByNameAndEmail(name,email);
     }
+
+    @Override
+    public UsersVO findUserByIdNameEmail(String id, String name, String email){
+        System.out.println("🔍 입력값 확인 → id: [" + id + "], name: [" + name + "], email: [" + email + "]");
+        return usersDAO.selectUserByIdNameEmail(id, name, email);
+    }
+
+    @Override
+    public void saveResetToken(String userId, String token) {
+        usersDAO.saveResetToken(userId, token);
+    }
+
+    @Override
+    public UsersVO findUserByResetToken(String token){
+        return usersDAO.findUserByResetToken(token);
+    }
+
+    @Override
+    public void updatePasswordByToken(String token, String pwd){
+        UsersVO user = usersDAO.findUserByResetToken(token);
+        if(user==null) return;
+
+        String encrypted=passwordEncoder.encode(pwd);
+        usersDAO.updatePasswordByToken(token, encrypted, user.getUserId());
+    }
 }
