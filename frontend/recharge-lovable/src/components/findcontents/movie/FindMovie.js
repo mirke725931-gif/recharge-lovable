@@ -57,7 +57,7 @@ function FindMovie() {
 
                 // (옵션) 게시글 API가 아직 없으면 404 → 조용히 무시
                 try {
-                    const postRes = await api.get("/movie-posts", { params: { page: 1, size: 16 }});
+                    const postRes = await api.get("/moviepost/list", { params: { page: 1, size: 16 }});
                     setUserPosts(Array.isArray(postRes.data) ? postRes.data : []);
                 } catch {
                     setUserPosts([]); // 엔드포인트 미구현 시 비워둠
@@ -163,35 +163,46 @@ function FindMovie() {
                 </div>
             </div>
 
-            {/* 회원 추천 영화 (엔드포인트 미구현 시 빈 리스트) */}
             <div className="findmovie_category">
                 <div className="findmovie_category_title">Re:Charge 회원들의 추천 영화</div>
                 <div className="findmovie_category_addform">
                     <Link to="/find_contents/movie/addmovie">추천 글쓰기 ›</Link>
                 </div>
             </div>
+
             <div className="findmovie_user_movie">
                 <div className="findmovie_slider_btn left">
                     <button onClick={() => scrollLeft(userRef, 230)}>⟨</button>
                 </div>
+
                 <ul className="findmovie_user_movie_lists" ref={userRef}>
                     {userPosts.map((p, idx) => (
-                        <li className="findmovie_user_movie_list" key={p?.postId ?? idx}>
-                            <Link to={`/find_contents/movie/posts/${p?.postId ?? ""}`} state={{ post: p }}>
+                        <li className="findmovie_user_movie_list" key={p.moviePostId ?? idx}>
+                            <Link
+                                to={`/find_contents/movie/posts/${p.moviePostId ?? ""}`}
+                                state={{ post: p }}
+                            >
                                 <img
-                                    src={tmdb.poster(p?.movie?.poster, "original")}
+                                    src={
+                                        p.poster
+                                            ? (p.poster.startsWith("http")
+                                                ? p.poster
+                                                : `https://image.tmdb.org/t/p/w500${p.poster}`)
+                                            : "https://placehold.co/185x278?text=No+Image"
+                                    }
+                                    alt={p.moviePostTitle ?? "추천글 포스터"}
                                     className="findmovie_user_img"
-                                    alt={p?.title ?? "포스터"}
                                     loading="lazy"
                                 />
                                 <div className="findmovie_user_movie_info">
-                                    <span>{p?.title ?? "글 제목"}</span>
-                                    <span>{p?.userId ?? "작성자"}</span>
+                                    <span>{p.moviePostTitle ?? "글 제목"}</span>
+                                    <span>{p.userId ?? "작성자"}</span>
                                 </div>
                             </Link>
                         </li>
                     ))}
                 </ul>
+
                 <div className="findmovie_slider_btn right">
                     <button onClick={() => scrollRight(userRef, 230)}>⟩</button>
                 </div>

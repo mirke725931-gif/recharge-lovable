@@ -45,4 +45,5 @@ public class MovieController {
     public MovieVO getMovieDetail(@PathVariable Long movieId) {
         return movieService.getMovieById(movieId);
     }
+
 }

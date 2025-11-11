@@ -1,94 +1,193 @@
-import React, {useState} from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { FaStar, FaRegStar, FaYoutube } from "react-icons/fa";
-import {Link} from 'react-router-dom';
-import '../../../css/findcontents/movie/UserMovieDetail.css'
+import { Link, useParams, useLocation } from "react-router-dom";
+import axios from "axios";
+import "../../../css/findcontents/movie/UserMovieDetail.css";
 
 function UserMovieDetail() {
+    const { postId } = useParams();
+    const location = useLocation();
+    const initialPost = location.state?.post || null;
 
-
+    const [post, setPost] = useState(initialPost);   // 게시글 정보
+    const [movie, setMovie] = useState(null);        // 영화 정보
+    const [loading, setLoading] = useState(!initialPost);
+    const [error, setError] = useState("");
     const [isFavorite, setIsFavorite] = useState(false);
 
-    const toggleFavorite = () => {
-        setIsFavorite(prev => !prev);
+    const api = useMemo(
+        () =>
+            axios.create({
+                baseURL: "http://localhost:10809/recharge/api",
+                withCredentials: true,
+            }),
+        []
+    );
+
+    const tmdb = {
+        poster: (path, size = "w500") =>
+            path
+                ? path.startsWith("http")
+                    ? path
+                    : `https://image.tmdb.org/t/p/${size}${path}`
+                : "https://placehold.co/300x450?text=No+Image",
     };
 
-    return(
-        <div className="usermoviedetail_container">
+    // 1️⃣ 게시글 불러오기
+    useEffect(() => {
+        if (post) return; // state로 전달된 post가 있으면 생략
+        (async () => {
+            try {
+                setLoading(true);
+                const res = await api.get(`/moviepost/${postId}`);
+                setPost(res.data || null);
+            } catch (err) {
+                console.error(err);
+                setError("게시글 정보를 불러올 수 없습니다.");
+            } finally {
+                setLoading(false);
+            }
+        })();
+    }, [api, postId, post]);
 
+    // 2️⃣ 게시글 안의 movieId로 영화정보 불러오기
+    useEffect(() => {
+        if (!post?.movieId) return;
+        (async () => {
+            try {
+                const res = await api.get(`/movies/${post.movieId}`);
+                setMovie(res.data || null);
+            } catch (err) {
+                console.error("영화 세부 정보 불러오기 실패:", err);
+            }
+        })();
+    }, [api, post?.movieId]);
+
+    const toggleFavorite = () => setIsFavorite((prev) => !prev);
+
+    if (loading) return <div className="usermoviedetail_container">불러오는 중...</div>;
+    if (error || !post) return <div className="usermoviedetail_container">{error}</div>;
+
+    // 🧠 안전한 접근을 위해 movie 정보 분리
+    const posterUrl = tmdb.poster(movie?.poster || post.poster);
+    const title = movie?.title || post.movieTitle;
+    const score = movie?.score || post.score;
+    const genre = movie?.genreName || "장르 미지정";
+    const director = movie?.director || "-";
+    const actor = movie?.actor || "-";
+    const comment = movie?.comment || "줄거리 정보가 없습니다.";
+    const releaseDate = movie?.releaseDate || "-";
+
+    return (
+        <div className="usermoviedetail_container">
+            {/* 🎬 영화 정보 */}
             <div className="usermoviedetail_movie">
                 <div className="usermoviedetail_movie_poster">
-                    <img src="https://placehold.co/300x450?text=interstella" className="findcontents_main_img" alt="포스터"/>
+                    <img
+                        src={posterUrl}
+                        alt={title || "포스터"}
+                        className="findcontents_main_img"
+                    />
                 </div>
+
                 <div className="usermoviedetail_movie_info">
                     <div className="usermoviedetail_movie_info_title">
-                        인터스텔라
+                        {title || "영화 제목 없음"}
                     </div>
+
                     <div className="usermoviedetail_movie_info_meta">
                         <div className="usermoviedetail_movie_info_meta_row1">
-                            <span className="usermoviedetail_movie_info_meta_chip1"><FaStar color="#F4C10F"/> <span>9.5</span></span>
-                            <span className="usermoviedetail_movie_info_meta_chip1"><span>🎬</span> <span>SF, 드라마</span></span>
-                            <span className="usermoviedetail_movie_info_meta_chip1"><span>⏱ </span> <span>169분</span></span>
-                            <span className="usermoviedetail_movie_info_meta_chip1"><span>📅</span> <span>2014.11.06</span></span>
+                            <span className="usermoviedetail_movie_info_meta_chip1">
+                                <FaStar color="#F4C10F" /> <span>{score ?? "-"}</span>
+                            </span>
+                            <span className="usermoviedetail_movie_info_meta_chip1">
+                                <span>🎬</span> <span>{genre}</span>
+                            </span>
+                            <span className="usermoviedetail_movie_info_meta_chip1">
+                                <span>📅</span> <span>{releaseDate}</span>
+                            </span>
                         </div>
+
                         <div className="usermoviedetail_movie_info_meta_row2">
-                            <span className="usermoviedetail_movie_info_meta_chip2"><strong>감독: </strong>크리스토퍼 놀란</span>
-                            <span className="usermoviedetail_movie_info_meta_chip2"><strong>출연: </strong>매튜 맥커너히, 앤 해서웨이</span>
+                            <span className="usermoviedetail_movie_info_meta_chip2">
+                                <strong>감독: </strong> {director}
+                            </span>
+                            <span className="usermoviedetail_movie_info_meta_chip2">
+                                <strong>출연: </strong> {actor}
+                            </span>
                         </div>
-                        <div className="usermoviedetail_movie_info_meta_row3">
-                            우주를 배경으로 펼쳐지는 인류 생존을 위한 장대한 여정
-                        </div>
+
+                        <div className="usermoviedetail_movie_info_meta_row3">{comment}</div>
+
                         <div className="usermoviedetail_movie_info_meta_favorite">
-                            <button className={`usermoviedetail_addFavorite ${isFavorite ? "primary" : "outline"}`} onClick={toggleFavorite}>
-                                {isFavorite ? <FaStar color="#F4C10F"/> : <FaRegStar />}
-                            <span>{isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}</span>
+                            <button
+                                className={`usermoviedetail_addFavorite ${
+                                    isFavorite ? "primary" : "outline"
+                                }`}
+                                onClick={toggleFavorite}
+                            >
+                                {isFavorite ? <FaStar color="#F4C10F" /> : <FaRegStar />}
+                                <span>{isFavorite ? "즐겨찾기 해제" : "즐겨찾기 추가"}</span>
                             </button>
-                            <button className="usermoviedetail_goTrailer"><FaYoutube/><span>트레일러 보러가기</span></button>
+
+                            <a
+                                href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                    (title ?? "") + " trailer"
+                                )}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="usermoviedetail_goTrailer"
+                            >
+                                <FaYoutube />
+                                <span>트레일러 보러가기</span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
 
+            {/* 📝 사용자 게시글 */}
             <div className="usermoviedetail_content">
                 <div className="usermoviedetail_title">
-                    글 제목 입력
+                    {post.moviePostTitle ?? "게시글 제목 없음"}
                 </div>
                 <div className="usermoviedetail_user">
-                    <span>Recommended by</span>
-                    <span>아이디</span>
+                    <span>Recommended by </span>
+                    <span>{post.userId ?? "익명"}</span>
                 </div>
                 <div className="usermoviedetail_text">
-                    충전하는 동안 시간 가는 줄 모르고 볼 수 있는 영화입니다. 우주와 시간에 대한 철학적인 메시지가 깊게 와닿고, 영상미와 음악이 정말 훌륭합니다. EV 충전 시간에 딱 맞는 러닝타임이라 더욱 추천합니다
+                    {post.moviePostText ?? "작성된 내용이 없습니다."}
                 </div>
             </div>
 
-            <div className="usermoviedetail_comment">   
-                <div className="usermoviedetail_comment_title">
-                    Comments
-                </div>
+            {/* 💬 댓글 영역 */}
+            <div className="usermoviedetail_comment">
+                <div className="usermoviedetail_comment_title">Comments</div>
                 <div className="usermoviedetail_comment_post">
-                    <input type="text" placeholder="댓글 입력"/>
+                    <input type="text" placeholder="댓글 입력" />
                     <button className="usermoviedetail_btn">등록</button>
                 </div>
                 <ul className="usermoviedetail_comment_lists">
                     <li className="usermooviedetail_comment_list">
                         <div className="usermoviedetail_comment_user">
-                            <span className="usermoviedetail_comment_id">bbq0638</span>
-                            <span className="usermoviedetail_comment_time">2시간 전</span>
+                            <span className="usermoviedetail_comment_id">guest</span>
+                            <span className="usermoviedetail_comment_time">방금 전</span>
                             <div className="usermoviedetail_comment_btn">
                                 <button className="usermoviedetail_comment_edit">수정</button>
                                 <button className="usermoviedetail_comment_delete">삭제</button>
                             </div>
                         </div>
-                        <span className="usermoviedetail_comment_text">댓글내용</span>
+                        <span className="usermoviedetail_comment_text">
+                            댓글 기능은 곧 연결됩니다!
+                        </span>
                     </li>
                 </ul>
             </div>
-            <div className="usermoviedetail_similar">
 
-            </div>
+            {/* 🔗 다른 추천글 이동 */}
             <div className="usermoviedtail_findmovie">
                 <Link to="/find_contents/movie">
-                    다른 이용자의 추천 영화 보러가기 ›
+                    다른 이용자 추천 영화 보러가기 ›
                 </Link>
             </div>
         </div>

@@ -61,6 +61,8 @@
 
 .addmovie_poster img {
     border-radius: 6px;
+    width: 185px;
+    height: 278px;
 }
 
 .addmovie_meta {

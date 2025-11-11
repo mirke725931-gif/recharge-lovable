@@ -94,6 +94,32 @@ function SignUp () {
         }
     };
 
+    const checkDuplicateEmail = async () => {
+
+        if(!users.userId.trim()) {
+            alert('이메일를 입력해주세요.');
+            return;
+        }
+
+        try{
+            const response = await axios.get('http://localhost:10809/recharge/api/users/check-email', {
+                params: {userEmail: users.userEmail},
+                withCredentials: true
+            });
+
+            setIsDuplicate(response.data);
+
+            if(response.data) {
+                alert('이미 사용 중인 이메일입니다.');
+            } else {
+                alert('사용 가능한 이메일입니다.');
+            }
+        } catch (error) {
+            console.error('중복확인 실패:' , error);
+            alert('중복확인 중 오류가 발생했습니다.');
+        }
+    };
+
     return (
         <div className="sign_main">
             <div className="sign_header">
@@ -124,9 +150,14 @@ function SignUp () {
                     
                     <div className="signup_form_group">
                         <label className="signup_form_label"><span>*</span> 이메일</label>
-                        <input type="email" placeholder="이메일을 입력하세요 (아이디/비밀번호 찾기 본인 확인용)" className="signup_email"
-                                value={users.userEmail}
-                                onChange={(e)=> setUsers({...users, userEmail: e.target.value})} />
+                        <div className="signup_id_form">
+                            <input type="email" placeholder="이메일을 입력하세요 (아이디/비밀번호 찾기 본인 확인용)" className="signup_email"
+                                    value={users.userEmail}
+                                    onChange={(e)=> setUsers({...users, userEmail: e.target.value})} />
+                                    <button type="button" className="signup_id_check_btn"
+                                            onClick={checkDuplicateEmail}
+                                        >중복확인</button>
+                        </div>
                     </div>
                     
                     <div className="signup_form_group">

@@ -232,14 +232,16 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public List<MovieVO> getPopularFromDB(int page, int size) {
         int offset = Math.max(0, (page - 1) * size);
-        return movieDAO.selectPopular(offset, size);
+        int limit = size;
+        return movieDAO.selectPopular(offset, limit);
     }
 
     /** DB 최신순 조회 */
     @Override
     public List<MovieVO> getLatestFromDB(int page, int size) {
         int offset = Math.max(0, (page - 1) * size);
-        return movieDAO.selectLatest(offset, size);
+        int limit = size;
+        return movieDAO.selectLatest(offset, limit);
     }
 
     /** 단건 상세 조회 */

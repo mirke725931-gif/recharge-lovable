@@ -12,5 +12,4 @@ public class HelloController {
     public String hello() {
         return "백엔드 연결 성공!";
     }
-
-    }
+}

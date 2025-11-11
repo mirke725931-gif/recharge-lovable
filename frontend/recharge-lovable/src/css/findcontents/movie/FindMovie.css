@@ -185,8 +185,8 @@
     overflow-x: auto;
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: 230px;
-    gap: 2rem;
+    grid-auto-columns: 185px;
+    gap: 1rem;
     padding-bottom: 8px;
     scroll-behavior: smooth;
     scrollbar-width: none;
@@ -194,7 +194,7 @@
 .findmovie_user_movie_lists::-webkit-scrollbar { display: none; }
 
 .findmovie_user_movie_list {
-    width: 230px;
+    width: 185px;
     border-radius: 6px;
     overflow: hidden;
     background: #004e89;
@@ -202,8 +202,8 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.18);
 }
 .findmovie_user_img {
-    width: 100%;
-    height: 250px;
+    width: 185px;
+    height: 275px;
     object-fit: cover;
     display: block;
 }
