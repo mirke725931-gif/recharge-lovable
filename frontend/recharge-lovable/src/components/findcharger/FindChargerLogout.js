@@ -1,15 +1,28 @@
 import React, {useState} from "react";
 import { AiOutlineThunderbolt } from "react-icons/ai";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import {useAuth} from '../../context/AuthContext';
 import '../../css/findcharger/FindChargerLogout.css';
 
 function FindChargerLogout(){
-
     const [isSlide, setIsSlide] = useState(false);
+
+    const {isLogin, isLoading} = useAuth();
+    const navigate = useNavigate();
 
     const handleSlide = ()=>{
         setIsSlide(!isSlide);
     }
+
+    const handleProtectedRoute = (path) => {
+        if (!isLogin && !isLoading) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+        } else {
+            navigate(path);
+        }
+    };
 
     return(
         <div className="findchargerlogout_container">
@@ -70,7 +83,7 @@ function FindChargerLogout(){
                             </div>
                         </div>
                         <div className="findchargerlogout_find_btn">
-                            <button><div><AiOutlineThunderbolt /></div><span>충전소 검색하기</span></button>
+                            <button onClick={handleProtectedRoute}><div><AiOutlineThunderbolt /></div><span>충전소 검색하기</span></button>
                         </div>
                     </form>
                     <hr style={{border:"1px solid rgba(235, 235, 235, 1)", margin:"20px 0 10px 0"}}/>

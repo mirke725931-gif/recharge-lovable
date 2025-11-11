@@ -183,3 +183,37 @@
 .auth_nav button:hover::after {
   width: 70%;
 }
+.content_nav li span {
+  text-decoration: none;
+  color: var(--text-primary);
+  font-weight: 600;
+  font-size: 15px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  position: relative;
+  transition: all 0.3s ease;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+}
+
+.content_nav li span::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.content_nav li span:hover {
+  color: var(--primary-color);
+  background: transparent;
+}
+
+.content_nav li span:hover::after {
+  width: 70%;
+}
