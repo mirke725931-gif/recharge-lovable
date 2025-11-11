@@ -28,11 +28,12 @@ import CommunityWritePage from './components/community/CommunityWritePage';
 import NoticeDetailPage from './components/notice/NoticeDetailPage';
 import Community from './components/community/Community';
 import Notice from './components/notice/Notice';
+import ModifyPwd from './components/auth/ModifyPwd';
 
 function App() {
   return (
     <div className="app_wrapper">
-      <Header />
+      <Header/>
       <div className="app_main">
         <Routes>
           <Route path="/" element={<FindChargerLogout />} />
@@ -62,6 +63,7 @@ function App() {
           <Route path="/community/write" element={<CommunityWritePage />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/detail/:id" element={<NoticeDetailPage />} />
+          <Route path="/modifypwd" element={<ModifyPwd/>} />
         </Routes>
       </div>
     </div>
