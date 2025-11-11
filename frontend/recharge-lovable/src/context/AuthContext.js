@@ -26,6 +26,11 @@ export function AuthProvider({children}) {
         checkLogin();
     }, []);
 
+    const login = (userId) => {
+    setIsLogin(true);
+    setUserId(userId);
+  };
+
     const logout = async (navigate) => {
         try{
             await axios.post("http://localhost:10809/recharge/api/users/logout", {},{
@@ -40,7 +45,7 @@ export function AuthProvider({children}) {
         }
     };
     return(
-        <AuthContext.Provider value={{isLogin, userId, isLoading, logout}}>
+        <AuthContext.Provider value={{isLogin, userId, isLoading, logout,login}}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,13 +1,15 @@
 import React,{useState} from "react";
 import {Link, useNavigate} from 'react-router-dom';
 import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 import '../../css/auth/Login.css';
 
 function Login() {
+    const{login} = useAuth();
     const [userId, setUserId] = useState('');
     const [userPwd, setUserPwd] = useState('');
-    
     const navigate = useNavigate();
+    
 
     const handleLogin = async (e)=> {
         e.preventDefault();
@@ -25,6 +27,7 @@ function Login() {
 
             console.log("로그인 성공:", response.data);
 
+            login(userId);
             navigate('/');
         } catch (error) {
             console.log("로그인실패", error);
