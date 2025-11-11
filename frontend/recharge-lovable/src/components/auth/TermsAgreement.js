@@ -86,7 +86,7 @@ function TermsAgreement() {
                 </div>
                 <div className="termsagreement_agreebox3">
                     <h3>마케팅 정보 수신 동의</h3>
-                    <textarea readonly className="termsagreement_agreebox3_textarea"
+                    <textarea readOnly className="termsagreement_agreebox3_textarea"
                     value={`[서비스명] 마케팅 정보 수신 동의서
 
 회사는 회원에게 유익한 정보 제공을 위해 이메일 및 문자 메시지를 통해 이벤트, 혜택, 광고 등의 정보를 발송할 수 있습니다.

@@ -54,9 +54,9 @@ function App() {
           <Route path="/find_contents/music" element={<FindMusic/>} />
           <Route path="/find_contents/movie/addmovie" element={<AddMovie/>} />
           <Route path="/find_contents/music/addmusic" element={<AddMusic/>} />
-          <Route path="/find_contents/movie/usermoviedetail" element={<UserMovieDetail/>} />
+          <Route path="/find_contents/movie/posts/:postId" element={<UserMovieDetail/>} />
           <Route path="/find_contents/music/usermusicdetail" element={<UserMusicDetail/>} />
-          <Route path="/find_contents/movie/moviedetail" element={<MovieDetail/>} />
+          <Route path="/find_contents/movie/:movieId" element={<MovieDetail/>} />
           <Route path="/community" element={<Community />} />
           <Route path="/community/detail/:id" element={<CommunityDetailPage />} />
           <Route path="/community/write" element={<CommunityWritePage />} />
