@@ -1,318 +1,50 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../css/community/Community.css";
-import { FaHeart, FaEye } from "react-icons/fa";
-import { FaThumbsUp } from "react-icons/fa";
+import { FaThumbsUp, FaEye } from "react-icons/fa";
+
+import { getAllCommunityPosts } from "../../api/CommunityApi";
+import { useAuth } from "../../context/AuthContext"; // 로그인 상태 가져오기
 
 function Community() {
   const [allPosts, setAllPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedTab, setSelectedTab] = useState("all");
   const postsPerPage = 6;
   const navigate = useNavigate();
+  const { isLogin, userId } = useAuth(); // 로그인 상태와 사용자 ID 가져오기
 
-  // ✅ 더미 데이터
   useEffect(() => {
-  const samplePosts = {
-    review: [
-      {
-        id: 1,
-        category: "review",
-        user: "충전매니아",
-        title: "서울 강남구 충전소 후기",
-        views: 234,
-        likes: 58,
-        date: "2025-01-15",
-        image:
-          "https://cdn.smarttoday.co.kr/news/photo/202301/25855_19137_4118.jpg",
-      },
-      {
-        id: 2,
-        category: "review",
-        user: "에코드라이버",
-        title: "부산 해운대 충전소 깔끔했어요!",
-        views: 198,
-        likes: 45,
-        date: "2025-02-01",
-        image:
-          "https://cdn.smarttoday.co.kr/news/photo/202301/25855_19137_4118.jpg",
-      },
-      {
-        id: 3,
-        category: "review",
-        user: "그린맨",
-        title: "시흥 충전소 이용 후기 (대기 길었어요)",
-        views: 178,
-        likes: 22,
-        date: "2025-02-10",
-        image:
-          "https://cdn.smarttoday.co.kr/news/photo/202301/25855_19137_4118.jpg",
-      },
-      {
-        id: 4,
-        category: "review",
-        user: "EV매니아",
-        title: "제주도 충전소 여행 후기!",
-        views: 312,
-        likes: 80,
-        date: "2025-03-01",
-        image:
-          "https://d3jn14jkdoqvmm.cloudfront.net/wp/wp-content/uploads/2020/05/25145629/evpost_4-%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C-%ED%9C%B4%EA%B2%8C%EC%86%8C-%EC%A0%84%EA%B8%B0%EC%B0%A8-%EC%B6%A9%EC%A0%84%EA%B8%B0-%EC%9D%B8%ED%94%84%EB%9D%BC-%EC%A0%95%EB%B9%84%EA%B0%80-%ED%95%84%EC%9A%94%ED%95%B4.jpg",
-      },
-      {
-        id: 5,
-        category: "review",
-        user: "전기차사랑",
-        title: "시내 충전소 주차 불편 개선 필요",
-        views: 167,
-        likes: 18,
-        date: "2025-03-20",
-        image:
-          "https://cdn.electimes.com/news/photo/202507/358065_565728_559.jpg",
-      },
-      {
-        id: 6,
-        category: "review",
-        user: "테슬라러버",
-        title: "신규 충전소 오픈 후기 - 고양시",
-        views: 245,
-        likes: 37,
-        date: "2025-04-02",
-        image:
-          "https://digitalassets.tesla.com/tesla-contents/image/upload/f_auto,q_auto/kr-customer-stories-newlywed-life-with-models-4.jpg",
-      },
-    ],
-    tips: [
-      {
-        id: 7,
-        category: "tips",
-        user: "에코라이프",
-        title: "겨울철 배터리 효율 올리는 꿀팁",
-        views: 267,
-        likes: 54,
-        date: "2025-02-11",
-        image:
-          "https://www.besen-group.com/wp-content/uploads/2025/05/besen-international-group-co-ltd-can-you-charge-an-electric-car-in-the-rain-01.png",
-      },
-      {
-        id: 8,
-        category: "tips",
-        user: "전기차초보",
-        title: "초보를 위한 충전요금 절약법",
-        views: 298,
-        likes: 77,
-        date: "2025-02-20",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIf3xFIKjg1XAbHDP2f2za6ZuLDveFmJ-N7w&s",
-      },
-      {
-        id: 9,
-        category: "tips",
-        user: "충전왕",
-        title: "급속충전과 완속충전의 차이 쉽게 설명",
-        views: 212,
-        likes: 39,
-        date: "2025-03-03",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWypHgD7GyY_2flAhJCPyGb2DB4CX8LpawCQ&s",
-      },
-      {
-        id: 10,
-        category: "tips",
-        user: "그린드라이버",
-        title: "전기차 주행거리 늘리는 방법 TOP 5",
-        views: 230,
-        likes: 42,
-        date: "2025-03-10",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWypHgD7GyY_2flAhJCPyGb2DB4CX8LpawCQ&s",
-      },
-      {
-        id: 11,
-        category: "tips",
-        user: "전기차정보맨",
-        title: "충전소 찾기 앱 추천 BEST 3",
-        views: 265,
-        likes: 48,
-        date: "2025-03-22",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQnvntYZSZDr_8DKi1zzH8CXMvQ6OuWBX2B9A&s",
-      },
-      {
-        id: 12,
-        category: "tips",
-        user: "EVMaster",
-        title: "여름철 배터리 과열 방지 팁",
-        views: 301,
-        likes: 66,
-        date: "2025-04-01",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZWAHYHQJ7twTmLPVwqLqYPTfNECGJvcPaaA&s",
-      },
-    ],
-    safety: [
-      {
-        id: 13,
-        category: "safety",
-        user: "안전지킴이",
-        title: "전기차 사고 시 119 신고 전 확인할 것들",
-        views: 300,
-        likes: 82,
-        date: "2025-02-02",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6QIryANLV66UGIsl4LCRXok9A8p2yafFBfA&s",
-      },
-      {
-        id: 14,
-        category: "safety",
-        user: "드라이브러버",
-        title: "배터리 방전 시 긴급 대처법",
-        views: 287,
-        likes: 65,
-        date: "2025-02-14",
-        image:
-          "https://images.unsplash.com/photo-1610964025567-bdf3a84f7a3b?auto=format&fit=crop&w=600&q=80",
-      },
-      {
-        id: 15,
-        category: "safety",
-        user: "EV가드",
-        title: "비 오는 날 안전 충전 수칙",
-        views: 220,
-        likes: 34,
-        date: "2025-03-05",
-        image:
-          "https://www.besen-group.com/wp-content/uploads/2025/05/besen-international-group-co-ltd-can-you-charge-an-electric-car-in-the-rain-03.jpg",
-      },
-      {
-        id: 16,
-        category: "safety",
-        user: "운전연구소",
-        title: "전기차 사고 보험 처리 꿀팁",
-        views: 275,
-        likes: 47,
-        date: "2025-03-15",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-N96RxkFt-gILFbABGps9bjBf1KGw-6Rh7w&s",
-      },
-      {
-        id: 17,
-        category: "safety",
-        user: "테슬라유저",
-        title: "차량 화재 시 초기 대응 매뉴얼",
-        views: 342,
-        likes: 91,
-        date: "2025-03-28",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuxizb0xeHVaD8OJ4h9ARZ4z5MKHJilwdOw&s",
-      },
-      {
-        id: 18,
-        category: "safety",
-        user: "E-Guardian",
-        title: "충전 중 화재 예방 체크리스트",
-        views: 310,
-        likes: 52,
-        date: "2025-04-03",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQesLTtSmgT5HSAa22JVHt2gutSz-fJh8Xvg&s",
-      },
-    
-      {
-        id: 19,
-        category: "safety",
-        user: "긴급운전자",
-        title: "사고 났습니다... 보험 불렀어요",
-        views: 452,
-        likes: 96,
-        date: "2025-04-04",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuxizb0xeHVaD8OJ4h9ARZ4z5MKHJilwdOw&s",
-      },
-      {
-        id: 20,
-        category: "safety",
-        user: "차사랑",
-        title: "갑자기 차가 멈췄는데 보험사 바로 왔어요",
-        views: 378,
-        likes: 63,
-        date: "2025-04-06",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWDAJdJ5G9L0-FHU-3zJ3_NVlqt9ssGGIO4Q&s",
-      },
-      {
-        id: 21,
-        category: "safety",
-        user: "도심드라이버",
-        title: "주행 중 경고등 떴어요! 대처 후기",
-        views: 1412,
-        likes: 71,
-        date: "2025-04-08",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHhY9jiP8f1Xag-QPwiO-yxXT4h7ms-lVtHQ&s",
-      },
-      {
-        id: 22,
-        category: "safety",
-        user: "EV유저",
-        title: "충전기에서 불꽃이 튀었는데 놀랐어요",
-        views: 1510,
-        likes: 88,
-        date: "2025-04-09",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZuxizb0xeHVaD8OJ4h9ARZ4z5MKHJilwdOw&s",
-      },
-      {
-        id: 23,
-        category: "safety",
-        user: "배터리불안",
-        title: "새벽에 차 경고음 울려서 보험사 호출했습니다",
-        views: 399,
-        likes: 57,
-        date: "2025-04-10",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRWDAJdJ5G9L0-FHU-3zJ3_NVlqt9ssGGIO4Q&s",
-      },
-      {
-        id: 24,
-        category: "safety",
-        user: "운전고수",
-        title: "사고 후 전기차 견인 후기",
-        views: 1435,
-        likes: 74,
-        date: "2025-04-11",
-        image:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQQesLTtSmgT5HSAa22JVHt2gutSz-fJh8Xvg&s",
-      },
-    ],
-  };
-
-  // 전체 게시글 배열 생성
-    const combinedPosts = [
-      ...samplePosts.review,
-      ...samplePosts.tips,
-      ...samplePosts.safety,
-    ];
-
-    setAllPosts(combinedPosts);
-    setLoading(false);
+    const fetchPosts = async () => {
+      try {
+        const data = await getAllCommunityPosts();
+        setAllPosts(data);
+      } catch (err) {
+        console.error("게시글 불러오기 오류", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchPosts();
   }, []);
 
   // ✅ 인기글 + 최신글 정렬
   const getSortedPosts = () => {
     let filteredPosts =
-      selectedCategory === "all"
+      selectedTab === "all"
         ? allPosts
-        : allPosts.filter((p) => p.category === selectedCategory);
+        : allPosts.filter((p) => p.communityTab === selectedTab);
 
     // 인기글 top3
-    const popularPosts = [...filteredPosts].sort((a, b) => b.views - a.views).slice(0, 3);
+    const popularPosts = [...filteredPosts]
+      .sort((a, b) => b.communityViewCount - a.communityViewCount)
+      .slice(0, 3);
 
     // 나머지는 최신순
     const latestPosts = filteredPosts
-      .filter((p) => !popularPosts.some((pop) => pop.id === p.id))
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+      .filter((p) => !popularPosts.some((pop) => pop.communityPostId === p.communityPostId))
+      .sort((a, b) => new Date(b.createDate) - new Date(a.createDate));
 
     return [...popularPosts, ...latestPosts];
   };
@@ -332,7 +64,12 @@ function Community() {
 
   // ✅ 글쓰기 버튼
   const handleWriteClick = () => {
-    navigate("/community/write");
+    if (!isLogin) {
+      alert("로그인이 필요합니다.");
+      navigate("/login"); // 로그인 페이지로 이동
+      return;
+    }
+    navigate("/community/write", { state: { userId } }); // 로그인된 사용자 ID와 함께 글쓰기 페이지로 이동
   };
 
   return (
@@ -347,36 +84,36 @@ function Community() {
       {/* 카테고리 탭 */}
       <div className="community_category-tabs">
         <button
-          className={selectedCategory === "all" ? "active" : ""}
+          className={selectedTab === "all" ? "active" : ""}
           onClick={() => {
-            setSelectedCategory("all");
+            setSelectedTab("all");
             setCurrentPage(1);
           }}
         >
           전체
         </button>
         <button
-          className={selectedCategory === "review" ? "active" : ""}
+          className={selectedTab === "review" ? "active" : ""}
           onClick={() => {
-            setSelectedCategory("review");
+            setSelectedTab("review");
             setCurrentPage(1);
           }}
         >
           충전소 이용후기 & 경험
         </button>
         <button
-          className={selectedCategory === "tips" ? "active" : ""}
+          className={selectedTab === "tips" ? "active" : ""}
           onClick={() => {
-            setSelectedCategory("tips");
+            setSelectedTab("tips");
             setCurrentPage(1);
           }}
         >
           전기차 꿀팁 & 사용정보
         </button>
         <button
-          className={selectedCategory === "safety" ? "active" : ""}
+          className={selectedTab === "safety" ? "active" : ""}
           onClick={() => {
-            setSelectedCategory("safety");
+            setSelectedTab("safety");
             setCurrentPage(1);
           }}
         >
@@ -393,34 +130,42 @@ function Community() {
         ) : (
           <div className="community_posts-list">
             {currentPosts.map((post, index) => (
-              <div key={post.id} className="community_post-card"
-                onClick={() => navigate(`/community/detail/${post.id}`)}
-                >
+              <div
+                key={post.communityPostId}
+                className="community_post-card"
+                onClick={() => navigate(`/community/detail/${post.communityPostId}`)}
+              >
                 {currentPage === 1 && index < 3 && (
-                 <div className={`community_post-rank rank-${index + 1}`}>
-                      🔥 인기글
-                 </div>
-                  )}
+                  <div className={`community_post-rank rank-${index + 1}`}>
+                    🔥 인기글
+                  </div>
+                )}
 
                 <img
-                  src={post.image}
-                  alt={post.title}
+                  src={
+                    post.communityImagePath
+                      ? `http://localhost:10809/recharge${post.communityImagePath}`
+                      : "/default-image.png" // ← 바로 이렇게 사용
+                  }
+                  alt={post.communityTitle}
                   className="community_post-image"
                 />
                 <div className="community_post-body">
-                  <div className="community_post-title"> {post.title} </div>
-                
+                  <div className="community_post-title"> {post.communityTitle} </div>
+
                   <div className="community_post-meta">
                     <div className="community_post-meta-left">
-                      <span className="community_user">{post.user}</span>
+                      <span className="community_user">{post.userId}</span>
                       <span className="community_post-likes">
-                        <FaThumbsUp className="community_like-icon" />  {post.likes}
+                        <FaThumbsUp className="community_like-icon" /> {post.communityLikeCount}
                       </span>
                       <span className="community_post-views">
-                        <FaEye /> {post.views}
+                        <FaEye /> {post.communityViewCount}
                       </span>
                     </div>
-                    <span className="community_post-date">{post.date}</span>
+                    <span className="community_post-date">
+                      {new Date(post.createDate).toLocaleDateString()}
+                    </span>
                   </div>
                 </div>
               </div>

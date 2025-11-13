@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import "../../css/notice/Notice.css";
+import { getAllNotices} from "../../api/NoticeApi";
 
 function Notice() {
 
@@ -21,15 +22,15 @@ function Notice() {
     useEffect(() => {
         const fetchNotices = async () => {
             try {
-                const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
-                // API 데이터를 카드형 UI에 맞게 매핑
-                const mapped = res.data.slice(0, 10).map((post, index) => ({
-                    id: post.id,
-                    title: post.title,
-                    content: post.body,
-                    date: new Date().toISOString().split("T")[0], // 임시 날짜
+                const data = await getAllNotices();
+                //오라클 date > 문자열로 전환
+                const mapped = data.map((item) => ({
+                    id: item.noticeId,
+                    title: item.noticeTitle,
+                    content: item.noticeContent,
+                    date: item.createDate ? item.createDate.split("T")[0]:"",
                     views: Math.floor(Math.random() * 300),
-                    isImportant: index < 2, // 상위 2개는 중요 공지로 표시
+                   
                 }));
                 setNotices(mapped);
             } catch (err) {
@@ -57,7 +58,7 @@ function Notice() {
     if (loading) return <p style={{ textAlign: "center" }}>로딩 중...</p>;
 
     
-    // ✅ 목록 + 페이지네이션
+    // ✅ 목록 
     return (
         <div className="notice_wrapper">
             <div className="notice_header">

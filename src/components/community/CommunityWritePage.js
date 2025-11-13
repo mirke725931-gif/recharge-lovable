@@ -1,20 +1,26 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "../../css/community/Community.css";
+import { useAuth } from "../../context/AuthContext"; // 로그인 상태 가져오기
 
 function CommunityWritePage() {
   const navigate = useNavigate();
+  const { userId, isLogin } = useAuth(); // 로그인 상태와 사용자 ID 가져오기
+
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imageFile, setImageFile] = useState(null);
-  const [category, setCategory] = useState("review"); // 기본값 review
-  const categories = [
-    {key: "review" , label: "충전소 이용후기 & 경험"},
-    {key: "tips", label: "전기차 꿀팁 & 사용정보"},
-    {key: "safety", label: "안전·사고 대처"}
-  ]
-  // 이미지 파일 선택 시 미리보기용 URL 저장
+  const [communityTab, setCommunityTab] = useState("review");
+
+  const tabs = [
+    { key: "review", label: "충전소 이용후기 & 경험" },
+    { key: "tips", label: "전기차 꿀팁 & 사용정보" },
+    { key: "safety", label: "안전·사고 대처" },
+  ];
+
+  // ✅ 이미지 선택
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -23,37 +29,64 @@ function CommunityWritePage() {
     }
   };
 
-  // 글 등록 버튼 클릭 시 처리
-  const handleSubmit = () => {
+  // ✅ 게시글 등록
+  const handleSubmit = async () => {
+    if (!isLogin) {
+      alert("로그인이 필요합니다.");
+      navigate("/login"); // 로그인 페이지로 이동
+      return;
+    }
+
     if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 입력해주세요!");
       return;
     }
 
-    // 실제로는 서버로 post 요청 보내면 됨 (axios.post)
-    console.log("등록 데이터:", { title, content, image, category });
+    try {
+      const formData = new FormData();
+      formData.append("userId", userId); // 로그인한 사용자 ID 사용
+      formData.append("communityTitle", title);
+      formData.append("communityContent", content);
+      formData.append("communityTab", communityTab);
+      formData.append("createId", userId); // 생성자 ID
+      if (imageFile) formData.append("communityImage", imageFile);
 
-    alert("게시글이 등록되었습니다!");
-    navigate("/community"); // 등록 후 목록 페이지로 이동
+      const res = await axios.post(
+        "http://localhost:10809/recharge/api/community",
+        formData,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      if (res.status === 200 || res.status === 201) {
+        alert("게시글이 등록되었습니다!");
+        navigate("/community");
+      } else {
+        alert("게시글 등록에 실패했습니다.");
+      }
+    } catch (err) {
+      console.error("게시글 등록 실패:", err);
+      alert("서버와 통신 중 오류가 발생했습니다.");
+    }
   };
 
   return (
     <div className="community_write-container">
       <h2>게시글 작성</h2>
-      {/* 카테고리 선택 */}
+
+      {/* ✅ 카테고리 선택 */}
       <div className="community_category-tabs">
-        {categories.map((cat)=> (
-          <button 
-           key={cat.key}
-           className={category === cat.key ? "active" : ""}
-           onClick={() => setCategory(cat.key)}
-           >
-            {cat.label}
-           </button>
+        {tabs.map((tab) => (
+          <button
+            key={tab.key}
+            className={communityTab === tab.key ? "active" : ""}
+            onClick={() => setCommunityTab(tab.key)}
+          >
+            {tab.label}
+          </button>
         ))}
       </div>
 
-      {/* 상단 제목 입력 */}
+      {/* ✅ 제목 입력 */}
       <div className="community_write-header">
         <input
           type="text"
@@ -64,7 +97,7 @@ function CommunityWritePage() {
         />
       </div>
 
-      {/* 입력 폼 */}
+      {/* ✅ 내용 입력 */}
       <div className="community_write-form">
         <textarea
           className="community_write-textarea"
@@ -74,7 +107,7 @@ function CommunityWritePage() {
         />
       </div>
 
-      {/* 이미지 첨부 */}
+      {/* ✅ 이미지 첨부 */}
       <div className="community_write-imagebox-container">
         <div className="community_write-imagebox">
           <label htmlFor="imageUpload" className="community_image-label">
@@ -88,10 +121,16 @@ function CommunityWritePage() {
             style={{ display: "none" }}
           />
         </div>
-        {image && <img src={image} alt="미리보기" className="community_preview-image" />}
+        {image && (
+          <img
+            src={image}
+            alt="미리보기"
+            className="community_preview-image"
+          />
+        )}
       </div>
 
-      {/* 등록 버튼 */}
+      {/* ✅ 등록 버튼 */}
       <div className="community_submit-container">
         <button className="community_submit-btn" onClick={handleSubmit}>
           등록하기
