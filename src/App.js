@@ -21,7 +21,8 @@ function App() {
           <Route path="/" element={<FindChargerLogout />}></Route>
           <Route path="/community" element={<Community />} />
           <Route path="/community/detail/:id" element={<CommunityDetailPage />} />
-          <Route path="/community/write" element={<CommunityWritePage />} />
+          <Route path="/community/write/" element={<CommunityWritePage />} />
+          <Route path="/community/write/:id" element={<CommunityWritePage />} />
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/detail/:id" element={<NoticeDetailPage />} />
           <Route path= "/admin/noticeboard" element={<NoticeBoard />} />

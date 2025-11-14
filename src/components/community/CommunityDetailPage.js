@@ -123,7 +123,7 @@ function CommunityDetailPage() {
 
   /** 게시글 수정 */
   const handleEditPost = () => {
-    navigate(`/community/edit/${post.id}`);
+    navigate(`/community/write/${post.id}`);
   };
 
   if (!post) return <p>로딩 중...</p>;
@@ -210,7 +210,7 @@ function CommunityDetailPage() {
       </div>
 
       <div className="community_detail-bottom">
-        <button className="community_back-btn" onClick={() => navigate(-1)}>목록으로</button>
+        <button className="community_back-btn" onClick={() => navigate("/community")}>목록으로</button>
       </div>
     </div>
   );
