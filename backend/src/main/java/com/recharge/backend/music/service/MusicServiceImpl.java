@@ -107,19 +107,44 @@ public class MusicServiceImpl implements MusicService {
                 throw new IllegalStateException("Apple RSS API returned no data (null or empty)");
             }
 
-            System.out.println("✅ Apple RSS response: " + json.substring(0, Math.min(300, json.length())));
-
-            JsonNode results = objectMapper.readTree(json).path("feed").path("results");
+            JsonNode feed = objectMapper.readTree(json).path("feed").path("results");
             List<MusicVO> list = new ArrayList<>();
 
-            for (JsonNode node : results) {
+            for (JsonNode node : feed) {
+                long musicId = node.path("id").asLong();
+                String title = node.path("name").asText("");
+                String singer = node.path("artistName").asText("");
+                String image = node.path("artworkUrl100").asText("");
+                String pageUrl = node.path("url").asText("");
+
+                // 🎧 iTunes Lookup API로 previewUrl 가져오기
+                String lookupJson = itunesWebClient.get()
+                        .uri(uriBuilder -> uriBuilder
+                                .path("/lookup")
+                                .queryParam("id", musicId)
+                                .queryParam("country", country)
+                                .build())
+                        .retrieve()
+                        .bodyToMono(String.class)
+                        .block();
+
+                String previewUrl = null;
+                if (lookupJson != null && !lookupJson.isBlank()) {
+                    JsonNode lookupRoot = objectMapper.readTree(lookupJson);
+                    JsonNode results = lookupRoot.path("results");
+                    if (results.isArray() && results.size() > 0) {
+                        previewUrl = results.get(0).path("previewUrl").asText(null);
+                    }
+                }
+
                 MusicVO vo = new MusicVO();
-                vo.setMusicId(node.path("id").asLong());
-                vo.setMusicTitle(node.path("name").asText());
-                vo.setMusicSinger(node.path("artistName").asText());
-                vo.setMusicImagePath(node.path("artworkUrl100").asText());
-                vo.setMusicPreviewUrl(node.path("url").asText());
+                vo.setMusicId(musicId);
+                vo.setMusicTitle(title);
+                vo.setMusicSinger(singer);
+                vo.setMusicImagePath(image);
+                vo.setMusicPreviewUrl(previewUrl); // ✅ 진짜 미리듣기 URL 저장
                 vo.setMusicPlaytime("0");
+
                 list.add(vo);
             }
 
@@ -129,4 +154,10 @@ public class MusicServiceImpl implements MusicService {
             return List.of();
         }
     }
+
+    @Override
+    public List<MusicVO> fetchTopSongsFromDb() {
+        return musicDAO.selectTopChartFromDb();
+    }
+
 }

@@ -3,6 +3,7 @@
     padding: 1rem 4rem;
     text-align: center;
     background-color: #f8f9f9;
+    padding-bottom: 6rem;
 }
 
 /* ===== 상단 영화/음악 전환 버튼 ===== */
@@ -88,6 +89,7 @@
     justify-content: space-between;
     align-items: center;
 }
+
 .findmusic_category_title {
     font-size: 1.6rem;
     font-weight: 700;
@@ -137,6 +139,37 @@
 }
 .findmusic_music_list:hover { transform: translateY(-5%); }
 
+.music_play_overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.45); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 3rem;
+    opacity: 0;
+    border-radius: 6px;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    cursor: pointer;
+    z-index: 5;               
+    pointer-events: auto; 
+}
+
+/* hover 시 서서히 등장 */
+.findmusic_music_list:hover .music_play_overlay {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* 살짝 눌렀을 때 피드백 */
+.music_play_overlay:active {
+    transform: scale(0.95);
+}
+
 /* 실제 이미지 클래스(모두 커버) */
 .findmusic_img,
 .findmusic_weather_img,
@@ -152,7 +185,7 @@
     position: absolute;
     top: 8px;
     right: 8px;
-    z-index: 2;
+    z-index: 10;
     display: inline-flex;
     align-items: center;
     justify-content: center;

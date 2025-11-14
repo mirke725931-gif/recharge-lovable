@@ -3,17 +3,22 @@ import { FaStar, FaRegStar, FaYoutube } from "react-icons/fa";
 import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../../../css/findcontents/movie/UserMovieDetail.css";
+import { useAuth } from "../../../context/AuthContext";
 
 function UserMovieDetail() {
     const { postId } = useParams();
     const location = useLocation();
     const initialPost = location.state?.post || null;
 
-    const [post, setPost] = useState(initialPost);   // 게시글 정보
-    const [movie, setMovie] = useState(null);        // 영화 정보
+    const { userId, isLogin } = useAuth();
+
+    const [post, setPost] = useState(initialPost);
+    const [movie, setMovie] = useState(null);
     const [loading, setLoading] = useState(!initialPost);
     const [error, setError] = useState("");
-    const [isFavorite, setIsFavorite] = useState(false);
+
+    // ⭐ MovieDetail과 동일 구조
+    const [favoriteMap, setFavoriteMap] = useState({});
 
     const api = useMemo(
         () =>
@@ -33,9 +38,10 @@ function UserMovieDetail() {
                 : "https://placehold.co/300x450?text=No+Image",
     };
 
-    // 1️⃣ 게시글 불러오기
+    // 1️⃣ 게시글 정보 불러오기
     useEffect(() => {
-        if (post) return; // state로 전달된 post가 있으면 생략
+        if (post) return;
+
         (async () => {
             try {
                 setLoading(true);
@@ -50,9 +56,10 @@ function UserMovieDetail() {
         })();
     }, [api, postId, post]);
 
-    // 2️⃣ 게시글 안의 movieId로 영화정보 불러오기
+    // 2️⃣ 게시글 내 movieId로 영화 상세 정보 불러오기
     useEffect(() => {
         if (!post?.movieId) return;
+
         (async () => {
             try {
                 const res = await api.get(`/movies/${post.movieId}`);
@@ -63,15 +70,69 @@ function UserMovieDetail() {
         })();
     }, [api, post?.movieId]);
 
-    const toggleFavorite = () => setIsFavorite((prev) => !prev);
+
+    useEffect(() => {
+        if (!isLogin) return;
+
+        (async () => {
+            try {
+                // 🎬 영화 북마크
+                const movieRes = await api.get(`/bookmark/moviepost/${userId}`);
+
+                const map = {};
+                movieRes.data.forEach(b => {
+                    if (b.bookmarkTargetId) {
+                        map[Number(b.bookmarkTargetId)] = true;
+                    }
+                });
+
+                setFavoriteMap(map);
+
+            } catch (err) {
+                console.error("즐겨찾기 목록 로딩 실패:", err);
+            }
+        })();
+    }, [isLogin, userId, api]);
+
+    // ⭐ 4️⃣ 현재 영화의 북마크 여부
+    const moviePostKey = Number(post?.moviePostId ?? postId);
+    const isFavorite = !!favoriteMap[moviePostKey];
+
+    // 5️⃣ 즐겨찾기 토글 (MOVIE_POST 기준)
+    const toggleFavorite = async () => {
+        if (!isLogin) {
+            alert("로그인이 필요합니다.");
+            return;
+        }
+
+        try {
+            await api.post("/bookmark/toggle", {
+                userId,
+                bookmarkTargetId: moviePostKey,
+                bookmarkTargetType: "MOVIE_POST",
+            });
+
+            setFavoriteMap((prev) => {
+                const next = { ...prev };
+                if (next[moviePostKey]) {
+                    delete next[moviePostKey];
+                } else {
+                    next[moviePostKey] = true;
+                }
+                return next;
+            });
+        } catch (err) {
+            console.error("북마크 토글 실패:", err);
+        }
+    };
 
     if (loading) return <div className="usermoviedetail_container">불러오는 중...</div>;
     if (error || !post) return <div className="usermoviedetail_container">{error}</div>;
 
-    // 🧠 안전한 접근을 위해 movie 정보 분리
+    // 안전 처리
     const posterUrl = tmdb.poster(movie?.poster || post.poster);
     const title = movie?.title || post.movieTitle;
-    const score = movie?.score || post.score;
+    const score = movie?.score ?? post.score ?? "-";
     const genre = movie?.genreName || "장르 미지정";
     const director = movie?.director || "-";
     const actor = movie?.actor || "-";
@@ -80,25 +141,22 @@ function UserMovieDetail() {
 
     return (
         <div className="usermoviedetail_container">
-            {/* 🎬 영화 정보 */}
             <div className="usermoviedetail_movie">
                 <div className="usermoviedetail_movie_poster">
                     <img
                         src={posterUrl}
-                        alt={title || "포스터"}
+                        alt={title}
                         className="findcontents_main_img"
                     />
                 </div>
 
                 <div className="usermoviedetail_movie_info">
-                    <div className="usermoviedetail_movie_info_title">
-                        {title || "영화 제목 없음"}
-                    </div>
+                    <div className="usermoviedetail_movie_info_title">{title}</div>
 
                     <div className="usermoviedetail_movie_info_meta">
                         <div className="usermoviedetail_movie_info_meta_row1">
                             <span className="usermoviedetail_movie_info_meta_chip1">
-                                <FaStar color="#F4C10F" /> <span>{score ?? "-"}</span>
+                                <FaStar color="#F4C10F" /> <span>{score}</span>
                             </span>
                             <span className="usermoviedetail_movie_info_meta_chip1">
                                 <span>🎬</span> <span>{genre}</span>
@@ -110,20 +168,21 @@ function UserMovieDetail() {
 
                         <div className="usermoviedetail_movie_info_meta_row2">
                             <span className="usermoviedetail_movie_info_meta_chip2">
-                                <strong>감독: </strong> {director}
+                                <strong>감독:</strong> {director}
                             </span>
                             <span className="usermoviedetail_movie_info_meta_chip2">
-                                <strong>출연: </strong> {actor}
+                                <strong>출연:</strong> {actor}
                             </span>
                         </div>
 
-                        <div className="usermoviedetail_movie_info_meta_row3">{comment}</div>
+                        <div className="usermoviedetail_movie_info_meta_row3">
+                            {comment}
+                        </div>
 
+                        {/* ⭐ 즐겨찾기 버튼 */}
                         <div className="usermoviedetail_movie_info_meta_favorite">
                             <button
-                                className={`usermoviedetail_addFavorite ${
-                                    isFavorite ? "primary" : "outline"
-                                }`}
+                                className={`usermoviedetail_addFavorite ${isFavorite ? "primary" : "outline"}`}
                                 onClick={toggleFavorite}
                             >
                                 {isFavorite ? <FaStar color="#F4C10F" /> : <FaRegStar />}
@@ -132,7 +191,7 @@ function UserMovieDetail() {
 
                             <a
                                 href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                    (title ?? "") + " trailer"
+                                    `${title} trailer`
                                 )}`}
                                 target="_blank"
                                 rel="noreferrer"
@@ -146,17 +205,17 @@ function UserMovieDetail() {
                 </div>
             </div>
 
-            {/* 📝 사용자 게시글 */}
+            {/* 게시글 본문 */}
             <div className="usermoviedetail_content">
                 <div className="usermoviedetail_title">
-                    {post.moviePostTitle ?? "게시글 제목 없음"}
+                    {post.moviePostTitle}
                 </div>
                 <div className="usermoviedetail_user">
                     <span>Recommended by </span>
-                    <span>{post.userId ?? "익명"}</span>
+                    <span>{post.userId}</span>
                 </div>
                 <div className="usermoviedetail_text">
-                    {post.moviePostText ?? "작성된 내용이 없습니다."}
+                    {post.moviePostText}
                 </div>
             </div>
 

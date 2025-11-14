@@ -40,4 +40,9 @@ public class MoviePostServiceImpl implements MoviePostService {
     public String findCategoryIdByCode(String system, int code) {
         return movieDAO.findCategoryIdByCode(system, String.valueOf(code));
     }
+
+    @Override
+    public MoviePostVO selectById(Long postId) {
+        return moviePostDAO.selectById(postId);
+    }
 }

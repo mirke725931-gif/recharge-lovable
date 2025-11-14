@@ -9,15 +9,19 @@ function FindChargerLogin() {
 
     const [isSlide, setIsSlide] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [searchCoords, setSearchCoords] = useState(null);
 
     
     const handleSlide = ()=>{
         setIsSlide(!isSlide);
     }
 
-    const handleSearchClick = () => {
-        setShowResult(prev => !prev);
-    };
+    const handleSearchClick= (lat,lng)=>{
+        setSearchCoords({lat,lng});
+        setShowResult(true);
+    }
+
+ 
 
     return (
 
@@ -26,10 +30,11 @@ function FindChargerLogin() {
                         <img className="map_img" src="https://placehold.co/300x169?text=map" />
                         <div className={`findchargerlogout_searchbar ${isSlide ? 'slide-left' : ''}`}>
                             {showResult ? (
-                                            <FindChargerResult onSearch={handleSearchClick} />
-                                        ) : (
-                                            <SearchBar onSearch={handleSearchClick} />
-                                        )}
+                                <FindChargerResult
+                                    coords={searchCoords}
+                                    onSearch={handleSearchClick}
+                                />
+                            ):(<SearchBar onSearch={handleSearchClick}/>)}
 
                             <hr style={{border:"1px solid rgba(235, 235, 235, 1)", margin:"20px 0 10px 0"}}/>
                             <div className="findchargerlogout_from">

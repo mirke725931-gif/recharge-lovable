@@ -2,8 +2,12 @@ import React, {useState} from "react";
 import axios from "axios";
 import { FaStar} from "react-icons/fa";
 import '../../../css/findcontents/movie/AddMovie.css'
+import { useAuth } from "../../../context/AuthContext";
 
 function AddMovie() {
+    const {userId} = useAuth();
+
+
     const [movieTitle, setMovieTitle] = useState("");
     const [postTitle, setPostTitle] = useState("");
     const [content, setContent] = useState("");
@@ -37,7 +41,7 @@ function AddMovie() {
 
         // ✅ 검색 결과에서 영화 세부정보까지 함께 저장
         const postData = {
-            userId: "guest", // 로그인 기능 붙으면 교체
+            userId: userId, // 로그인 기능 붙으면 교체
             movieId: searchResult.tmdbId,
             moviePostTitle: postTitle,
             moviePostText: content,

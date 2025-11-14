@@ -1,15 +1,34 @@
 import React from "react";
 import { AiOutlineThunderbolt } from "react-icons/ai";
 
-function SearchBar({onSearch}){
+function SearchBar({ onSearch }) {
 
-    return(
+    const handleCurrentLocation = () => {
+        if (!navigator.geolocation) {
+            alert("브라우저에서 현재 위치를 사용할 수 없습니다.");
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+                onSearch(lat, lng);
+                console.log("현재위치"+"lat:"+lat+"lng:"+lng);
+            },
+            (err) => {
+                alert("현재 위치를 가져올 수 없습니다.");
+            }
+        );
+    };
+
+    return (
         <div>
             <h3>충전소 찾기</h3>
             <form>
                 <div className="findchargerlogout_location_btn">
                     <img src="/image/location_on.png" />
-                    <button type="button">현재 위치 기반으로 찾기</button>
+                    <button type="button" onClick={handleCurrentLocation}>현재 위치 기반으로 찾기</button>
                 </div>
                 <div className="findchargerlogout_search">
                     <img src="/image/search.png"/>
@@ -59,12 +78,11 @@ function SearchBar({onSearch}){
                     </div>
                 </div>
                 <div className="findchargerlogout_find_btn">
-                    <button type="button" onClick={onSearch}><div><AiOutlineThunderbolt /></div><span>충전소 검색하기</span></button>
+                    <button type="button"><div><AiOutlineThunderbolt /></div><span>충전소 검색하기</span></button>
                 </div>
             </form>
         </div>
-    )
-
+    );
 }
 
 export default SearchBar;

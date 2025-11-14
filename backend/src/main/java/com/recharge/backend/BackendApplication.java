@@ -9,7 +9,9 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
 @MapperScan({
         "com.recharge.backend.movie.dao",
         "com.recharge.backend.users.dao",
-        "com.recharge.backend.music.dao"
+        "com.recharge.backend.music.dao",
+        "com.recharge.backend.station.dao",
+        "com.recharge.backend.bookmark.dao"
 })
 public class BackendApplication {
 

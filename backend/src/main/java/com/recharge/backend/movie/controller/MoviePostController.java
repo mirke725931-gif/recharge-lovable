@@ -16,7 +16,6 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/moviepost")
 @RequiredArgsConstructor
-@CrossOrigin(origins = {"http://localhost:3000"}, allowCredentials = "true")
 public class MoviePostController {
 
     private final MoviePostService moviePostService;
@@ -201,5 +200,14 @@ public class MoviePostController {
     @GetMapping("/list")
     public ResponseEntity<?> listMoviePosts() {
         return ResponseEntity.ok(moviePostService.selectAll());
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<?> getMoviePostDetail(@PathVariable Long postId) {
+        MoviePostVO post = moviePostService.selectById(postId);
+        if (post == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(post);
     }
 }

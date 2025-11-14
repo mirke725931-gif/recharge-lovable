@@ -12,4 +12,6 @@ public interface MoviePostService {
 
     void mergeMovie(MovieVO vo);
     String findCategoryIdByCode(String system, int code);
+
+    MoviePostVO selectById(Long postId);
 }

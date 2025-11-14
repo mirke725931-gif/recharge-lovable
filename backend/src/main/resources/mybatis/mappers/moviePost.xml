@@ -55,4 +55,10 @@
         ORDER BY MP.MOVIE_POST_ID DESC
     </select>
 
+    <select id="selectById" parameterType="long" resultType="com.recharge.backend.movie.vo.MoviePostVO">
+        SELECT *
+        FROM TB_MOVIE_POST
+        WHERE MOVIE_POST_ID = #{postId}
+    </select>
+
 </mapper>

@@ -10,4 +10,5 @@ import java.util.List;
 public interface MusicDAO {
     int upsertBulk(@Param("list") List<MusicVO> list);
     List<MusicVO> searchFromDb(@Param("keyword") String keyword);
+    List<MusicVO> selectTopChartFromDb();
 }

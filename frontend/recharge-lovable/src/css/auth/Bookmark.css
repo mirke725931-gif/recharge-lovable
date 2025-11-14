@@ -144,34 +144,64 @@
     color: #383737;
 }
 
-/*뮤직*/
-.Bookmark_list_card_music{
-    border-radius: 6px;
+.Bookmark_list_card_music {
     position: relative;
+    width: 200px;
     aspect-ratio: 1 / 1;
-    width: 200px; 
-    margin: 0;
-    padding: 0;
-    background-color: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-    overflow: hidden; /* 모서리 밖으로 나가는 내용 숨김 */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.25s ease, box-shadow 0.2s ease;
 }
 .Bookmark_list_card_music:hover {
-    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
-   transform: translateY(-3px);
+    transform: translateY(-5px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.20);
 }
+
+/* ===== 음악 이미지 래퍼 ===== */
 .Bookmark_img_music {
-    aspect-ratio: 1 / 1;
-    width: 100%; 
-    background: rgb(218, 216, 216);
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
     border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== 오버레이 (FindMusic과 동일한 효과) ===== */
+.Bookmark_img_music:hover .Bookmark_music_play_overlay {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ===== 오버레이 기본 ===== */
+.Bookmark_music_play_overlay {
+    position: absolute;
+    inset: 0;             /* top/left/right/bottom = 0 */
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #666;
-    font-size: 24px;
-    font-weight: bold;
+    background: rgba(0,0,0,0.45);
+
+    color: #fff;
+    font-size: 3rem;
+
+    opacity: 0;
+    transform: scale(1);
+    transition: opacity 0.3s ease, transform 0.2s ease;
+
+    z-index: 5;   /* 혹시 모를 덮어쓰기 대비 */
+    pointer-events: auto;
 }
 
+/* ===== 재생 버튼 클릭 피드백 ===== */
+.Bookmark_music_play_overlay:active {
+    transform: scale(0.97);
+}
+/* hover 시 확실히 덮어쓰기 */
+.Bookmark_list_card_music:hover .Bookmark_music_play_overlay {
+    opacity: 1 !important;
+    transform: scale(1.05);
+}

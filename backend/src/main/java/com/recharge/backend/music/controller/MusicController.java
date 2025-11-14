@@ -36,6 +36,11 @@ public class MusicController {
         return musicService.fetchTopSongsKr();
     }
 
+    @GetMapping("/chart/db")
+    public List<MusicVO> getChartFromDb() {
+        return musicService.fetchTopSongsFromDb();
+    }
+
     @PostMapping("/syncChart")
     public String syncChart(@RequestParam(defaultValue = "system") String actorId) {
         List<MusicVO> list = musicService.fetchTopSongsKr();

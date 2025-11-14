@@ -8,5 +8,6 @@ public interface MusicService {
     List<MusicVO> searchItunes(String term, int limit);
     int saveAll(List<MusicVO> list, String actorId);
     List<MusicVO> searchFromDb(String keyword);
-    List<MusicVO> fetchTopSongsKr(); // 차트용
+    List<MusicVO> fetchTopSongsKr();
+    List<MusicVO> fetchTopSongsFromDb();// 차트용
 }
