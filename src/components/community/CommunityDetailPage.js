@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../css/community/Community.css";
-import "../../css/community/PostComment.css";
+import PostComment from "./PostComment";
 import { FaThumbsUp } from "react-icons/fa";
 import ReportModal from "../../components/modal/ReportModal";
 import PostNavigator from "./PostNavigator";
-import { getComments, addComment, deleteComment } from "../../api/CommentApi";
 import { submitReport } from "../../api/ReportApi";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext"; // 로그인 상태 관리
@@ -27,8 +26,17 @@ function CommunityDetailPage() {
     return new Date(dateString).toISOString().split("T")[0];
   };
 
-  /** 게시글 불러오기 */
+  /** 게시글 > 로그인화면  */
   useEffect(() => {
+    if (!isLogin) {
+         alert("로그인이 필요한 서비스입니다");
+         navigate("/login", { replace: true } );
+    }
+  }, [isLogin, navigate]);
+
+   /** 게시글 불러오기 */
+  useEffect(() => {
+    if (!isLogin) return; // 로그인 안됐으면 불러오기 안함
     const fetchPost = async () => {
       try {
         const res = await axios.get(`http://localhost:10809/recharge/api/community/${id}`);
@@ -46,74 +54,22 @@ function CommunityDetailPage() {
           imageName: data.communityImageName,
         });
 
-        // 댓글 불러오기
-        const commentList = await getComments("community", id);
-        setComments(commentList || []);
-
-        // 조회수 증가
+             // 조회수 증가
         await axios.post(`http://localhost:10809/recharge/api/community/${id}/view`);
         setPost((prev) => prev ? { ...prev, views: prev.views + 1 } : prev);
+     
       } catch (err) {
         console.error("게시글 불러오기 실패:", err);
       }
     };
 
     fetchPost();
-  }, [id]);
+  }, [id,isLogin]);
 
-  /** 댓글 등록 */
-  const handleAddComment = async () => {
-    if (!isLogin) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    if (!commentInput.trim()) return;
-
-    const commentData = {
-      commentTargetType: "community",
-      commentTargetId: id,
-      userId: userId, // 로그인한 사용자 ID
-      commentContent: commentInput,
-      createId: userId, // 생성자 ID
-      updatedId: userId, // 수정자 ID
-    };
-
-    try {
-      const newComment = await addComment(commentData);
-      setComments([...comments, newComment]);
-      setCommentInput("");
-    } catch (err) {
-      console.error("댓글 등록 실패:", err);
-      alert("댓글 등록 중 오류가 발생했습니다.");
-    }
-  };
-
-  /** 댓글 삭제 */
-  const handleDeleteComment = async (commentId) => {
-    if (!isLogin) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
-    if (!window.confirm("댓글을 삭제하시겠습니까?")) return;
-
-    try {
-      await deleteComment(commentId);
-      setComments(comments.filter((c) => c.commentId !== commentId));
-    } catch (err) {
-      console.error("댓글 삭제 실패:", err);
-      alert("댓글 삭제 중 오류가 발생했습니다.");
-    }
-  };
 
   /** 좋아요 */
   const handleLike = async () => {
-    if (!isLogin) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
+    
     try {
       const res = await axios.post(`http://localhost:10809/recharge/api/community/${id}/like`, {
         userId: userId, // 로그인한 사용자 ID
@@ -127,11 +83,7 @@ function CommunityDetailPage() {
 
   /** 게시글 삭제 */
   const handleDeletePost = async () => {
-    if (!isLogin) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
+   
     if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
 
     try {
@@ -146,11 +98,7 @@ function CommunityDetailPage() {
 
   /** 신고 */
   const handleReportSubmit = async (reason) => {
-    if (!isLogin) {
-      alert("로그인이 필요합니다.");
-      return;
-    }
-
+   
     if (!reportTarget.id) {
       alert("신고할 대상이 선택되지 않았습니다.");
       return;
@@ -200,6 +148,8 @@ function CommunityDetailPage() {
                   <button className="community_delete-btn" onClick={handleDeletePost}>삭제</button>
                 </>
               )}
+                 {/* 다른 사람 글이면 신고만 표시 */}
+              {userId !== post.user &&(  
               <button
                 className="community_report-btn"
                 onClick={() => {
@@ -210,6 +160,7 @@ function CommunityDetailPage() {
               >
                 신고
               </button>
+              )}
             </div>
           </div>
 
@@ -243,55 +194,8 @@ function CommunityDetailPage() {
           </button>{" "}
           눌러주세요!
         </div>
-
-        {/* 댓글 영역 */}
-        <div className="community_comment-container">
-          <h3>댓글</h3>
-          <ul className="community_comment-list">
-            {comments.length === 0 ? (
-              <li className="no-comment">아직 댓글이 없습니다.</li>
-            ) : (
-              comments.map((c) => (
-                <li key={c.commentId} className="community_comment-item">
-                  <div className="community_comment-top">
-                    <span className="community_comment-user">{c.userId}</span>
-                    <span className="community_comment-date">{formatDate(c.createDate)}</span>
-                  </div>
-                  <div className="community_comment-body">
-                    <span className="community_comment-content">{c.commentContent}</span>
-                    <div className="community_comment-actions">
-                      {(userId === c.userId || userId === "admin") && (
-                        <button className="community_comment-delete-btn" onClick={() => handleDeleteComment(c.commentId)}>❌</button>
-                      )}
-                      <button
-                        className="community_comment-report-btn"
-                        onClick={() => {
-                          if(!c.commentId) return;
-                          setReportTarget({ type: "comment", id: c.commentId });
-                          setIsReportOpen(true);
-                        }}
-                      >
-                        신고
-                      </button>
-                    </div>
-                  </div>
-                </li>
-              ))
-            )}
-          </ul>
-
-          <div className="community_comment-input">
-            <input
-              className="community_comment-inputbox"
-              type="text"
-              placeholder="댓글을 입력하세요"
-              value={commentInput}
-              onChange={(e) => setCommentInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddComment()}
-            />
-            <button className="community_comment-btn" onClick={handleAddComment}>등록</button>
-          </div>
-        </div>
+        {/* 댓글 섹션 */}
+        <PostComment />
 
         {/* 신고 모달 */}
         <ReportModal

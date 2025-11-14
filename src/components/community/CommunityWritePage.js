@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../../css/community/Community.css";
-import { useAuth } from "../../context/AuthContext"; // 로그인 상태 가져오기
 
 function CommunityWritePage() {
   const navigate = useNavigate();
-  const { userId, isLogin } = useAuth(); // 로그인 상태와 사용자 ID 가져오기
+
+  // ✅ 로그인한 사용자 예시 (실제 로그인 연동 시 대체)
+  const user = { userId: "guest" };
 
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -31,12 +32,6 @@ function CommunityWritePage() {
 
   // ✅ 게시글 등록
   const handleSubmit = async () => {
-    if (!isLogin) {
-      alert("로그인이 필요합니다.");
-      navigate("/login"); // 로그인 페이지로 이동
-      return;
-    }
-
     if (!title.trim() || !content.trim()) {
       alert("제목과 내용을 입력해주세요!");
       return;
@@ -44,11 +39,11 @@ function CommunityWritePage() {
 
     try {
       const formData = new FormData();
-      formData.append("userId", userId); // 로그인한 사용자 ID 사용
+      formData.append("userId", user.userId);
       formData.append("communityTitle", title);
       formData.append("communityContent", content);
       formData.append("communityTab", communityTab);
-      formData.append("createId", userId); // 생성자 ID
+      formData.append("createId", user.userId);
       if (imageFile) formData.append("communityImage", imageFile);
 
       const res = await axios.post(
