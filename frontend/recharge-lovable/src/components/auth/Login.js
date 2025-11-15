@@ -28,7 +28,16 @@ function Login() {
             console.log("로그인 성공:", response.data);
 
             login(userId);
-            navigate('/');
+
+
+            if (userId === "admin") {
+                navigate("/admin/reportmanage");
+            } 
+            else {
+                navigate("/");
+            }
+
+
         } catch (error) {
             console.log("로그인실패", error);
             alert("아이디 또는 비밀번호가 올바르지 않습니다.");

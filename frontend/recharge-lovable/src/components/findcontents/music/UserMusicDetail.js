@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { FaStar, FaRegStar, FaPlay } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../../../css/findcontents/music/UserMusicDetail.css";
 import axios from "axios";
 import MusicPreview from "./MusicPreview";
 import { useAuth } from "../../../context/AuthContext";
+import PostComment from "../../community/PostComment";
+import ReportModal from "../../modal/ReportModal";
+import { submitReport } from "../../../api/ReportApi";
 
 function UserMusicDetail() {
     const { userId, isLogin } = useAuth();
@@ -15,7 +18,14 @@ function UserMusicDetail() {
     const [playlist, setPlaylist] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    // ⭐ axios instance (useMemo로 고정)
+    // 신고 관련 state
+    const [isReportOpen, setIsReportOpen] = useState(false);
+    const [reportTarget, setReportTarget] = useState({
+        type: "music_post",
+        id: null,
+    });
+
+    // axios instance
     const api = useMemo(
         () =>
             axios.create({
@@ -25,10 +35,13 @@ function UserMusicDetail() {
         []
     );
 
-    // ⭐ 즐겨찾기 여부 저장 Map
+    // 즐겨찾기 Map
     const [favoriteMap, setFavoriteMap] = useState({});
 
-    // ⭐ 즐겨찾기 토글
+    // 현재 music_post의 고유 ID (댓글/신고/북마크 모두 여기를 사용)
+    const musicPostKey = Number(post?.musicPostId ?? postId);
+
+    // 즐겨찾기 토글
     const toggleFavorite = async (musicId) => {
         if (!isLogin) {
             alert("로그인이 필요합니다.");
@@ -43,9 +56,8 @@ function UserMusicDetail() {
             });
 
             setFavoriteMap((prev) => {
-                const key = Number(musicId);
                 const next = { ...prev };
-                next[key] = !next[key];
+                next[musicId] = !prev[musicId];
                 return next;
             });
         } catch (err) {
@@ -53,7 +65,7 @@ function UserMusicDetail() {
         }
     };
 
-    // ⭐ 게시글 + 플레이리스트 + 즐겨찾기 로딩
+    // 게시글 + 플레이리스트 로딩
     useEffect(() => {
         (async () => {
             try {
@@ -64,11 +76,9 @@ function UserMusicDetail() {
                 if (isLogin) {
                     const favRes = await api.get(`/bookmark/music/${userId}`);
 
-                    // bookmarkTargetId 기반으로 Favorite Map 생성
                     const map = {};
                     favRes.data.forEach((f) => {
-                        const key = Number(f.bookmarkTargetId);
-                        map[key] = true;
+                        map[Number(f.bookmarkTargetId)] = true;
                     });
 
                     setFavoriteMap(map);
@@ -82,6 +92,25 @@ function UserMusicDetail() {
         })();
     }, [api, postId, isLogin, userId]);
 
+    // 신고 제출 처리
+    const handleReportSubmit = async (reason) => {
+        try {
+            await submitReport({
+                userId,
+                reportTargetType: "music_post",
+                reportTargetId: musicPostKey,
+                reportReason: reason,
+                createId: userId,
+            });
+
+            alert("신고가 접수되었습니다.");
+            setIsReportOpen(false);
+        } catch (err) {
+            console.error("신고 실패:", err);
+            alert("신고 처리 중 오류가 발생했습니다.");
+        }
+    };
+
     if (loading) return <div>불러오는 중...</div>;
     if (!post) return <div>존재하지 않는 게시글입니다.</div>;
 
@@ -91,8 +120,8 @@ function UserMusicDetail() {
 
             <div className="usermusicdetail_music">
                 <ul className="usermusicdetail_music_lists">
-                    {playlist.map((m) => {
-                        const key = Number(m.musicId);
+                    {playlist.map((track) => {
+                        const key = Number(track.musicId);
 
                         return (
                             <li key={key} className="usermusicdetail_music_list">
@@ -100,7 +129,7 @@ function UserMusicDetail() {
                                     className={`usermusicdetail_addFavorite ${
                                         favoriteMap[key] ? "primary" : "outline"
                                     }`}
-                                    onClick={() => toggleFavorite(m.musicId)}
+                                    onClick={() => toggleFavorite(key)}
                                 >
                                     {favoriteMap[key] ? (
                                         <FaStar color="#F4C10F" />
@@ -111,24 +140,24 @@ function UserMusicDetail() {
 
                                 <img
                                     src={
-                                        m.musicImagePath ||
+                                        track.musicImagePath ||
                                         "https://placehold.co/80x80?text=No+Image"
                                     }
                                     className="usermusicdetail_img"
-                                    alt={m.musicTitle}
+                                    alt={track.musicTitle}
                                 />
 
                                 <div className="usermusicdetail_music_info">
                                     <span className="usermusicdetail_music_title">
-                                        {m.musicTitle}
+                                        {track.musicTitle}
                                     </span>
                                     <span className="usermusicdetail_music_artist">
-                                        {m.musicSinger}
+                                        {track.musicSinger}
                                     </span>
 
                                     <button
                                         className="usermusicdetail_preview_btn"
-                                        onClick={() => setPreviewTrack(m)}
+                                        onClick={() => setPreviewTrack(track)}
                                     >
                                         <FaPlay />
                                     </button>
@@ -139,6 +168,7 @@ function UserMusicDetail() {
                 </ul>
             </div>
 
+            {/* 게시글 본문 */}
             <div className="usermusicdetail_content">
                 <div className="usermusicdetail_title">{post.musicPostTitle}</div>
 
@@ -148,34 +178,42 @@ function UserMusicDetail() {
                 </div>
 
                 <div className="usermusicdetail_text">{post.musicPostText}</div>
+
+                {/* 신고 버튼 */}
+                {post.userId !== userId && (
+                    <button
+                        className="usermusicdetail_report_btn"
+                        onClick={() => {
+                            setReportTarget({
+                                type: "music_post",
+                                id: musicPostKey,
+                            });
+                            setIsReportOpen(true);
+                        }}
+                    >
+                        신고하기
+                    </button>
+                )}
             </div>
 
+            {/* 댓글 영역 */}
             <div className="usermusicdetail_comment">
                 <div className="usermusicdetail_comment_title">Comments</div>
-                <div className="usermusicdetail_comment_post">
-                    <input type="text" placeholder="댓글 입력" />
-                    <button className="usermusicdetail_btn">등록</button>
-                </div>
-
-                <ul className="usermusicdetail_comment_lists">
-                    <li className="usermooviedetail_comment_list">
-                        <div className="usermusicdetail_comment_user">
-                            <span className="usermusicdetail_comment_id">guest</span>
-                            <span className="usermusicdetail_comment_time">방금 전</span>
-                            <div className="usermusicdetail_comment_btn">
-                                <button className="usermusicdetail_comment_edit">수정</button>
-                                <button className="usermusicdetail_comment_delete">
-                                    삭제
-                                </button>
-                            </div>
-                        </div>
-                        <span className="usermusicdetail_comment_text">
-                            댓글 기능은 준비 중입니다!
-                        </span>
-                    </li>
-                </ul>
+                <PostComment
+                    targetType="music_post"
+                    targetId={musicPostKey}
+                />
             </div>
 
+            {/* 신고 모달 */}
+            <ReportModal
+                isOpen={isReportOpen}
+                onClose={() => setIsReportOpen(false)}
+                onSubmit={handleReportSubmit}
+                targetType="music_post"
+            />
+
+            {/* 음악 미리듣기 */}
             {previewTrack && (
                 <MusicPreview
                     track={previewTrack}

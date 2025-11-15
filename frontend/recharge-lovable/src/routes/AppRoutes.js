@@ -30,6 +30,9 @@ import CommunityWritePage from "../components/community/CommunityWritePage";
 import Notice from "../components/notice/Notice";
 import NoticeDetailPage from "../components/notice/NoticeDetailPage";
 import ModifyPwd from "../components/auth/ModifyPwd";
+import NoticeBoard from "../components/admin/NoticeBoard";
+import NoticeManagement from "../components/admin/NoticeManagement";
+import ReportManagement from "../components/admin/ReportManagement";
 
 
 function AppRoutes(){
@@ -68,6 +71,10 @@ function AppRoutes(){
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/detail/:id" element={<NoticeDetailPage />} />
           <Route path="/modifypwd" element={<ModifyPwd/>} />
+          <Route path= "/admin/noticeboard" element={<NoticeBoard />} />
+          <Route path="/admin/noticeboard/:id" element={<NoticeBoard />} />
+          <Route path= "/admin/noticemanage" element={<NoticeManagement />} />
+          <Route path="/admin/reportmanage" element={<ReportManagement />} />
         </Routes>
       </div>
     </div>

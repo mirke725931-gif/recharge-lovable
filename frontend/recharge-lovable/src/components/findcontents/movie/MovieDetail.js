@@ -4,6 +4,7 @@ import axios from "axios";
 import { FaStar, FaRegStar, FaYoutube } from "react-icons/fa";
 import "../../../css/findcontents/movie/MovieDetail.css";
 import { useAuth } from "../../../context/AuthContext";
+import PostComment from "../../community/PostComment";
 
 function MovieDetail() {
     const { movieId } = useParams();
@@ -192,24 +193,7 @@ function MovieDetail() {
 
             {/* 댓글 영역 */}
             <div className="moviedetail_comment">
-                <div className="moviedetail_comment_title">Comments</div>
-                <div className="moviedetail_comment_post">
-                    <input type="text" placeholder="댓글 입력" />
-                    <button className="moviedetail_btn">등록</button>
-                </div>
-                <ul className="moviedetail_comment_lists">
-                    <li className="usermooviedetail_comment_list">
-                        <div className="moviedetail_comment_user">
-                            <span className="moviedetail_comment_id">bbq0638</span>
-                            <span className="moviedetail_comment_time">2시간 전</span>
-                            <div className="moviedetail_comment_btn">
-                                <button className="moviedetail_comment_edit">수정</button>
-                                <button className="moviedetail_comment_delete">삭제</button>
-                            </div>
-                        </div>
-                        <span className="moviedetail_comment_text">댓글내용</span>
-                    </li>
-                </ul>
+            <PostComment targetType="movie" targetId={movieId} />
             </div>
 
             {/* 목록으로 */}

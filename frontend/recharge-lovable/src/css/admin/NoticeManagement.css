@@ -1,12 +1,9 @@
-.admin_logo {
-    width: 70%
-}
 
 .admin_nav_container {
     position: fixed;
-    width: 200px;
+    width: 150px;
     background: #032B48;
-    padding: 10px 30px;
+    padding: 10px 10px;
     height: 100%;
 }
 
@@ -24,7 +21,8 @@
 
 .admin_content_nav a {
     display: block;
-    padding: 12px 15px;
+    padding: 12px 0px;
+    margin-left: -20px;
     text-decoration: none;
     color: white;
     font-size: 20px;

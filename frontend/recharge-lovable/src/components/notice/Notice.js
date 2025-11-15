@@ -1,121 +1,111 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 import "../../css/notice/Notice.css";
+import { getAllNotices} from "../../api/NoticeApi";
 
 function Notice() {
 
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  const postsPerPage = 5; //페이지당 게시글 수
-  const navigate = useNavigate();
+    const [notices, setNotices] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const postsPerPage = 4; // 페이지당 게시글 수
+    const navigate = useNavigate();
+    
+      // 목록 클릭 시 상세페이지로 이동
+      const handleNoticeClick = (notice) => {
+        navigate(`/notice/detail/${notice.id}`);
+      };
+    
 
-  // ✅ 게시글 불러오기
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const res = await axios.get("https://jsonplaceholder.typicode.com/posts");
-        const mapped = res.data.slice(0, 10).map((post, index) => ({
-          id: post.id,
-          number: index + 1, // 번호 추가
-          title: post.title,
-          writer: "관리자",  //관리자 고정
-          views: Math.floor(Math.random() * 200),
-          date: new Date().toISOString().split("T")[0],
-          editdate:new Date().toISOString().split("T")[0], //수정일(임시동일)
-        }));
-        setPosts(mapped);
-      } catch (err) {
-        console.error("데이터 불러오기 오류:", err);
-      } finally {
-        setLoading(false);
-      }
+    // ✅ Axios로 데이터 불러오기
+    useEffect(() => {
+        const fetchNotices = async () => {
+            try {
+                const data = await getAllNotices();
+                //오라클 date > 문자열로 전환
+                const mapped = data.map((item) => ({
+                    id: item.noticeId,
+                    title: item.noticeTitle,
+                    content: item.noticeContent,
+                    date: item.createDate ? item.createDate.split("T")[0]:"",
+                    views: Math.floor(Math.random() * 300),
+                   
+                }));
+                setNotices(mapped);
+            } catch (err) {
+                console.error("데이터 불러오기 오류:", err);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchNotices();
+    }, []);
+
+    // 페이지네이션
+    const totalPages = Math.ceil(notices.length / postsPerPage);
+    const indexOfLast = currentPage * postsPerPage;
+    const indexOfFirst = indexOfLast - postsPerPage;
+    const currentPosts = notices.slice(indexOfFirst, indexOfLast);
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber < 1 || pageNumber > totalPages) return;
+        setCurrentPage(pageNumber);
     };
-    fetchPosts();
-  }, []);
 
   
 
-    // ✅ 페이지네이션 계산
+    if (loading) return <p style={{ textAlign: "center" }}>로딩 중...</p>;
 
-  const totalPages = Math.ceil(posts.length / postsPerPage);
-  const indexOfLast = currentPage * postsPerPage;
-  const indexOfFirst = indexOfLast - postsPerPage;
-  const currentPosts = posts.slice(indexOfFirst, indexOfLast);
+    
+    // ✅ 목록 
+    return (
+        <div className="notice_wrapper">
+            <div className="notice_header">
+                <h1>공지사항</h1>
+                <p className="notice_subtitle">Re:charge의 중요한 소식과 업데이트를 확인하세요</p>
+            </div>
 
-   // ✅ 페이지 변경
+            <div className="notice_list">
+                {currentPosts.map((notice) => (
+                    <div
+                        key={notice.id}
+                        className={`notice_card ${notice.isImportant ? "notice_important" : ""}`}
+                        onClick={() => handleNoticeClick(notice)}
+                    >
+                        <div className="notice_card_header">
+                            {notice.isImportant && <span className="notice_important_badge">중요</span>}
+                            <h3 className="notice_card_title">{notice.title}</h3>
+                        </div>
+                        <div className="notice_card_content">
+                            <p>{notice.content.length > 100 ? notice.content.substring(0, 100) + "..." : notice.content}</p>
+                        </div>
+                        <div className="notice_card_footer">
+                            <span className="notice_card_date">{notice.date}</span>
+                            <span className="notice_card_views">조회수 {notice.views}</span>
+                        </div>
+                    </div>
+                ))}
+            </div>
 
-   const handlePageChange = (page) => {
-    if (page < 1 || page > totalPages) return;
-    setCurrentPage(page);
-  };
-
-
-
-  return (
-    <div className="notice_board-wrapper">
-      {/* 헤더 + 버튼을 같은 줄에 정렬 */}
-      <div className="notice_board-header">
-        <h2>공지사항</h2>
-      </div>
-
-      {/* 게시판 테이블 */}
-      <div className="notice_board-container">
-        <table>
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>조회수</th>
-              <th>게시일</th>
-            </tr>
-          </thead>
-          <tbody>
-            {posts.length === 0 ? (
-              <tr>
-                <td colSpan="6" style={{ textAlign: "center", padding: "20px", color: "#999" }}>
-                  게시글이 없습니다.
-                </td>
-              </tr>
-            ) : (
-              posts.map((post) => (
-                <tr key={post.id} >
-                  <td>{post.number}</td>
-                  <td className="notice_post-title">
-                    <Link to={`/notice/detail/${post.id}`} className="notice_post-title">
-                    {post.title}
-                    </Link>
-                  </td>
-                  <td>{post.views}</td>
-                  <td>{post.date}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-         
-        </table>
-       </div>
-
-          {/* 페이지네이션 */}
-        <div className="notice_pagination">
-          <button onClick={() => handlePageChange(1)}>&laquo;</button>
-          <button onClick={() => handlePageChange(currentPage - 1)}>&lt;</button>
-          {[...Array(totalPages)].map((_, i) => (
-            <button
-              key={i + 1}
-              className={currentPage === i + 1 ? "active" : ""}
-              onClick={() => handlePageChange(i + 1)}
-            >
-              {i + 1}
-            </button>
-          ))}
-          <button onClick={() => handlePageChange(currentPage + 1)}>&gt;</button>
-          <button onClick={() => handlePageChange(totalPages)}>&raquo;</button>
+            {/* 페이지네이션 */}
+            <div className="notice_pagination">
+                <button onClick={() => handlePageChange(1)} disabled={currentPage === 1}>&laquo;</button>
+                <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>&lt;</button>
+                {[...Array(totalPages)].map((_, i) => (
+                    <button
+                        key={i + 1}
+                        className={currentPage === i + 1 ? "active" : ""}
+                        onClick={() => handlePageChange(i + 1)}
+                    >
+                        {i + 1}
+                    </button>
+                ))}
+                <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>&gt;</button>
+                <button onClick={() => handlePageChange(totalPages)} disabled={currentPage === totalPages}>&raquo;</button>
+            </div>
         </div>
-      
-    </div>
-  );
+    );
 }
 
 export default Notice;

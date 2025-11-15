@@ -11,7 +11,11 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
         "com.recharge.backend.users.dao",
         "com.recharge.backend.music.dao",
         "com.recharge.backend.station.dao",
-        "com.recharge.backend.bookmark.dao"
+        "com.recharge.backend.bookmark.dao",
+        "com.recharge.backend.community.dao",
+        "com.recharge.backend.community.nav.dao",
+        "com.recharge.backend.notice.dao",
+        "com.recharge.backend.report.dao"
 })
 public class BackendApplication {
 

@@ -1,3 +1,35 @@
+
+.admin_nav_container {
+    position: fixed;
+    width: 150px;
+    background: #032B48;
+    padding: 10px 10px;
+    height: 100%;
+}
+
+.admin_nav_container h2 {
+    color: white;
+}
+
+.admin_content_nav {
+    list-style: none;
+}
+
+.admin_content_nav li {
+    margin-bottom: 10px;
+}
+
+.admin_content_nav a {
+    display: block;
+    padding: 12px 0px;
+    margin-left: -20px;
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+}
+
+
+
 .community_board-header h2 {
   font-size: 26px;
   color: #000000;

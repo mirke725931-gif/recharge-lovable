@@ -1,24 +1,54 @@
-import React from "react";
-import {Link} from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import {Link, useNavigate} from 'react-router-dom';
 import '../../css/admin/NoticeManagement.css';
+import axios from "axios";
 
 function NoticeManagement() {
-    //관리자 사이드바
 
+    const [noticeList, setNoticeList] = useState([]);
+    const navigate = useNavigate();
 
-    //공지사항 데이터
+     useEffect(() => {
+        const fetchNoticeList = async () => {
+            try {
+                const res = await axios.get(
+                    "http://localhost:10809/recharge/api/notice"
+                );
+                setNoticeList(res.data || []);
+            } catch (err) {
+                console.error("공지사항 로딩 실패:", err);
+                alert("공지사항을 불러올 수 없습니다.");
+            }
+        };
 
+        fetchNoticeList();
+    }, []);
+
+    const handleDelete = async (noticeId) => {
+        if (!window.confirm("해당 공지사항을 삭제하시겠습니까?")) return;
+
+        try {
+            await axios.delete(
+                `http://localhost:10809/recharge/api/notice/${noticeId}`
+            );
+
+            alert("공지사항이 삭제되었습니다.");
+            setNoticeList((prev) => prev.filter(n => n.noticeId !== noticeId));
+        } catch (err) {
+            console.error("삭제 실패:", err);
+            alert("공지사항 삭제 중 오류가 발생했습니다.");
+        }
+    };
+   
 
     return (
+        
         <div className="admin_container">
-            {/* admin sidebar */}
             <aside className="admin_nav_container">
-                <img className="admin_logo" src="/image/white.png" alt="logo"/>
                 <h2>관리자 메뉴</h2>
                 <ul className="admin_content_nav">
-                    <li><Link to="/UserManagement">회원관리</Link></li>
-                    <li><Link to="/PostManagement">게시판 관리</Link></li>
-                    <li><Link to="/NoticeManagement">공지사항 관리</Link></li>
+                    <li><Link to="/admin/reportmanage" className="active">신고관리</Link></li>
+                    <li><Link to="/admin/noticemanage">공지사항 관리</Link></li>
                 </ul>
             </aside>
 
@@ -30,7 +60,13 @@ function NoticeManagement() {
                         <div id="NoticeManagement_form1_col1">
                             <input type="text"></input>
                             <button id="NoticeManagement_search">검색</button>
-                            <Link to="/NoticeBoard"><button id="write_btn">공지글 작성</button></Link>
+                            <button
+                                id="write_btn"
+                                type="button"
+                                onClick={() => navigate("/admin/noticeboard")}
+                                >
+                                공지글 작성
+                            </button>
                         </div>
                             
                     </form>
@@ -45,14 +81,39 @@ function NoticeManagement() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            
-                            <td>1</td>
-                            <td>제목</td>
-                            <td>2025.11.03</td>
-                            <td><button id="NoticeManagement_modify">수정</button>
-                            <button id="NoticeManagement_delete">삭제</button></td>
-                        </tr>
+                        {noticeList.length === 0 ? (
+                            <tr>
+                                <td colSpan="4">등록된 공지사항이 없습니다.</td>
+                            </tr>
+                        ) : (
+                            noticeList.map((n, index) => (
+                                <tr key={n.noticeId}>
+                                    <td>{index + 1}</td>
+                                    <td>{n.noticeTitle}</td>
+                                    <td>
+                                        {new Date(n.createDate)
+                                            .toISOString()
+                                            .split("T")[0]}
+                                    </td>
+                                    <td>
+                                        <button
+                                            id="NoticeManagement_modify"
+                                            onClick={() => navigate(`/admin/noticeboard/${n.noticeId}`)}
+                                        >
+                                            수정
+                                        </button>
+                                        <button
+                                            id="NoticeManagement_delete"
+                                            onClick={() =>
+                                                handleDelete(n.noticeId)
+                                            }
+                                        >
+                                            삭제
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                </table>
                 {/*페이지네이션 */}

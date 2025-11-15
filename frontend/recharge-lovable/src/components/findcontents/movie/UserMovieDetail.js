@@ -4,6 +4,9 @@ import { Link, useParams, useLocation } from "react-router-dom";
 import axios from "axios";
 import "../../../css/findcontents/movie/UserMovieDetail.css";
 import { useAuth } from "../../../context/AuthContext";
+import PostComment from "../../community/PostComment";
+import ReportModal from "../../modal/ReportModal";
+import { submitReport } from "../../../api/ReportApi";
 
 function UserMovieDetail() {
     const { postId } = useParams();
@@ -19,6 +22,9 @@ function UserMovieDetail() {
 
     // ⭐ MovieDetail과 동일 구조
     const [favoriteMap, setFavoriteMap] = useState({});
+
+    const [isReportOpen, setIsReportOpen] = useState(false);
+    const [reportTarget, setReportTarget] = useState({ type: "user_movie", id: null });
 
     const api = useMemo(
         () =>
@@ -126,6 +132,25 @@ function UserMovieDetail() {
         }
     };
 
+    const handleReportSubmit = async (reason) => {
+        try {
+            await submitReport({
+                userId,
+                reportTargetType: "user_movie",
+                reportTargetId: moviePostKey,
+                reportReason: reason,
+                createId: userId,
+            });
+
+            alert("신고가 접수되었습니다.");
+            setIsReportOpen(false);
+        } catch (err) {
+            console.error("신고 실패:", err);
+            alert("신고 처리 중 오류가 발생했습니다.");
+        }
+    };
+
+
     if (loading) return <div className="usermoviedetail_container">불러오는 중...</div>;
     if (error || !post) return <div className="usermoviedetail_container">{error}</div>;
 
@@ -152,6 +177,16 @@ function UserMovieDetail() {
 
                 <div className="usermoviedetail_movie_info">
                     <div className="usermoviedetail_movie_info_title">{title}</div>
+
+                    <button
+                        className="usermoviedetail_report_btn"
+                        onClick={() => {
+                            setReportTarget({ type: "user_movie", id: moviePostKey });
+                            setIsReportOpen(true);
+                        }}
+                    >
+                        신고
+                    </button>
 
                     <div className="usermoviedetail_movie_info_meta">
                         <div className="usermoviedetail_movie_info_meta_row1">
@@ -222,26 +257,16 @@ function UserMovieDetail() {
             {/* 💬 댓글 영역 */}
             <div className="usermoviedetail_comment">
                 <div className="usermoviedetail_comment_title">Comments</div>
-                <div className="usermoviedetail_comment_post">
-                    <input type="text" placeholder="댓글 입력" />
-                    <button className="usermoviedetail_btn">등록</button>
-                </div>
-                <ul className="usermoviedetail_comment_lists">
-                    <li className="usermooviedetail_comment_list">
-                        <div className="usermoviedetail_comment_user">
-                            <span className="usermoviedetail_comment_id">guest</span>
-                            <span className="usermoviedetail_comment_time">방금 전</span>
-                            <div className="usermoviedetail_comment_btn">
-                                <button className="usermoviedetail_comment_edit">수정</button>
-                                <button className="usermoviedetail_comment_delete">삭제</button>
-                            </div>
-                        </div>
-                        <span className="usermoviedetail_comment_text">
-                            댓글 기능은 곧 연결됩니다!
-                        </span>
-                    </li>
-                </ul>
+                <PostComment targetType="user_movie" targetId={moviePostKey} />
             </div>
+
+
+            <ReportModal
+                isOpen={isReportOpen}
+                onClose={() => setIsReportOpen(false)}
+                onSubmit={handleReportSubmit}
+                targetType={reportTarget.type}
+            />
 
             {/* 🔗 다른 추천글 이동 */}
             <div className="usermoviedtail_findmovie">

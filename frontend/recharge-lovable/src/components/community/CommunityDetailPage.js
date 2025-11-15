@@ -1,198 +1,216 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "../../css/community/Community.css";
+import PostComment from "./PostComment";
+import { FaThumbsUp } from "react-icons/fa";
+import ReportModal from "../../components/modal/ReportModal";
+import PostNavigator from "./PostNavigator";
+import { submitReport } from "../../api/ReportApi";
+import axios from "axios";
+import { useAuth } from "../../context/AuthContext"; // 로그인 상태 관리
 
 function CommunityDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { userId, isLogin } = useAuth(); // 로그인 정보 가져오기
+
   const [post, setPost] = useState(null);
-  const [prevPost, setPrevPost] = useState(null);
-  const [nextPost, setNextPost] = useState(null);
   const [comments, setComments] = useState([]);
   const [commentInput, setCommentInput] = useState("");
-  const [likeCount, setLikeCount] = useState(0);
+  const [isReportOpen, setIsReportOpen] = useState(false);
+  const [reportTarget, setReportTarget] = useState({ type: "post", id: null });
 
-  // 게시글 불러오기
-  useEffect(() => {
-    const samplePosts = [
-      {
-        id: 1,
-        user: "전기차사랑",
-        title: "충전소 이용 후기 - 서울 강남구",
-        content: "안녕하세요! 서울 강남구에 있는 충전소를 이용해보았는데 정말 깔끔하고 편리했습니다. 충전 속도도 빠르고 주차 공간도 충분해서 좋았어요. 특히 주변에 카페도 있어서 충전하는 동안 시간을 보내기 좋았습니다. 다른 분들도 한번 이용해보시길 추천드려요!",
-        date: "2025-01-15",
-        image: "https://via.placeholder.com/600x300", // 예시 이미지
-        views: 120,
-        likes: 5,
-      },
-      {
-        id: 2,
-        user: "에코라이프",
-        title: "전기차 구매 고민 중인데 조언 부탁드립니다",
-        content: "전기차 구매를 고려하고 있는데 어떤 모델이 좋을지 고민이 많습니다...",
-        date: "2025-01-14",
-        image: "https://via.placeholder.com/600x300",
-        views: 85,
-        likes: 3,
-      },
-      // 추가 게시글은 생략
-    ];
 
-    const currentIndex = samplePosts.findIndex((p) => String(p.id) === String(id));
-    const found = samplePosts[currentIndex];
-
-    if (found) {
-      setPost(found);
-      setPrevPost(samplePosts[currentIndex - 1] || null);
-      setNextPost(samplePosts[currentIndex + 1] || null);
-      setLikeCount(found.likes || 0); // 좋아요 초기값 설정
-    } else {
-      setPost({
-        title: "게시글을 찾을 수 없습니다",
-        user: "시스템",
-        content: "요청하신 게시글을 찾을 수 없습니다.",
-        date: new Date().toISOString().split("T")[0],
-        image: "",
-        views: 0,
-        likes: 0,
-      });
-    }
-  }, [id]);
-
-  // 댓글 작성
-  const handleAddComment = () => {
-    if (commentInput.trim() === "") return;
-    const newComment = {
-      user: "guest",
-      content: commentInput,
-      date: new Date().toISOString().slice(0, 10),
-    };
-    setComments([...comments, newComment]);
-    setCommentInput("");
+  /** 날짜 포맷 함수 */
+  const formatDate = (dateString) => {
+    return new Date(dateString).toISOString().split("T")[0];
   };
 
-  // 하트 클릭
-  const handleLike = () => {
-    setLikeCount(likeCount + 1);
+  /** 게시글 > 로그인화면  */
+  useEffect(() => {
+    if (!isLogin) {
+         alert("로그인이 필요한 서비스입니다");
+         navigate("/login", { replace: true } );
+    }
+  }, [isLogin, navigate]);
+
+   /** 게시글 불러오기 */
+  useEffect(() => {
+    if (!isLogin) return; // 로그인 안됐으면 불러오기 안함
+    const fetchPost = async () => {
+      try {
+        const res = await axios.get(`http://localhost:10809/recharge/api/community/${id}`);
+        const data = res.data;
+
+        setPost({
+          id: data.communityPostId,
+          user: data.userId, // 게시글 작성자 ID
+          title: data.communityTitle,
+          content: data.communityContent,
+          date: formatDate(data.createDate),
+          views: data.communityViewCount,
+          likes: data.communityLikeCount,
+          imagePath: data.communityImagePath,
+          imageName: data.communityImageName,
+        });
+
+             // 조회수 증가
+        await axios.post(`http://localhost:10809/recharge/api/community/${id}/view`);
+        setPost((prev) => prev ? { ...prev, views: prev.views + 1 } : prev);
+     
+      } catch (err) {
+        console.error("게시글 불러오기 실패:", err);
+      }
+    };
+
+    fetchPost();
+  }, [id,isLogin]);
+
+
+  /** 좋아요 */
+  const handleLike = async () => {
+    
+    try {
+      const res = await axios.post(`http://localhost:10809/recharge/api/community/${id}/like`, {
+        userId: userId, // 로그인한 사용자 ID
+      });
+      setPost((prev) => prev ? { ...prev, likes: res.data.likeCount || prev.likes + 1 } : prev);
+    } catch (err) {
+      console.error("좋아요 실패:", err);
+      alert("좋아요 처리 중 오류가 발생했습니다.");
+    }
+  };
+
+  /** 게시글 삭제 */
+  const handleDeletePost = async () => {
+   
+    if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
+
+    try {
+      await axios.delete(`http://localhost:10809/recharge/api/community/${id}`);
+      alert("게시글이 삭제되었습니다.");
+      navigate("/community");
+    } catch (err) {
+      console.error("게시글 삭제 실패:", err);
+      alert("게시글 삭제 중 오류가 발생했습니다.");
+    }
+  };
+
+  /** 신고 */
+  const handleReportSubmit = async (reason) => {
+   
+    if (!reportTarget.id) {
+      alert("신고할 대상이 선택되지 않았습니다.");
+      return;
+    }
+
+    try {
+      await submitReport({
+        userId: userId, // 로그인한 사용자 ID
+        reportTargetType: reportTarget.type,
+        reportTargetId: reportTarget.id,
+        reportReason: reason,
+        createId: userId, // 생성자 ID
+      });
+
+      alert(`${reportTarget.type === "comment" ? "댓글" : "게시글"}이 신고되었습니다.`);
+      setIsReportOpen(false);
+    } catch (err) {
+      console.error("신고 처리 실패:", err);
+      alert("신고 처리 중 오류가 발생했습니다.");
+    }
+  };
+
+  /** 게시글 수정 */
+  const handleEditPost = () => {
+    navigate(`/community/write/${post.id}`);
   };
 
   if (!post) return <p>로딩 중...</p>;
 
+  const canDeletePost = isLogin && (userId === post.user || userId === "admin");
+
   return (
     <div className="community_board-wrapper">
-      {/* 상단 고정 타이틀 */}
       <div className="community_board-header">
         <h2>자유게시판</h2>
       </div>
 
       <div className="community_detail-container">
-        {/* 게시글 상단 */}
+        {/* 게시글 헤더 */}
         <div className="community_detail-header">
-          <h2>{post.title}</h2>
+          <div className="community_detail-headertop">
+            <h2>{post.title}</h2>
+            <div className="community_detail-actions">
+              {canDeletePost && (
+                <>
+                  <button className="community_delete-btn" onClick={handleEditPost}>수정</button>
+                  <button className="community_delete-btn" onClick={handleDeletePost}>삭제</button>
+                </>
+              )}
+                 {/* 다른 사람 글이면 신고만 표시 */}
+              {userId !== post.user &&(  
+              <button
+                className="community_report-btn"
+                onClick={() => {
+                  if(!post.id) return;
+                  setReportTarget({ type: "post", id: post.id });
+                  setIsReportOpen(true);
+                }}
+              >
+                신고
+              </button>
+              )}
+            </div>
+          </div>
+
           <div className="community_detail-meta" style={{ display: "flex", justifyContent: "space-between" }}>
             <div>
               <span>{post.user}</span> | <span>{post.date}</span>
             </div>
             <div>
-              조회수: {post.views || 0} | ❤️ {likeCount}
+              조회수: {post.views} | <FaThumbsUp /> {post.likes}
             </div>
           </div>
         </div>
 
-        {/* 게시글 이미지 */}
-        {post.image && (
-          <div className="community_detail-image">
-            <img src={post.image} alt="게시글 이미지" style={{ width: "100%", maxHeight: "400px", objectFit: "cover", margin: "10px 0" }} />
-          </div>
-        )}
-
         {/* 게시글 내용 */}
         <div className="community_detail-content">
+          {post.imagePath && (
+            <img
+              src={`http://localhost:10809/recharge${post.imagePath}`}
+              alt={post.imageName}
+              className="community_detail-image"
+            />
+          )}
           <p>{post.content}</p>
         </div>
 
-        {/* 하트 안내 멘트 */}
+        {/* 좋아요 버튼 */}
         <div style={{ textAlign: "center", margin: "20px 0", fontWeight: "bold" }}>
-          이 글이 도움이 되었다면 하트  <button
-            style={{ marginLeft: "10px", cursor: "pointer" }}
-            onClick={handleLike}
-          >
-            ❤️
-          </button> 를 눌러주세요!
-         
+          이 글이 도움이 되었다면{" "}
+          <button className="community_like-btn" onClick={handleLike}>
+            <FaThumbsUp className="community_like-icon" />
+          </button>{" "}
+          눌러주세요!
         </div>
+        {/* 댓글 섹션 */}
+        <PostComment targetType="community" targetId={id}/>
 
-        {/* 댓글창 */}
-        <div className="community_comment-container">
-          <h3>댓글</h3>
-          <ul className="community_comment-list">
-            {comments.length === 0 ? (
-              <li className="no-comment">아직 댓글이 없습니다.</li>
-            ) : (
-              comments.map((c, i) => (
-                <li key={i} className="community_comment-item">
-                  <span className="community_comment-user">{c.user}</span>
-                  <span className="community_comment-content">{c.content}</span>
-                  <span className="community_comment-date">{c.date}</span>
-                </li>
-              ))
-            )}
-          </ul>
-
-          <div className="community_comment-input">
-            <input
-              className="community_comment-inputbox"
-              type="text"
-              placeholder="댓글을 입력하세요"
-              value={commentInput}
-              onChange={(e) => setCommentInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleAddComment()}
-            />
-            <button className="community_comment-btn" onClick={handleAddComment}>
-              등록
-            </button>
-          </div>
-        </div>
+        {/* 신고 모달 */}
+        <ReportModal
+          isOpen={isReportOpen}
+          onClose={() => setIsReportOpen(false)}
+          onSubmit={handleReportSubmit}
+          targetType={reportTarget.type}
+        />
 
         {/* 이전/다음 글 */}
-        <div className="community_detail-nav">
-          <div className="community_nav-section">
-            <div className="community_nav-label">이전 글</div>
-            <div className="community_nav-line" />
-            {prevPost ? (
-              <div
-                className="community_nav-item"
-                onClick={() => navigate(`/community/detail/${prevPost.id}`)}
-              >
-                {prevPost.title}
-              </div>
-            ) : (
-              <div className="community_nav-item disabled">이전 글이 없습니다.</div>
-            )}
-          </div>
+         <PostNavigator />
+      </div>
 
-          <div className="community_nav-section">
-            <div className="community_nav-label">다음 글</div>
-            <div className="community_nav-line" />
-            {nextPost ? (
-              <div
-                className="community_nav-item"
-                onClick={() => navigate(`/community/detail/${nextPost.id}`)}
-              >
-                {nextPost.title}
-              </div>
-            ) : (
-              <div className="community_nav-item disabled">다음 글이 없습니다.</div>
-            )}
-          </div>
-        </div>
-
-        {/* 목록으로 돌아가기 */}
-        <div className="community_detail-bottom">
-          <button className="community_back-btn" onClick={() => navigate("/community")}>
-            목록으로
-          </button>
-        </div>
+      <div className="community_detail-bottom">
+        <button className="community_back-btn" onClick={() => navigate("/community")}>목록으로</button>
       </div>
     </div>
   );
