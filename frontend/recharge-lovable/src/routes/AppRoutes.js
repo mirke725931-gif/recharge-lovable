@@ -30,6 +30,7 @@ import CommunityWritePage from "../components/community/CommunityWritePage";
 import Notice from "../components/notice/Notice";
 import NoticeDetailPage from "../components/notice/NoticeDetailPage";
 import ModifyPwd from "../components/auth/ModifyPwd";
+import KakaoMapTest from "../pages/KakaoMapTest";
 
 
 function AppRoutes(){
@@ -68,6 +69,7 @@ function AppRoutes(){
           <Route path="/notice" element={<Notice />} />
           <Route path="/notice/detail/:id" element={<NoticeDetailPage />} />
           <Route path="/modifypwd" element={<ModifyPwd/>} />
+          <Route path="/test-map" element={<KakaoMapTest />} /> 
         </Routes>
       </div>
     </div>
