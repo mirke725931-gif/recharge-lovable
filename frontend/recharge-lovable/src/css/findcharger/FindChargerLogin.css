@@ -186,6 +186,9 @@
     display:flex;
     gap:20px;
     font-size: 13px;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 .charger-scroll-area {
     scrollbar-width: none;
