@@ -1,6 +1,6 @@
-.findchargerlogout_container{
+.findchargerlogout_container {
     width:100%;
-    height:calc(100vh - 80px);
+    min-height: calc(100vh - 80px); /* ← height에서 min-height로 변경 */
     padding-bottom: 100px;
     display: flex;
     flex-direction: column;

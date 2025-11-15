@@ -198,3 +198,15 @@
 .charger-scroll-area::-webkit-scrollbar {
     display: none;
 }
+.findchargerlogin_place_btn a{
+    text-decoration: none;
+    color: black;
+}
+.findchargerlogin_charger_card:hover {
+    border:solid 3px #8bbae0;
+
+}
+
+.findchargerlogin_charger_card.selected {
+    border:solid 3px #004E89;
+}
