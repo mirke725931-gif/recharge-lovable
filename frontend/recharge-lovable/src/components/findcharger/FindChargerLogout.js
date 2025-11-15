@@ -33,7 +33,7 @@ function FindChargerLogout(){
                     <form>
                         <div className="findchargerlogout_location_btn">
                             <img src="/image/location_on.png" />
-                            <button type="button">현재 위치 기반으로 찾기</button>
+                            <button type="button" onClick={handleProtectedRoute}>현재 위치 기반으로 찾기</button>
                         </div>
                         <div className="findchargerlogout_search">
                             <img src="/image/search.png"/>

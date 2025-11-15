@@ -1,30 +1,32 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import "../../css/findcharger/FindChargerLogin.css";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
-import '../../css/findcharger/FindChargerLogin.css'
-import FindChargerResult from "./FindChargerResult";
-import SearchBar from "./SearchBar";
+import { AiOutlineThunderbolt } from "react-icons/ai";
 
+
+import SearchBar from "./SearchBar";
+import FindChargerResult from "./FindChargerResult";
 
 function FindChargerLogin() {
-
     const [isSlide, setIsSlide] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [searchCoords, setSearchCoords] = useState(null);
 
-    
+    const handleSearchClick = (lat, lng) => {
+        setSearchCoords({ lat, lng });
+        setShowResult(true);
+    };
+
     const handleSlide = ()=>{
         setIsSlide(!isSlide);
     }
 
-    const handleSearchClick= (lat,lng)=>{
-        setSearchCoords({lat,lng});
-        setShowResult(true);
-    }
-
- 
+    const handleResetSearch = () => {
+        setShowResult(false);
+        setSearchCoords(null);
+    };
 
     return (
-
         <div className="findchargerlogout_container">
                     <div className="findchargerlogout_map">
                         <img className="map_img" src="https://placehold.co/300x169?text=map" />
@@ -33,6 +35,7 @@ function FindChargerLogin() {
                                 <FindChargerResult
                                     coords={searchCoords}
                                     onSearch={handleSearchClick}
+                                    onReset={handleResetSearch}
                                 />
                             ):(<SearchBar onSearch={handleSearchClick}/>)}
 
@@ -126,8 +129,7 @@ function FindChargerLogin() {
                         </div>
                     </div>
                 </div>
-
-    )
-
+    );
 }
+
 export default FindChargerLogin;

@@ -187,4 +187,11 @@
     gap:20px;
     font-size: 13px;
 }
+.charger-scroll-area {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
 
+.charger-scroll-area::-webkit-scrollbar {
+    display: none;
+}
