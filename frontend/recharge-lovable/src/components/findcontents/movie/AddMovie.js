@@ -15,7 +15,7 @@ function AddMovie() {
                 </div>
                 <div className="addmovie_searched_movie">
                     <div className="addmovie_poster">
-                        <img src="https://placehold.co/185x278?text=poster" alt="포스터"/>
+                        <img src="185x278" alt="포스터"/>
                     </div>
                     <div className="addmovie_meta">
                         <div className="addmovie_title">슈퍼맨</div>
