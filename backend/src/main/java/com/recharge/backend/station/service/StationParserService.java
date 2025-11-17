@@ -1,6 +1,5 @@
 package com.recharge.backend.station.service;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.recharge.backend.station.vo.StationVO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class StationParserService {

@@ -64,8 +64,7 @@ dependencies {
 
     // Spring Boot BOM (버전 통일)
     implementation platform('org.springframework.boot:spring-boot-dependencies:3.2.5')
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 
     // Spring Boot BOM (버전 통일)
 

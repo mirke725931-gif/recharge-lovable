@@ -16,8 +16,8 @@ public interface StationDAO {
     int updateStation(StationVO station);
 
     List<StationVO> findNearbyStations(
-         @Param("lat") double lat,
-         @Param("lng") double lng,
-         @Param("radius") double radius
+            @Param("lat") double lat,
+            @Param("lng") double lng,
+            @Param("radius") double radius
     );
 }

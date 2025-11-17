@@ -21,4 +21,6 @@ public interface UsersService {
     UsersVO findUserByResetToken(String token);
 
     void updatePasswordByToken(String token, String pwd);
+    UsersVO getUserDetails(String userId);
+    UsersVO updateUser(UsersVO user);
 }

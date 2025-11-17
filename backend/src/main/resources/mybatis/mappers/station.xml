@@ -66,7 +66,6 @@
         STATION_ADDRESS_DETAIL,
         STATION_PARKING_FREE,
 
-        <!-- 🔥 distanceKm = 소수점 1자리까지 반올림 -->
         ROUND(
         (
         6371 * 2 *
@@ -87,7 +86,6 @@
         WHERE STATION_LATITUDE IS NOT NULL
         AND STATION_LONGITUDE IS NOT NULL
 
-        <!-- 🔥 15km 이하 조건 -->
         AND (
         6371 * 2 *
         ASIN(
@@ -99,7 +97,7 @@
         * POWER(SIN(((STATION_LONGITUDE - #{lng}) * 3.14159265358979 / 180) / 2), 2)
         )
         )
-        ) <![CDATA[ <= ]]> 5
+        ) <![CDATA[ <= ]]> #{radius}
 
         ORDER BY distanceKm ASC
 

@@ -72,4 +72,32 @@ public class UsersServiceImpl implements UsersService {
         String encrypted=passwordEncoder.encode(pwd);
         usersDAO.updatePasswordByToken(token, encrypted, user.getUserId());
     }
+
+    @Override
+    public UsersVO getUserDetails(String userId) {
+        // DAO의 findUserById 메서드를 재활용합니다.
+        return usersDAO.findUserById(userId);
+    }
+
+    @Override
+    public UsersVO updateUser(UsersVO userUpdateData) {
+        UsersVO existingUser = usersDAO.findUserById(userUpdateData.getUserId());
+        if (existingUser == null) {
+            throw new RuntimeException("사용자 정보를 찾을 수 업습니다..");
+        }
+        existingUser.setUserName(userUpdateData.getUserName());
+        existingUser.setUserEmail(userUpdateData.getUserEmail());
+        existingUser.setUserBirth(userUpdateData.getUserBirth());
+        existingUser.setUserPhone(userUpdateData.getUserPhone());
+        existingUser.setUserCarmodel(userUpdateData.getUserCarmodel());
+
+        String newPwd = userUpdateData.getUserPwd();
+        if (newPwd != null && !newPwd.isEmpty()) {
+            existingUser.setUserPwd(passwordEncoder.encode(newPwd));
+        }
+
+        usersDAO.updateUser(existingUser);
+
+        return existingUser;
+    }
 }

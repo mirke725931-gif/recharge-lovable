@@ -15,7 +15,9 @@ import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServic
         "com.recharge.backend.community.dao",
         "com.recharge.backend.community.nav.dao",
         "com.recharge.backend.notice.dao",
-        "com.recharge.backend.report.dao"
+        "com.recharge.backend.report.dao",
+        "com.recharge.backend.charger.dao",
+        "com.recharge.backend.placeImage.dao"
 })
 public class BackendApplication {
 

@@ -140,4 +140,47 @@ public class UsersController {
         return ResponseEntity.ok("비밀번호가 변경되었습니다.");
     }
 
+    @GetMapping("/details")
+    public ResponseEntity<?> getUserDetails(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("loginUser") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        String userId = (String) session.getAttribute("loginUser");
+        UsersVO userDetails = usersService.getUserDetails(userId);
+
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("사용자 정보를 찾을 수 없습니다.");
+        }
+
+
+        userDetails.setUserPwd(null);
+        return ResponseEntity.ok(userDetails);
+    }
+
+
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody UsersVO userUpdateData, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("loginUser") == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+        }
+
+        String sessionUserId = (String) session.getAttribute("loginUser");
+
+
+        userUpdateData.setUserId(sessionUserId);
+
+        try {
+            UsersVO updatedUser = usersService.updateUser(userUpdateData);
+
+
+            updatedUser.setUserPwd(null);
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("정보 업데이트에 실패했습니다.");
+        }
+    }
+
 }

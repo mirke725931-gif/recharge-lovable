@@ -186,6 +186,9 @@
     display:flex;
     gap:20px;
     font-size: 13px;
+    white-space: nowrap;
+    flex-wrap: nowrap;
+    align-items: center;
 }
 .charger-scroll-area {
     scrollbar-width: none;
@@ -194,4 +197,16 @@
 
 .charger-scroll-area::-webkit-scrollbar {
     display: none;
+}
+.findchargerlogin_place_btn a{
+    text-decoration: none;
+    color: black;
+}
+.findchargerlogin_charger_card:hover {
+    border:solid 3px #8bbae0;
+
+}
+
+.findchargerlogin_charger_card.selected {
+    border:solid 3px #004E89;
 }

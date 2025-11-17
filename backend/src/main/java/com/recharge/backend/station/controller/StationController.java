@@ -1,7 +1,6 @@
 package com.recharge.backend.station.controller;
 
 import com.recharge.backend.station.service.EvApiService;
-import com.recharge.backend.station.service.StationBatchService;
 import com.recharge.backend.station.service.StationParserService;
 import com.recharge.backend.station.service.StationService;
 import com.recharge.backend.station.vo.StationVO;
@@ -24,9 +23,6 @@ public class StationController {
     private StationParserService stationParserService;
 
     @Autowired
-    private StationBatchService batchService;
-
-    @Autowired
     private StationService stationService;
 
 //    @GetMapping("/test")
@@ -44,20 +40,29 @@ public class StationController {
 //        return list;
 //    }
 
-    @GetMapping("/load-all")
-    public String loadAllStations() {
+//    @GetMapping("/load-all")
+//    public String loadAllStations() {
+//
+//        batchService.batchSaveStation();
+//
+//        return "OK";
+//    }
+//
+//    @GetMapping("/nearby")
+//    public List<StationVO> getNearbyStations(
+//            @RequestParam double lat,
+//            @RequestParam double lng,
+//            @RequestParam double radius
+//    ){
+//        return stationService.findNearbyStations(lat,lng,radius);
+//    }
 
-        batchService.batchSaveStation();
-
-        return "OK";
-    }
-
-    @GetMapping("/nearby")
-    public List<StationVO> getNearbyStations(
+    @GetMapping("/nearby-with-chargers")
+    public List<StationVO> getNearbyStationsWithChargers(
             @RequestParam double lat,
             @RequestParam double lng,
             @RequestParam double radius
-    ){
-        return stationService.findNearbyStations(lat,lng,radius);
+    ) {
+        return stationService.findNearbyStationsWithChargers(lat, lng, radius);
     }
 }

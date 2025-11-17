@@ -8,32 +8,32 @@
         SELECT COUNT(*)
         FROM TB_CHARGER
         WHERE STATION_ID = #{stationId}
-          AND CHARGER_ID = #{chargerId}
+        AND CHARGER_ID = #{chargerId}
     </select>
 
     <insert id="insertCharger" parameterType="com.recharge.backend.charger.vo.ChargerVO">
         INSERT INTO TB_CHARGER (
-            CHARGER_ID,
-            STATION_ID,
-            CHARGER_PROVIDER,
-            CHARGER_TYPE,
-            CHARGER_SPEED,
-            CHARGER_TOTAL,
-            CREATE_DATE,
-            CREATE_ID,
-            UPDATED_DATE,
-            UPDATED_ID
+        CHARGER_ID,
+        STATION_ID,
+        CHARGER_PROVIDER,
+        CHARGER_TYPE,
+        CHARGER_SPEED,
+        CHARGER_TOTAL,
+        CREATE_DATE,
+        CREATE_ID,
+        UPDATED_DATE,
+        UPDATED_ID
         ) VALUES (
-            #{chargerId},
-            #{stationId},
-            #{chargerProvider},
-            #{chargerType},
-            #{chargerSpeed, jdbcType=VARCHAR},
-            #{chargerTotal, jdbcType=INTEGER},
-            SYSDATE,
-            #{createId},
-            SYSDATE,
-            #{updateId}
+        #{chargerId},
+        #{stationId},
+        #{chargerProvider},
+        #{chargerType},
+        #{chargerSpeed, jdbcType=VARCHAR},
+        #{chargerTotal, jdbcType=INTEGER},
+        SYSDATE,
+        #{createId},
+        SYSDATE,
+        #{updateId}
         )
     </insert>
 

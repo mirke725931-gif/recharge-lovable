@@ -15,6 +15,7 @@ public class ReportVO {
     private Date updatedDate;
     private String updatedId;
 
+
     public int getReportId() {
         return reportId;
     }

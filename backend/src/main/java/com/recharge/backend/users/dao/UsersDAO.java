@@ -21,4 +21,6 @@ public interface UsersDAO {
     UsersVO findUserByResetToken(String Token);
 
     void saveResetToken(String userId, String token);
+
+    void updateUser(UsersVO user);
 }

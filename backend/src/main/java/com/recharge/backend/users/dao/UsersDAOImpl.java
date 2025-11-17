@@ -75,4 +75,9 @@ public class UsersDAOImpl implements UsersDAO {
         params.put("token", token);
         sqlSession.update(NAMESPACE+"saveResetToken", params);
     }
+
+    @Override
+    public void updateUser(UsersVO user) {
+        sqlSession.update(NAMESPACE + "updateUser", user);
+    }
 }

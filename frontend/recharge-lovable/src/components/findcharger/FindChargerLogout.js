@@ -1,26 +1,100 @@
-import React, {useState} from "react";
+import React, {useRef, useState, useEffect} from "react";
 import { AiOutlineThunderbolt } from "react-icons/ai";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import {useAuth} from '../../context/AuthContext';
 import '../../css/findcharger/FindChargerLogout.css';
 
 function FindChargerLogout(){
-
     const [isSlide, setIsSlide] = useState(false);
+    const {isLogin, isLoading} = useAuth();
+
+    const navigate = useNavigate();
+    const mapRef = useRef(null);
 
     const handleSlide = ()=>{
         setIsSlide(!isSlide);
     }
 
+    const handleProtectedRoute = (path) => {
+        if (!isLogin && !isLoading) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+        } else {
+            navigate(path);
+        }
+    };
+
+    useEffect(() => {
+            if (!window.kakao || !window.kakao.maps) {
+                console.log("⚠️ Kakao SDK 아직 준비 안됨");
+                return;
+            }
+    
+            console.log("🔥 Kakao SDK 로딩 시작...");
+    
+            window.kakao.maps.load(() => {
+                console.log("🎉 Kakao 지도 로드됨!!!");
+    
+                const container = mapRef.current;
+    
+                const map = new window.kakao.maps.Map(container, {
+                    center: new window.kakao.maps.LatLng(36.8074, 127.1470),
+                    level: 7,
+                });
+    
+                // 📍 내 위치
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition((pos) => {
+                        const loc = new window.kakao.maps.LatLng(
+                            pos.coords.latitude,
+                            pos.coords.longitude
+                        );
+    
+                        new window.kakao.maps.Marker({
+                            map,
+                            position: loc,
+                        });
+    
+                        const circle = new window.kakao.maps.Circle({
+                            center: loc,         // 중심 좌표(현재 위치)
+                            radius: 5000,                // 반경 (5km = 5000m)
+                            strokeWeight: 2,             // 선 두께
+                            strokeColor: '#4A90E2',      // 테두리 색
+                            strokeOpacity: 0.8,          // 테두리 투명도
+                            strokeStyle: 'solid',        // 테두리 스타일
+                            fillColor: '#4A90E2',        // 내부 색
+                            fillOpacity: 0.2             // 내부 투명도
+                        });
+    
+                        // 지도에 원 표시
+                        circle.setMap(map);
+    
+                        map.setCenter(loc);
+                    });
+                }
+            });
+        }, []);
+
     return(
         <div className="findchargerlogout_container">
             <div className="findchargerlogout_map">
-                <img className="map_img" src="https://placehold.co/300x169?text=map" />
+                <div
+                    ref={mapRef}
+                    id="kakao-map"
+                    style={{
+                        width: "100%",
+                        height: "685px",
+                        background: "#eee",
+                        borderRadius: "10px",
+                    }}
+                />
                 <div className={`findchargerlogout_searchbar ${isSlide ? 'slide-left' : ''}`}>
                     <h3>충전소 찾기</h3>
                     <form>
                         <div className="findchargerlogout_location_btn">
                             <img src="/image/location_on.png" />
-                            <button type="button">현재 위치 기반으로 찾기</button>
+                            <button type="button" onClick={handleProtectedRoute}>현재 위치 기반으로 찾기</button>
                         </div>
                         <div className="findchargerlogout_search">
                             <img src="/image/search.png"/>
@@ -70,7 +144,7 @@ function FindChargerLogout(){
                             </div>
                         </div>
                         <div className="findchargerlogout_find_btn">
-                            <button><div><AiOutlineThunderbolt /></div><span>충전소 검색하기</span></button>
+                            <button onClick={handleProtectedRoute}><div><AiOutlineThunderbolt /></div><span>충전소 검색하기</span></button>
                         </div>
                     </form>
                     <hr style={{border:"1px solid rgba(235, 235, 235, 1)", margin:"20px 0 10px 0"}}/>
