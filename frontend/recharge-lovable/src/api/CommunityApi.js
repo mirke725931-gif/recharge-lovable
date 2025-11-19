@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:10809/recharge/api/community"; //spring CommunityController주소
+const BASE_URL = "/recharge/api/community"; //spring CommunityController주소
 
 //전체게시글 조회
 export const getAllCommunityPosts = async () => {

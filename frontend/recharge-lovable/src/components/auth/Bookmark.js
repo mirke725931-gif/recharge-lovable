@@ -15,7 +15,7 @@ function Bookmark() {
     const api = useMemo(
         () =>
             axios.create({
-                baseURL: "http://localhost:10809/recharge/api",
+                baseURL: "/recharge/api",
                 withCredentials: true,
             }),
         []

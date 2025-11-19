@@ -37,7 +37,7 @@ public class EmailServiceImpl implements EmailService{
     @Override
     public void sendPasswordResetEmail(UsersVO user) {
         String token = UUID.randomUUID().toString();
-        String resetLink = "http://localhost:3000/modifypwd?token=" + token;
+        String resetLink = "https://localhost:3000/modifypwd?token=" + token;
 
         usersDAO.saveResetToken(user.getUserId(), token);
 

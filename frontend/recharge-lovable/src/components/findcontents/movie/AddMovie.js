@@ -21,7 +21,7 @@ function AddMovie() {
         }
         try {
             setLoading(true);
-            const res = await axios.get(`http://localhost:10809/recharge/api/moviepost/search`, {
+            const res = await axios.get(`/recharge/api/moviepost/search`, {
                 params: { query: movieTitle }
             });
             setSearchResult(res.data);
@@ -58,7 +58,7 @@ function AddMovie() {
 
         try {
             const res = await axios.post(
-                "http://localhost:10809/recharge/api/moviepost/add",
+                "/recharge/api/moviepost/add",
                 postData,
                 { withCredentials: true }
             );

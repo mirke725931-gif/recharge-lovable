@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:10809/recharge/api/notice";
+const BASE_URL = "/recharge/api/notice";
 
 // 전체 조회
 export const getAllNotices = async () => {

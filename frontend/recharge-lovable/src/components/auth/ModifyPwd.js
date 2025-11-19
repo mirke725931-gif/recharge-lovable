@@ -32,7 +32,7 @@ function ModifyPwd(){
 
         
         try{
-          const response = await axios.post("http://localhost:10809/recharge/api/users/modifypwd", {
+          const response = await axios.post("/recharge/api/users/modifypwd", {
                 token: token.trim(),
                 newPwd: newPwd.trim()
             },{

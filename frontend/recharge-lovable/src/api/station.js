@@ -4,7 +4,7 @@ import axios from "axios";
 export const fetchStationsNearby = async (lat, lng, radiusKm = 5) => {
     try {
         return await axios.get(
-            "http://localhost:10809/recharge/api/station/nearby-with-chargers",
+            "/recharge/api/station/nearby-with-chargers",
             {
                 params: {
                     lat,

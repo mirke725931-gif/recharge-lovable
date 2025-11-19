@@ -144,7 +144,7 @@ function Community() {
                 <img
                   src={
                     post.communityImagePath
-                      ? `http://localhost:10809/recharge${post.communityImagePath}`
+                      ? `/recharge${post.communityImagePath}`
                       : "/default-image.png" // ← 바로 이렇게 사용
                   }
                   alt={post.communityTitle}

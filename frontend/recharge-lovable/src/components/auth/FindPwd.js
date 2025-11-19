@@ -18,7 +18,7 @@ function FindPwd() {
         }
 
         try{
-            const response = await axios.post("http://localhost:10809/recharge/api/users/findpwd",
+            const response = await axios.post("/recharge/api/users/findpwd",
                 {id: userId.trim(),
                 name: userName.trim(),
                 email: userEmail.trim()},

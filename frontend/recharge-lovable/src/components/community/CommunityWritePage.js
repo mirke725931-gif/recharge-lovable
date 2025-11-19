@@ -37,7 +37,7 @@ function CommunityWritePage() {
   const fetchPost = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:10809/recharge/api/community/${id}`);
+      const res = await axios.get(`/recharge/api/community/${id}`);
       const data = res.data;
 
       setTitle(data.communityTitle);
@@ -46,7 +46,7 @@ function CommunityWritePage() {
       
       if (data.communityImagePath) {
         setExistingImagePath(data.communityImagePath);
-        setImage(`http://localhost:10809/recharge${data.communityImagePath}`);
+        setImage(`/recharge${data.communityImagePath}`);
       }
     } catch (err) {
       console.error("게시글 불러오기 실패:", err);
@@ -102,7 +102,7 @@ function CommunityWritePage() {
         }
 
         const res = await axios.put(
-          `http://localhost:10809/recharge/api/community/${id}`,
+          `/recharge/api/community/${id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -119,7 +119,7 @@ function CommunityWritePage() {
         if (imageFile) formData.append("communityImage", imageFile);
 
         const res = await axios.post(
-          "http://localhost:10809/recharge/api/community",
+          "/recharge/api/community",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

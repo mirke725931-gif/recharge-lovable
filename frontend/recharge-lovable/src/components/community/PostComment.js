@@ -93,7 +93,7 @@ function PostComment({ targetType, targetId }) {
     };
 
     try {
-      await axios.post("http://localhost:10809/recharge/api/report", reportData);
+      await axios.post("/recharge/api/report", reportData);
       alert("신고가 접수되었습니다.");
       setIsReportOpen(false);
     } catch (error) {

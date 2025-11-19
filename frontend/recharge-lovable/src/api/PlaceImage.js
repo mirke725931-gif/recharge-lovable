@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const fetchPlaceImage = async (query) => {
   try {
-    const res = await axios.get("http://localhost:10809/recharge/api/place/image", {
+    const res = await axios.get("/recharge/api/place/image", {
       params: { query },
     });
     return res.data;

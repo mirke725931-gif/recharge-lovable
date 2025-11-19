@@ -12,7 +12,7 @@ const PostNavigator = () => {
   useEffect(() => {
     const fetchNavigationData = async () => {
       try {
-        const response = await axios.get(`http://localhost:10809/recharge/api/community/${id}/nav`);
+        const response = await axios.get(`/recharge/api/community/${id}/nav`);
         console.log("이전/다음 글 데이터:", response.data);
         setPrevPost(response.data.prevPost || null);
         setNextPost(response.data.nextPost || null);

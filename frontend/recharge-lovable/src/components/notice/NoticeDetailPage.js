@@ -16,7 +16,7 @@ function NoticeDetailPage() {
   useEffect(() => {
     const fetchNotice = async () => {
       try{
-        const response = await axios.get(`http://localhost:10809/recharge/api/notice/${id}`);
+        const response = await axios.get(`/recharge/api/notice/${id}`);
         setPost(response.data);
 
       } catch (error) {

@@ -24,7 +24,7 @@ function FindChargerLogin() {
     /** 🔍 장소 정보 + 이미지 가져오기 */
     const handlePlaceSearch = async (lat, lng) => {
         const res = await axios.get(
-            `http://localhost:10809/recharge/api/place/nearby?lat=${lat}&lng=${lng}`
+            `/recharge/api/place/nearby?lat=${lat}&lng=${lng}`
         );
 
         const merged = [

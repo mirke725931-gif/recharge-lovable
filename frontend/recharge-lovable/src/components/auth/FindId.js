@@ -18,7 +18,7 @@ function FindId() {
         }
 
         try{
-            const response = await axios.post("http://localhost:10809/recharge/api/users/findid", {
+            const response = await axios.post("/recharge/api/users/findid", {
                 name,
                 email
             });

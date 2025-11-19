@@ -20,7 +20,7 @@ function Login() {
         }
 
         try{
-            const response = await axios.post('http://localhost:10809/recharge/api/users/login',{
+            const response = await axios.post('/recharge/api/users/login',{
                 userId,
                 userPwd
             }, { withCredentials: true });

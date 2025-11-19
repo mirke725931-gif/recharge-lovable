@@ -17,7 +17,7 @@ function NoticeBoard() {
     const fetchNotice = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:10809/recharge/api/notice/${id}`
+          `/recharge/api/notice/${id}`
         );
         setTitle(res.data.noticeTitle);
         setContent(res.data.noticeContent);
@@ -40,7 +40,7 @@ function NoticeBoard() {
       if (id) {
         // ----------- 수정 -----------
         await axios.put(
-          `http://localhost:10809/recharge/api/notice/${id}`,
+          `/recharge/api/notice/${id}`,
           {
             noticeTitle: title,
             noticeContent: content,
@@ -51,7 +51,7 @@ function NoticeBoard() {
       } else {
         // ----------- 새 글 작성 -----------
         await axios.post(
-          `http://localhost:10809/recharge/api/notice`,
+          `/recharge/api/notice`,
           {
             noticeTitle: title,
             noticeContent: content,

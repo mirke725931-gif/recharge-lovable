@@ -11,7 +11,7 @@ export function AuthProvider({children}) {
     useEffect(()=> {
         const checkLogin = async () =>{
             try{
-                const res= await axios.get("http://localhost:10809/recharge/api/users/check",{
+                const res= await axios.get("/recharge/api/users/check",{
                     withCredentials: true
                 });
                 setIsLogin(true);
@@ -33,7 +33,7 @@ export function AuthProvider({children}) {
 
     const logout = async (navigate) => {
         try{
-            await axios.post("http://localhost:10809/recharge/api/users/logout", {},{
+            await axios.post("/recharge/api/users/logout", {},{
                 withCredentials:true
             });
             setIsLogin(false);

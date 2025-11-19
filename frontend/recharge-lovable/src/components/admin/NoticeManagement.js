@@ -12,7 +12,7 @@ function NoticeManagement() {
         const fetchNoticeList = async () => {
             try {
                 const res = await axios.get(
-                    "http://localhost:10809/recharge/api/notice"
+                    "/recharge/api/notice"
                 );
                 setNoticeList(res.data || []);
             } catch (err) {
@@ -29,7 +29,7 @@ function NoticeManagement() {
 
         try {
             await axios.delete(
-                `http://localhost:10809/recharge/api/notice/${noticeId}`
+                `/recharge/api/notice/${noticeId}`
             );
 
             alert("공지사항이 삭제되었습니다.");

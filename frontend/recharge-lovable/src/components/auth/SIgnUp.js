@@ -57,7 +57,7 @@ function SignUp () {
         };
 
         try{
-            const response = await axios.post('http://localhost:10809/recharge/api/users/signup', payload,{withCredentials: true});
+            const response = await axios.post('/recharge/api/users/signup', payload,{withCredentials: true});
             console.log('백엔드 응답:', response.data);
             navigate('/signup_result',
                 {state: {userName: users.userName}}
@@ -76,7 +76,7 @@ function SignUp () {
         }
 
         try{
-            const response = await axios.get('http://localhost:10809/recharge/api/users/check-id', {
+            const response = await axios.get('/recharge/api/users/check-id', {
                 params: {userId: users.userId},
                 withCredentials: true
             });
@@ -102,7 +102,7 @@ function SignUp () {
         }
 
         try{
-            const response = await axios.get('http://localhost:10809/recharge/api/users/check-email', {
+            const response = await axios.get('/recharge/api/users/check-email', {
                 params: {userEmail: users.userEmail},
                 withCredentials: true
             });

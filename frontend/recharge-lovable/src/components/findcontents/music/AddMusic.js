@@ -9,7 +9,7 @@ function AddMusic() {
     const {userId, isLogin} = useAuth();
 
     const api = axios.create({
-        baseURL: "http://localhost:10809/recharge/api",
+        baseURL: "/recharge/api",
         withCredentials: true,
     });
 

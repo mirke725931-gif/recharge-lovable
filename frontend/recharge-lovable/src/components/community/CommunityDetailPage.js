@@ -39,7 +39,7 @@ function CommunityDetailPage() {
     if (!isLogin) return; // 로그인 안됐으면 불러오기 안함
     const fetchPost = async () => {
       try {
-        const res = await axios.get(`http://localhost:10809/recharge/api/community/${id}`);
+        const res = await axios.get(`/recharge/api/community/${id}`);
         const data = res.data;
 
         setPost({
@@ -55,7 +55,7 @@ function CommunityDetailPage() {
         });
 
              // 조회수 증가
-        await axios.post(`http://localhost:10809/recharge/api/community/${id}/view`);
+        await axios.post(`/recharge/api/community/${id}/view`);
         setPost((prev) => prev ? { ...prev, views: prev.views + 1 } : prev);
      
       } catch (err) {
@@ -71,7 +71,7 @@ function CommunityDetailPage() {
   const handleLike = async () => {
     
     try {
-      const res = await axios.post(`http://localhost:10809/recharge/api/community/${id}/like`, {
+      const res = await axios.post(`/recharge/api/community/${id}/like`, {
         userId: userId, // 로그인한 사용자 ID
       });
       setPost((prev) => prev ? { ...prev, likes: res.data.likeCount || prev.likes + 1 } : prev);
@@ -87,7 +87,7 @@ function CommunityDetailPage() {
     if (!window.confirm("게시글을 삭제하시겠습니까?")) return;
 
     try {
-      await axios.delete(`http://localhost:10809/recharge/api/community/${id}`);
+      await axios.delete(`/recharge/api/community/${id}`);
       alert("게시글이 삭제되었습니다.");
       navigate("/community");
     } catch (err) {
@@ -178,7 +178,7 @@ function CommunityDetailPage() {
         <div className="community_detail-content">
           {post.imagePath && (
             <img
-              src={`http://localhost:10809/recharge${post.imagePath}`}
+              src={`/recharge${post.imagePath}`}
               alt={post.imageName}
               className="community_detail-image"
             />

@@ -9,7 +9,7 @@ import axios from "axios";
 function FindMovie() {
     // 백엔드: server.servlet.context-path=/recharge, @RequestMapping("/api")
     const api = axios.create({
-        baseURL: "http://localhost:10809/recharge/api"
+        baseURL: "/recharge/api"
     });
 
     const weatherRef = useRef(null);

@@ -36,7 +36,7 @@ function Fortune() {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:10809/recharge/api/getFortune', formData);            setResult(response.data.fortune); 
+            const response = await axios.post('/recharge/api/getFortune', formData);            setResult(response.data.fortune); 
         } catch (err) {
             if (err.response && err.response.data && err.response.data.err) {
                 setError(`운세 생성 실패: ${err.response.data.err}`);

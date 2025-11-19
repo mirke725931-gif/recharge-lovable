@@ -14,7 +14,7 @@ function FindMusic() {
     // axios instance
     const api = useMemo(
         () => axios.create({
-            baseURL: "http://localhost:10809/recharge/api",
+            baseURL: "/recharge/api",
             withCredentials: true,
             headers: { "Content-Type": "application/json" }
     }),[]);
@@ -149,28 +149,7 @@ function FindMusic() {
                 </button>
             </div>
 
-            <div className="findmusic_main">
-                {loading ? (
-                    <img
-                        src="https://placehold.co/1025x576?text=Loading..."
-                        className="findmusic_main_img"
-                        alt="로딩중"
-                    />
-                ) : chart.length > 0 ? (
-                    <img
-                        src={chart[0].musicImagePath || "https://placehold.co/1075x576?text=No+Image"}
-                        className="findmusic_main_img"
-                        alt={chart[0].musicTitle}
-                        loading="lazy"
-                    />
-                ) : (
-                    <img
-                        src="https://placehold.co/1075x576?text=No+Data"
-                        className="findmusic_main_img"
-                        alt="빈화면"
-                    />
-                )}
-            </div>
+            
 
             <div className="findcontents_recommendAi">
                 <span>AI 기반 추천 음악 찾아보기</span>

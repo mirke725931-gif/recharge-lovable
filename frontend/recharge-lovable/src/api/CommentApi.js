@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:10809/recharge/api/comments";
+const BASE_URL = "/recharge/api/comments";
 
 // 댓글 목록 조회
 export const getComments = async (targetType, targetId) => {

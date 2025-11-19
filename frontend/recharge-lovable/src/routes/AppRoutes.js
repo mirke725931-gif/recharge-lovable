@@ -33,6 +33,7 @@ import ModifyPwd from "../components/auth/ModifyPwd";
 import NoticeBoard from "../components/admin/NoticeBoard";
 import NoticeManagement from "../components/admin/NoticeManagement";
 import ReportManagement from "../components/admin/ReportManagement";
+import KakaoMapTest from "../pages/KakaoMapTest";
 
 
 function AppRoutes(){
@@ -75,6 +76,7 @@ function AppRoutes(){
           <Route path="/admin/noticeboard/:id" element={<NoticeBoard />} />
           <Route path= "/admin/noticemanage" element={<NoticeManagement />} />
           <Route path="/admin/reportmanage" element={<ReportManagement />} />
+          <Route path="/test-map" element={<KakaoMapTest />} /> 
         </Routes>
       </div>
     </div>

@@ -14,7 +14,7 @@ function ReportManagement() {
         const fetchReports = async () => {
             try {
                 const res = await axios.get(
-                    "http://localhost:10809/recharge/api/report/admin/Reportlist"
+                    "/recharge/api/report/admin/Reportlist"
                 );
 
                 const list = res.data || [];
